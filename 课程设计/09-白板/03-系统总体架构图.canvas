@@ -1,0 +1,27 @@
+{
+	"nodes":[
+		{"id":"03-browser","type":"text","text":"用户浏览器","x":380,"y":0,"width":440,"height":80,"color":"#f59e0b"},
+		{"id":"03-vue","type":"text","text":"Vue 3 / Element Plus / ECharts","x":380,"y":130,"width":440,"height":80,"color":"#8b5cf6"},
+		{"id":"03-axios","type":"text","text":"Axios / REST JSON","x":380,"y":260,"width":440,"height":80,"color":"#64748b"},
+		{"id":"03-spring","type":"text","text":"Spring Boot","x":380,"y":390,"width":440,"height":80,"color":"#3b82f6"},
+		{"id":"03-controller","type":"text","text":"Controller","x":380,"y":520,"width":440,"height":80,"color":"#3b82f6"},
+		{"id":"03-service","type":"text","text":"Service","x":380,"y":650,"width":440,"height":80,"color":"#3b82f6"},
+		{"id":"03-mapper","type":"text","text":"Mapper","x":380,"y":780,"width":440,"height":80,"color":"#22c55e"},
+		{"id":"03-mysql","type":"text","text":"MySQL 8","x":380,"y":910,"width":440,"height":80,"color":"#22c55e"},
+		{"id":"03-group-stack","type":"group","label":"技术栈","x":930,"y":130,"width":500,"height":650,"color":"#64748b"},
+		{"id":"03-stack-frontend","type":"text","text":"前端 Vue 3","x":980,"y":200,"width":400,"height":80,"color":"#8b5cf6"},
+		{"id":"03-stack-backend","type":"text","text":"后端 Spring Boot","x":980,"y":330,"width":400,"height":80,"color":"#3b82f6"},
+		{"id":"03-stack-access","type":"text","text":"数据访问 MyBatis-Plus","x":980,"y":460,"width":400,"height":80,"color":"#22c55e"},
+		{"id":"03-stack-database","type":"text","text":"数据库 MySQL 8","x":980,"y":590,"width":400,"height":80,"color":"#22c55e"},
+		{"id":"03-reference","type":"file","file":"课程设计/02-系统设计/01-总体架构设计.md","x":380,"y":1080,"width":440,"height":100,"color":"#64748b"}
+	],
+	"edges":[
+		{"id":"03-edge-browser-vue","fromNode":"03-browser","fromSide":"bottom","toNode":"03-vue","toSide":"top","color":"#64748b"},
+		{"id":"03-edge-vue-axios","fromNode":"03-vue","fromSide":"bottom","toNode":"03-axios","toSide":"top","color":"#64748b"},
+		{"id":"03-edge-axios-spring","fromNode":"03-axios","fromSide":"bottom","toNode":"03-spring","toSide":"top","color":"#64748b"},
+		{"id":"03-edge-spring-controller","fromNode":"03-spring","fromSide":"bottom","toNode":"03-controller","toSide":"top","color":"#3b82f6"},
+		{"id":"03-edge-controller-service","fromNode":"03-controller","fromSide":"bottom","toNode":"03-service","toSide":"top","color":"#3b82f6"},
+		{"id":"03-edge-service-mapper","fromNode":"03-service","fromSide":"bottom","toNode":"03-mapper","toSide":"top","color":"#22c55e"},
+		{"id":"03-edge-mapper-mysql","fromNode":"03-mapper","fromSide":"bottom","toNode":"03-mysql","toSide":"top","color":"#22c55e"}
+	]
+}

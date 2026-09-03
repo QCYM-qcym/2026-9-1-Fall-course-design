@@ -1,0 +1,270 @@
+{
+  "nodes": [
+    {
+      "id": "05-group-user",
+      "type": "group",
+      "label": "外部实体",
+      "x": 0,
+      "y": 330,
+      "width": 300,
+      "height": 240,
+      "color": "#64748b"
+    },
+    {
+      "id": "05-user",
+      "type": "text",
+      "text": "用户",
+      "x": 40,
+      "y": 400,
+      "width": 220,
+      "height": 100,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "05-group-process",
+      "type": "group",
+      "label": "处理过程",
+      "x": 340,
+      "y": 0,
+      "width": 420,
+      "height": 1030,
+      "color": "#64748b"
+    },
+    {
+      "id": "05-process-p1",
+      "type": "text",
+      "text": "P1 基础数据管理",
+      "x": 400,
+      "y": 100,
+      "width": 300,
+      "height": 120,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "05-process-p2",
+      "type": "text",
+      "text": "P2 气象数据查询",
+      "x": 400,
+      "y": 450,
+      "width": 300,
+      "height": 120,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "05-process-p3",
+      "type": "text",
+      "text": "P3 气象统计与可视化",
+      "x": 400,
+      "y": 800,
+      "width": 300,
+      "height": 120,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "05-group-store",
+      "type": "group",
+      "label": "数据存储",
+      "x": 920,
+      "y": 0,
+      "width": 440,
+      "height": 830,
+      "color": "#64748b"
+    },
+    {
+      "id": "05-store-d1",
+      "type": "text",
+      "text": "D1 城市数据",
+      "x": 1000,
+      "y": 100,
+      "width": 280,
+      "height": 90,
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-store-d2",
+      "type": "text",
+      "text": "D2 模型数据",
+      "x": 1000,
+      "y": 280,
+      "width": 280,
+      "height": 90,
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-store-d3",
+      "type": "text",
+      "text": "D3 气象要素数据",
+      "x": 1000,
+      "y": 460,
+      "width": 280,
+      "height": 90,
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-store-d4",
+      "type": "text",
+      "text": "D4 预报记录",
+      "x": 1000,
+      "y": 640,
+      "width": 280,
+      "height": 90,
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-reference",
+      "type": "file",
+      "file": "课程设计/02-系统设计/03-业务流程设计.md",
+      "x": 920,
+      "y": 930,
+      "width": 440,
+      "height": 100,
+      "color": "#64748b"
+    }
+  ],
+  "edges": [
+    {
+      "id": "05-flow-user-p1",
+      "fromNode": "05-user",
+      "fromSide": "top",
+      "toNode": "05-process-p1",
+      "toSide": "left",
+      "label": "维护请求",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "05-flow-user-p2",
+      "fromNode": "05-user",
+      "fromSide": "right",
+      "toNode": "05-process-p2",
+      "toSide": "left",
+      "label": "查询条件",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "05-flow-p1-d1-write",
+      "fromNode": "05-process-p1",
+      "fromSide": "right",
+      "toNode": "05-store-d1",
+      "toSide": "left",
+      "label": "维护写入",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-d1-p1-read",
+      "fromNode": "05-store-d1",
+      "fromSide": "top",
+      "toNode": "05-process-p1",
+      "toSide": "top",
+      "label": "读取当前数据",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-p1-d2-write",
+      "fromNode": "05-process-p1",
+      "fromSide": "right",
+      "toNode": "05-store-d2",
+      "toSide": "left",
+      "label": "维护写入",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-d2-p1-read",
+      "fromNode": "05-store-d2",
+      "fromSide": "top",
+      "toNode": "05-process-p1",
+      "toSide": "top",
+      "label": "读取当前数据",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-p1-d3-write",
+      "fromNode": "05-process-p1",
+      "fromSide": "right",
+      "toNode": "05-store-d3",
+      "toSide": "left",
+      "label": "维护写入",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-d3-p1-read",
+      "fromNode": "05-store-d3",
+      "fromSide": "bottom",
+      "toNode": "05-process-p1",
+      "toSide": "top",
+      "label": "读取当前数据",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-p1-d4-write",
+      "fromNode": "05-process-p1",
+      "fromSide": "right",
+      "toNode": "05-store-d4",
+      "toSide": "left",
+      "label": "维护写入",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-d4-p1-read",
+      "fromNode": "05-store-d4",
+      "fromSide": "bottom",
+      "toNode": "05-process-p1",
+      "toSide": "top",
+      "label": "读取当前数据",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-d1-p2-read",
+      "fromNode": "05-store-d1",
+      "fromSide": "left",
+      "toNode": "05-process-p2",
+      "toSide": "right",
+      "label": "读取",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-d2-p2-read",
+      "fromNode": "05-store-d2",
+      "fromSide": "left",
+      "toNode": "05-process-p2",
+      "toSide": "right",
+      "label": "读取",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-d3-p2-read",
+      "fromNode": "05-store-d3",
+      "fromSide": "left",
+      "toNode": "05-process-p2",
+      "toSide": "right",
+      "label": "读取",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-d4-p2-read",
+      "fromNode": "05-store-d4",
+      "fromSide": "left",
+      "toNode": "05-process-p2",
+      "toSide": "right",
+      "label": "读取",
+      "color": "#22c55e"
+    },
+    {
+      "id": "05-flow-p2-p3",
+      "fromNode": "05-process-p2",
+      "fromSide": "bottom",
+      "toNode": "05-process-p3",
+      "toSide": "top",
+      "label": "查询结果",
+      "color": "#3b82f6"
+    },
+    {
+      "id": "05-flow-p3-user",
+      "fromNode": "05-process-p3",
+      "fromSide": "left",
+      "toNode": "05-user",
+      "toSide": "bottom",
+      "label": "表格/图表结果",
+      "color": "#3b82f6"
+    }
+  ]
+}

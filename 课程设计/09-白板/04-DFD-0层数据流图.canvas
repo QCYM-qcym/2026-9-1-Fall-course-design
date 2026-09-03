@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"04-group-user","type":"group","label":"外部实体","x":0,"y":220,"width":300,"height":220,"color":"#64748b"},
+		{"id":"04-user","type":"text","text":"用户","x":40,"y":280,"width":220,"height":100,"color":"#f59e0b"},
+		{"id":"04-group-system","type":"group","label":"处理过程","x":420,"y":160,"width":460,"height":340,"color":"#64748b"},
+		{"id":"04-system","type":"text","text":"气象预报数据可视化系统","x":470,"y":260,"width":360,"height":140,"color":"#3b82f6"},
+		{"id":"04-group-database","type":"group","label":"数据存储","x":1000,"y":220,"width":320,"height":220,"color":"#64748b"},
+		{"id":"04-database","type":"text","text":"气象数据库","x":1040,"y":280,"width":240,"height":100,"color":"#22c55e"},
+		{"id":"04-reference","type":"file","file":"课程设计/02-系统设计/03-业务流程设计.md","x":470,"y":600,"width":360,"height":100,"color":"#64748b"}
+	],
+	"edges":[
+		{"id":"04-flow-query-condition","fromNode":"04-user","fromSide":"right","toNode":"04-system","toSide":"left","label":"查询条件","color":"#3b82f6"},
+		{"id":"04-flow-data-request","fromNode":"04-system","fromSide":"right","toNode":"04-database","toSide":"left","label":"SQL/数据请求","color":"#22c55e"},
+		{"id":"04-flow-query-result","fromNode":"04-database","fromSide":"bottom","toNode":"04-system","toSide":"bottom","label":"查询结果","color":"#22c55e"},
+		{"id":"04-flow-visual-result","fromNode":"04-system","fromSide":"top","toNode":"04-user","toSide":"top","label":"表格/图表结果","color":"#3b82f6"}
+	]
+}
