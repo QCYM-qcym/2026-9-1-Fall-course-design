@@ -1,0 +1,38 @@
+{
+	"nodes":[
+		{"id":"08-title","type":"text","text":"核心查询泳道图：南京 + ECMWF + T2M + 时间范围","x":0,"y":-170,"width":1980,"height":100,"color":"#64748b"},
+		{"id":"08-lane-user","type":"group","label":"用户","x":0,"y":0,"width":420,"height":2200,"color":"#f59e0b"},
+		{"id":"08-lane-vue","type":"group","label":"Vue 前端","x":500,"y":0,"width":420,"height":2200,"color":"#8b5cf6"},
+		{"id":"08-lane-spring","type":"group","label":"Spring Boot","x":1000,"y":0,"width":480,"height":2200,"color":"#3b82f6"},
+		{"id":"08-lane-mysql","type":"group","label":"MySQL","x":1560,"y":0,"width":420,"height":2200,"color":"#22c55e"},
+		{"id":"08-user-select","type":"text","text":"1. 选择查询条件\n南京 / ECMWF / T2M / 时间范围","x":40,"y":80,"width":340,"height":120,"color":"#f59e0b"},
+		{"id":"08-vue-validate","type":"text","text":"2. 校验四项查询条件\n检查必填项与时间范围","x":540,"y":240,"width":340,"height":120,"color":"#8b5cf6"},
+		{"id":"08-axios","type":"text","text":"3. Axios\n发送 REST JSON 请求","x":540,"y":410,"width":340,"height":110,"color":"#8b5cf6"},
+		{"id":"08-controller","type":"text","text":"4. Controller\n接收请求并完成基础格式检查","x":1050,"y":570,"width":380,"height":120,"color":"#3b82f6"},
+		{"id":"08-service","type":"text","text":"5. Service\n组织城市、模型、要素和时间条件","x":1050,"y":740,"width":380,"height":120,"color":"#3b82f6"},
+		{"id":"08-mapper","type":"text","text":"6. Mapper\n执行组合查询","x":1050,"y":910,"width":380,"height":110,"color":"#3b82f6"},
+		{"id":"08-mysql-query","type":"text","text":"7. 查询 forecast_record\nJOIN city\nJOIN forecast_model\nJOIN weather_element","x":1600,"y":1070,"width":340,"height":180,"color":"#22c55e"},
+		{"id":"08-spring-json","type":"text","text":"8. 返回记录并组装 JSON\n保留城市、模型、要素、时间、数值、单位","x":1050,"y":1310,"width":380,"height":150,"color":"#3b82f6"},
+		{"id":"08-vue-update","type":"text","text":"9. 更新本轮查询结果","x":540,"y":1510,"width":340,"height":100,"color":"#8b5cf6"},
+		{"id":"08-table","type":"text","text":"10. Element Plus\n显示数据表格","x":540,"y":1660,"width":340,"height":110,"color":"#8b5cf6"},
+		{"id":"08-element-judge","type":"text","text":"11. 判断 element\nT2M","x":540,"y":1820,"width":340,"height":100,"color":"#8b5cf6"},
+		{"id":"08-chart","type":"text","text":"12. ECharts\n绘制温度折线图（℃）","x":540,"y":1970,"width":340,"height":110,"color":"#8b5cf6"},
+		{"id":"08-user-view","type":"text","text":"13. 查看并核对\n表格与折线图来自同一轮结果","x":40,"y":1970,"width":340,"height":120,"color":"#f59e0b"},
+		{"id":"08-precip-note","type":"text","text":"PRECIP 使用相同查询流程，\n只将最终可视化切换为\n降水柱状图（mm），\n不重复绘制第二套流程。","x":2090,"y":1600,"width":420,"height":220,"color":"#64748b"},
+		{"id":"08-reference","type":"file","file":"课程设计/02-系统设计/03-业务流程设计.md","x":2090,"y":1880,"width":420,"height":120,"color":"#64748b"}
+	],
+	"edges":[
+		{"id":"08-edge-01","fromNode":"08-user-select","fromSide":"bottom","toNode":"08-vue-validate","toSide":"top","color":"#64748b"},
+		{"id":"08-edge-02","fromNode":"08-vue-validate","fromSide":"bottom","toNode":"08-axios","toSide":"top","color":"#64748b"},
+		{"id":"08-edge-03","fromNode":"08-axios","fromSide":"bottom","toNode":"08-controller","toSide":"top","color":"#64748b"},
+		{"id":"08-edge-04","fromNode":"08-controller","fromSide":"bottom","toNode":"08-service","toSide":"top","color":"#3b82f6"},
+		{"id":"08-edge-05","fromNode":"08-service","fromSide":"bottom","toNode":"08-mapper","toSide":"top","color":"#3b82f6"},
+		{"id":"08-edge-06","fromNode":"08-mapper","fromSide":"bottom","toNode":"08-mysql-query","toSide":"top","color":"#22c55e"},
+		{"id":"08-edge-07","fromNode":"08-mysql-query","fromSide":"bottom","toNode":"08-spring-json","toSide":"top","label":"查询结果","color":"#22c55e"},
+		{"id":"08-edge-08","fromNode":"08-spring-json","fromSide":"bottom","toNode":"08-vue-update","toSide":"top","label":"REST JSON","color":"#3b82f6"},
+		{"id":"08-edge-09","fromNode":"08-vue-update","fromSide":"bottom","toNode":"08-table","toSide":"top","color":"#8b5cf6"},
+		{"id":"08-edge-10","fromNode":"08-table","fromSide":"bottom","toNode":"08-element-judge","toSide":"top","color":"#8b5cf6"},
+		{"id":"08-edge-11","fromNode":"08-element-judge","fromSide":"bottom","toNode":"08-chart","toSide":"top","color":"#8b5cf6"},
+		{"id":"08-edge-12","fromNode":"08-chart","fromSide":"left","toNode":"08-user-view","toSide":"right","color":"#f59e0b"}
+	]
+}
