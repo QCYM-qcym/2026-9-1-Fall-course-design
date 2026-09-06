@@ -1,0 +1,16 @@
+{
+	"nodes":[
+		{"id":"06-title","type":"text","text":"数据库 ER 图\n三个基础实体分别与预报记录形成 1:N 关系","x":0,"y":-160,"width":1350,"height":100,"color":"#64748b"},
+		{"id":"06-city","type":"text","text":"City\n────────────\nPK id\ncity_code\ncity_name\nlongitude\nlatitude","x":0,"y":0,"width":420,"height":220,"color":"#22c55e"},
+		{"id":"06-model","type":"text","text":"ForecastModel\n────────────\nPK id\nmodel_code\nmodel_name\ndescription","x":0,"y":300,"width":420,"height":220,"color":"#22c55e"},
+		{"id":"06-element","type":"text","text":"WeatherElement\n────────────\nPK id\nelement_code\nelement_name\nunit","x":0,"y":600,"width":420,"height":220,"color":"#22c55e"},
+		{"id":"06-record","type":"text","text":"ForecastRecord\n────────────\nPK id\nFK city_id\nFK model_id\nFK element_id\nforecast_time\nvalue","x":850,"y":250,"width":500,"height":320,"color":"#22c55e"},
+		{"id":"06-cardinality-note","type":"text","text":"参与约束\n基础实体可以暂时没有预报记录；\n每条 ForecastRecord 必须且只能关联\n一个 City、一个 ForecastModel、\n一个 WeatherElement。","x":850,"y":650,"width":500,"height":220,"color":"#64748b"},
+		{"id":"06-reference","type":"file","file":"课程设计/03-数据库设计/02-ER模型设计.md","x":0,"y":940,"width":520,"height":110,"color":"#64748b"}
+	],
+	"edges":[
+		{"id":"06-edge-city-record","fromNode":"06-city","fromSide":"right","toNode":"06-record","toSide":"left","label":"1 : N","color":"#22c55e"},
+		{"id":"06-edge-model-record","fromNode":"06-model","fromSide":"right","toNode":"06-record","toSide":"left","label":"1 : N","color":"#22c55e"},
+		{"id":"06-edge-element-record","fromNode":"06-element","fromSide":"right","toNode":"06-record","toSide":"left","label":"1 : N","color":"#22c55e"}
+	]
+}

@@ -1,33 +1,250 @@
 {
-	"nodes":[
-		{"id":"02-user","type":"text","text":"用户","x":0,"y":420,"width":220,"height":100,"color":"#f59e0b"},
-		{"id":"02-group-query","type":"group","label":"查询类用例","x":300,"y":80,"width":760,"height":520,"color":"#64748b"},
-		{"id":"02-query-weather","type":"text","text":"查询气象数据","x":350,"y":280,"width":270,"height":90,"color":"#3b82f6"},
-		{"id":"02-filter-city","type":"text","text":"按城市筛选","x":710,"y":120,"width":300,"height":80,"color":"#3b82f6"},
-		{"id":"02-filter-model","type":"text","text":"按模型筛选","x":710,"y":260,"width":300,"height":80,"color":"#3b82f6"},
-		{"id":"02-filter-element","type":"text","text":"按要素筛选","x":710,"y":400,"width":300,"height":80,"color":"#3b82f6"},
-		{"id":"02-group-view","type":"group","label":"查看类用例","x":1120,"y":80,"width":440,"height":520,"color":"#64748b"},
-		{"id":"02-view-temp","type":"text","text":"查看温度趋势","x":1170,"y":120,"width":340,"height":90,"color":"#3b82f6"},
-		{"id":"02-view-rain","type":"text","text":"查看降水趋势","x":1170,"y":270,"width":340,"height":90,"color":"#3b82f6"},
-		{"id":"02-view-table","type":"text","text":"查看气象数据表","x":1170,"y":420,"width":340,"height":90,"color":"#3b82f6"},
-		{"id":"02-group-manage","type":"group","label":"管理类用例","x":300,"y":670,"width":1260,"height":260,"color":"#64748b"},
-		{"id":"02-manage-city","type":"text","text":"管理城市","x":350,"y":760,"width":260,"height":90,"color":"#3b82f6"},
-		{"id":"02-manage-model","type":"text","text":"管理预报模型","x":650,"y":760,"width":260,"height":90,"color":"#3b82f6"},
-		{"id":"02-manage-element","type":"text","text":"管理气象要素","x":950,"y":760,"width":260,"height":90,"color":"#3b82f6"},
-		{"id":"02-manage-record","type":"text","text":"管理预报记录","x":1250,"y":760,"width":260,"height":90,"color":"#3b82f6"},
-		{"id":"02-reference","type":"file","file":"课程设计/01-立项与需求/07-用例说明.md","x":620,"y":1020,"width":500,"height":100,"color":"#64748b"}
-	],
-	"edges":[
-		{"id":"02-edge-user-query","fromNode":"02-user","fromSide":"right","toNode":"02-query-weather","toSide":"left","color":"#f59e0b"},
-		{"id":"02-edge-include-city","fromNode":"02-query-weather","fromSide":"right","toNode":"02-filter-city","toSide":"left","label":"<<include>>","color":"#3b82f6"},
-		{"id":"02-edge-include-model","fromNode":"02-query-weather","fromSide":"right","toNode":"02-filter-model","toSide":"left","label":"<<include>>","color":"#3b82f6"},
-		{"id":"02-edge-include-element","fromNode":"02-query-weather","fromSide":"right","toNode":"02-filter-element","toSide":"left","label":"<<include>>","color":"#3b82f6"},
-		{"id":"02-edge-user-temp","fromNode":"02-user","fromSide":"right","toNode":"02-view-temp","toSide":"left","color":"#f59e0b"},
-		{"id":"02-edge-user-rain","fromNode":"02-user","fromSide":"right","toNode":"02-view-rain","toSide":"left","color":"#f59e0b"},
-		{"id":"02-edge-user-table","fromNode":"02-user","fromSide":"right","toNode":"02-view-table","toSide":"left","color":"#f59e0b"},
-		{"id":"02-edge-user-manage-city","fromNode":"02-user","fromSide":"right","toNode":"02-manage-city","toSide":"left","color":"#f59e0b"},
-		{"id":"02-edge-user-manage-model","fromNode":"02-user","fromSide":"right","toNode":"02-manage-model","toSide":"top","color":"#f59e0b"},
-		{"id":"02-edge-user-manage-element","fromNode":"02-user","fromSide":"right","toNode":"02-manage-element","toSide":"top","color":"#f59e0b"},
-		{"id":"02-edge-user-manage-record","fromNode":"02-user","fromSide":"right","toNode":"02-manage-record","toSide":"top","color":"#f59e0b"}
-	]
+  "nodes": [
+    {
+      "id": "02-user",
+      "type": "text",
+      "text": "用户\n唯一参与者，无登录角色",
+      "x": 0,
+      "y": 350,
+      "width": 280,
+      "height": 130,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "02-u0",
+      "type": "text",
+      "text": "工作台 UC-06 / UC-07",
+      "x": 470,
+      "y": 0,
+      "width": 530,
+      "height": 100,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-a0",
+      "type": "text",
+      "text": "查看山东地图\n切换气象图层 / 模型",
+      "x": 1150,
+      "y": 0,
+      "width": 500,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-b0",
+      "type": "text",
+      "text": "切换预报时间（本地）\n查看城市详情 → 趋势",
+      "x": 1810,
+      "y": 0,
+      "width": 500,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-u1",
+      "type": "text",
+      "text": "趋势 UC-02 / UC-03",
+      "x": 470,
+      "y": 420,
+      "width": 530,
+      "height": 100,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-a1",
+      "type": "text",
+      "text": "查看温度与降水趋势\n最高/最低/平均温",
+      "x": 1150,
+      "y": 420,
+      "width": 500,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-b1",
+      "type": "text",
+      "text": "查看累计降水\n核对同响应明细表",
+      "x": 1810,
+      "y": 420,
+      "width": 500,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-u2",
+      "type": "text",
+      "text": "对比 UC-08",
+      "x": 470,
+      "y": 840,
+      "width": 530,
+      "height": 100,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-a2",
+      "type": "text",
+      "text": "比较 ECMWF / NOAA\n温度双线 / 降水双柱",
+      "x": 1150,
+      "y": 840,
+      "width": 500,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-b2",
+      "type": "text",
+      "text": "切换城市、要素、范围\n缺测不补零",
+      "x": 1810,
+      "y": 840,
+      "width": 500,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-u3",
+      "type": "text",
+      "text": "管理 UC-01 / UC-04 / UC-05",
+      "x": 470,
+      "y": 1260,
+      "width": 530,
+      "height": 100,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-a3",
+      "type": "text",
+      "text": "可选条件查询记录\n城市/模型/要素/记录 CRUD",
+      "x": 1150,
+      "y": 1260,
+      "width": 500,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-b3",
+      "type": "text",
+      "text": "引用删除受限 / 唯一键\n维护后重新查询",
+      "x": 1810,
+      "y": 1260,
+      "width": 500,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "02-ref",
+      "type": "file",
+      "file": "课程设计/01-立项与需求/07-用例说明.md",
+      "x": 1130,
+      "y": 1690,
+      "width": 480,
+      "height": 130,
+      "color": "#64748b"
+    }
+  ],
+  "edges": [
+    {
+      "id": "02-user-0",
+      "fromNode": "02-user",
+      "fromSide": "right",
+      "toNode": "02-u0",
+      "toSide": "left",
+      "label": "参与",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-ae0",
+      "fromNode": "02-u0",
+      "fromSide": "right",
+      "toNode": "02-a0",
+      "toSide": "left",
+      "label": "用例内容",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-be0",
+      "fromNode": "02-a0",
+      "fromSide": "right",
+      "toNode": "02-b0",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-user-1",
+      "fromNode": "02-user",
+      "fromSide": "right",
+      "toNode": "02-u1",
+      "toSide": "left",
+      "label": "参与",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-ae1",
+      "fromNode": "02-u1",
+      "fromSide": "right",
+      "toNode": "02-a1",
+      "toSide": "left",
+      "label": "用例内容",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-be1",
+      "fromNode": "02-a1",
+      "fromSide": "right",
+      "toNode": "02-b1",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-user-2",
+      "fromNode": "02-user",
+      "fromSide": "right",
+      "toNode": "02-u2",
+      "toSide": "left",
+      "label": "参与",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-ae2",
+      "fromNode": "02-u2",
+      "fromSide": "right",
+      "toNode": "02-a2",
+      "toSide": "left",
+      "label": "用例内容",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-be2",
+      "fromNode": "02-a2",
+      "fromSide": "right",
+      "toNode": "02-b2",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-user-3",
+      "fromNode": "02-user",
+      "fromSide": "right",
+      "toNode": "02-u3",
+      "toSide": "left",
+      "label": "参与",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-ae3",
+      "fromNode": "02-u3",
+      "fromSide": "right",
+      "toNode": "02-a3",
+      "toSide": "left",
+      "label": "用例内容",
+      "color": "#64748b"
+    },
+    {
+      "id": "02-be3",
+      "fromNode": "02-a3",
+      "fromSide": "right",
+      "toNode": "02-b3",
+      "toSide": "left",
+      "color": "#64748b"
+    }
+  ]
 }

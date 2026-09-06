@@ -1,0 +1,276 @@
+{
+  "nodes": [
+    {
+      "id": "08-title",
+      "type": "text",
+      "text": "Workbench V2 查询泳道\n批量加载全省完整范围 → 前端时间轴本地切换",
+      "x": 0,
+      "y": -220,
+      "width": 2370,
+      "height": 140,
+      "color": "#64748b"
+    },
+    {
+      "id": "08-lane0",
+      "type": "group",
+      "label": "用户",
+      "x": 0,
+      "y": 0,
+      "width": 570,
+      "height": 2500,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "08-lane1",
+      "type": "group",
+      "label": "Vue 前端 / Axios",
+      "x": 620,
+      "y": 0,
+      "width": 570,
+      "height": 2500,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "08-lane2",
+      "type": "group",
+      "label": "Spring Boot / XML",
+      "x": 1240,
+      "y": 0,
+      "width": 570,
+      "height": 2500,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "08-lane3",
+      "type": "group",
+      "label": "MySQL 四表",
+      "x": 1860,
+      "y": 0,
+      "width": 570,
+      "height": 2500,
+      "color": "#22c55e"
+    },
+    {
+      "id": "08-s0",
+      "type": "text",
+      "text": "01 进入工作台\n默认 ECMWF / T2M / 演示范围",
+      "x": 35,
+      "y": 80,
+      "width": 500,
+      "height": 170,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "08-s1",
+      "type": "text",
+      "text": "02 字典校验 + 缓存键\n模型 / 要素 / 起止时间\n命中直接到10；未命中到03",
+      "x": 655,
+      "y": 320,
+      "width": 500,
+      "height": 170,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "08-s2",
+      "type": "text",
+      "text": "03 缓存未命中发一次请求\nGET /api/weather/workbench",
+      "x": 655,
+      "y": 560,
+      "width": 500,
+      "height": 170,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "08-s3",
+      "type": "text",
+      "text": "04 Controller → WeatherQueryService\n格式、关联、时间范围校验",
+      "x": 1275,
+      "y": 800,
+      "width": 500,
+      "height": 170,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "08-s4",
+      "type": "text",
+      "text": "05 ForecastRecordMapper.xml\nselectWorkbenchData",
+      "x": 1275,
+      "y": 1040,
+      "width": 500,
+      "height": 170,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "08-s5",
+      "type": "text",
+      "text": "06 JOIN 四表 / WHERE\n模型 + 要素 + 时间 + 山东16市\nORDER BY 时间 / cityId",
+      "x": 1895,
+      "y": 1280,
+      "width": 500,
+      "height": 170,
+      "color": "#22c55e"
+    },
+    {
+      "id": "08-s6",
+      "type": "text",
+      "text": "07 组装 WorkbenchVO\nmodel / element / times / records",
+      "x": 1275,
+      "y": 1520,
+      "width": 500,
+      "height": 170,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "08-s7",
+      "type": "text",
+      "text": "08 最新请求才接收并缓存\n先渲染默认时刻\n完整范围；旧请求不得覆盖",
+      "x": 655,
+      "y": 1760,
+      "width": 500,
+      "height": 170,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "08-s8",
+      "type": "text",
+      "text": "09 拖动时间轴 selectedTime",
+      "x": 35,
+      "y": 2000,
+      "width": 500,
+      "height": 170,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "08-s9",
+      "type": "text",
+      "text": "10 本地过滤 records\n同步地图着色 / 图例 / 详情",
+      "x": 655,
+      "y": 2000,
+      "width": 500,
+      "height": 170,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "08-s10",
+      "type": "text",
+      "text": "11 点击济南 / 青岛\n查看详情 → 携带状态进入趋势",
+      "x": 35,
+      "y": 2240,
+      "width": 500,
+      "height": 170,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "08-local",
+      "type": "text",
+      "text": "缓存命中直接进入本地过滤\n连续拖动不发 API、不访问数据库\n图层/模型/范围变化才选择缓存或查询",
+      "x": 2580,
+      "y": 1740,
+      "width": 620,
+      "height": 220,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "08-error",
+      "type": "text",
+      "text": "异常：400 / 404 / 500\n空匹配：200、空 times/records\n缺测不补零；空范围禁用时间轴\nCRUD 成功清缓存并废弃旧请求",
+      "x": 2580,
+      "y": 2060,
+      "width": 620,
+      "height": 240,
+      "color": "#64748b"
+    },
+    {
+      "id": "08-ref",
+      "type": "file",
+      "file": "课程设计/02-系统设计/03-业务流程设计.md",
+      "x": 620,
+      "y": 2660,
+      "width": 620,
+      "height": 130,
+      "color": "#64748b"
+    }
+  ],
+  "edges": [
+    {
+      "id": "08-e1",
+      "fromNode": "08-s0",
+      "fromSide": "right",
+      "toNode": "08-s1",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e2",
+      "fromNode": "08-s1",
+      "fromSide": "bottom",
+      "toNode": "08-s2",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e3",
+      "fromNode": "08-s2",
+      "fromSide": "right",
+      "toNode": "08-s3",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e4",
+      "fromNode": "08-s3",
+      "fromSide": "bottom",
+      "toNode": "08-s4",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e5",
+      "fromNode": "08-s4",
+      "fromSide": "right",
+      "toNode": "08-s5",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e6",
+      "fromNode": "08-s5",
+      "fromSide": "left",
+      "toNode": "08-s6",
+      "toSide": "right",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e7",
+      "fromNode": "08-s6",
+      "fromSide": "left",
+      "toNode": "08-s7",
+      "toSide": "right",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e8",
+      "fromNode": "08-s7",
+      "fromSide": "left",
+      "toNode": "08-s8",
+      "toSide": "right",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e9",
+      "fromNode": "08-s8",
+      "fromSide": "right",
+      "toNode": "08-s9",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "08-e10",
+      "fromNode": "08-s9",
+      "fromSide": "left",
+      "toNode": "08-s10",
+      "toSide": "right",
+      "color": "#64748b"
+    }
+  ]
+}

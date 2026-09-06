@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"07-title","type":"text","text":"数据库关系模型图\n逻辑表结构、外键引用与组合唯一约束","x":0,"y":-160,"width":1320,"height":100,"color":"#64748b"},
+		{"id":"07-city","type":"text","text":"city\n────────────\nPK id\nUQ city_code\ncity_name\nlongitude\nlatitude","x":0,"y":0,"width":460,"height":240,"color":"#22c55e"},
+		{"id":"07-model","type":"text","text":"forecast_model\n────────────\nPK id\nUQ model_code\nmodel_name\ndescription","x":0,"y":310,"width":460,"height":240,"color":"#22c55e"},
+		{"id":"07-element","type":"text","text":"weather_element\n────────────\nPK id\nUQ element_code\nelement_name\nunit","x":0,"y":620,"width":460,"height":240,"color":"#22c55e"},
+		{"id":"07-record","type":"text","text":"forecast_record\n────────────\nPK id\nFK city_id → city.id\nFK model_id → forecast_model.id\nFK element_id → weather_element.id\nforecast_time\nvalue\n\nUNIQUE (city_id, model_id,\nelement_id, forecast_time)","x":760,"y":210,"width":620,"height":450,"color":"#22c55e"},
+		{"id":"07-normalization","type":"text","text":"3NF 与冗余控制\n────────────\n数据库核心关系符合 3NF。\n\nforecast_record 不重复保存：\n• city_name\n• model_name\n• element_name\n• unit\n\n展示时通过 FK + JOIN 获取。","x":1530,"y":150,"width":500,"height":500,"color":"#8b5cf6"},
+		{"id":"07-reference","type":"file","file":"课程设计/03-数据库设计/03-逻辑结构设计.md","x":760,"y":820,"width":620,"height":110,"color":"#64748b"}
+	],
+	"edges":[
+		{"id":"07-edge-city-record","fromNode":"07-city","fromSide":"right","toNode":"07-record","toSide":"left","label":"city.id → city_id","color":"#22c55e"},
+		{"id":"07-edge-model-record","fromNode":"07-model","fromSide":"right","toNode":"07-record","toSide":"left","label":"forecast_model.id → model_id","color":"#22c55e"},
+		{"id":"07-edge-element-record","fromNode":"07-element","fromSide":"right","toNode":"07-record","toSide":"left","label":"weather_element.id → element_id","color":"#22c55e"},
+		{"id":"07-edge-record-normalization","fromNode":"07-record","fromSide":"right","toNode":"07-normalization","toSide":"left","label":"FK + JOIN","color":"#8b5cf6"}
+	]
+}

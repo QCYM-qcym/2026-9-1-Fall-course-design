@@ -1,27 +1,183 @@
 {
-	"nodes":[
-		{"id":"03-browser","type":"text","text":"用户浏览器","x":380,"y":0,"width":440,"height":80,"color":"#f59e0b"},
-		{"id":"03-vue","type":"text","text":"Vue 3 / Element Plus / ECharts","x":380,"y":130,"width":440,"height":80,"color":"#8b5cf6"},
-		{"id":"03-axios","type":"text","text":"Axios / REST JSON","x":380,"y":260,"width":440,"height":80,"color":"#64748b"},
-		{"id":"03-spring","type":"text","text":"Spring Boot","x":380,"y":390,"width":440,"height":80,"color":"#3b82f6"},
-		{"id":"03-controller","type":"text","text":"Controller","x":380,"y":520,"width":440,"height":80,"color":"#3b82f6"},
-		{"id":"03-service","type":"text","text":"Service","x":380,"y":650,"width":440,"height":80,"color":"#3b82f6"},
-		{"id":"03-mapper","type":"text","text":"Mapper","x":380,"y":780,"width":440,"height":80,"color":"#22c55e"},
-		{"id":"03-mysql","type":"text","text":"MySQL 8","x":380,"y":910,"width":440,"height":80,"color":"#22c55e"},
-		{"id":"03-group-stack","type":"group","label":"技术栈","x":930,"y":130,"width":500,"height":650,"color":"#64748b"},
-		{"id":"03-stack-frontend","type":"text","text":"前端 Vue 3","x":980,"y":200,"width":400,"height":80,"color":"#8b5cf6"},
-		{"id":"03-stack-backend","type":"text","text":"后端 Spring Boot","x":980,"y":330,"width":400,"height":80,"color":"#3b82f6"},
-		{"id":"03-stack-access","type":"text","text":"数据访问 MyBatis-Plus","x":980,"y":460,"width":400,"height":80,"color":"#22c55e"},
-		{"id":"03-stack-database","type":"text","text":"数据库 MySQL 8","x":980,"y":590,"width":400,"height":80,"color":"#22c55e"},
-		{"id":"03-reference","type":"file","file":"课程设计/02-系统设计/01-总体架构设计.md","x":380,"y":1080,"width":440,"height":100,"color":"#64748b"}
-	],
-	"edges":[
-		{"id":"03-edge-browser-vue","fromNode":"03-browser","fromSide":"bottom","toNode":"03-vue","toSide":"top","color":"#64748b"},
-		{"id":"03-edge-vue-axios","fromNode":"03-vue","fromSide":"bottom","toNode":"03-axios","toSide":"top","color":"#64748b"},
-		{"id":"03-edge-axios-spring","fromNode":"03-axios","fromSide":"bottom","toNode":"03-spring","toSide":"top","color":"#64748b"},
-		{"id":"03-edge-spring-controller","fromNode":"03-spring","fromSide":"bottom","toNode":"03-controller","toSide":"top","color":"#3b82f6"},
-		{"id":"03-edge-controller-service","fromNode":"03-controller","fromSide":"bottom","toNode":"03-service","toSide":"top","color":"#3b82f6"},
-		{"id":"03-edge-service-mapper","fromNode":"03-service","fromSide":"bottom","toNode":"03-mapper","toSide":"top","color":"#22c55e"},
-		{"id":"03-edge-mapper-mysql","fromNode":"03-mapper","fromSide":"bottom","toNode":"03-mysql","toSide":"top","color":"#22c55e"}
-	]
+  "nodes": [
+    {
+      "id": "03-n0",
+      "type": "text",
+      "text": "浏览器 / Vue 3\n四页面 + Element Plus + ECharts",
+      "x": 0,
+      "y": 0,
+      "width": 670,
+      "height": 170,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "03-n1",
+      "type": "text",
+      "text": "Axios / REST JSON\n16 CRUD + 3 WeatherQuery API",
+      "x": 0,
+      "y": 260,
+      "width": 670,
+      "height": 170,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "03-n2",
+      "type": "text",
+      "text": "Spring Boot 2.7.18 / Java 8\n五 Controller：四管理 + WeatherQuery",
+      "x": 0,
+      "y": 520,
+      "width": 670,
+      "height": 170,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "03-n3",
+      "type": "text",
+      "text": "五 Service\n四 CRUD + WeatherQueryService",
+      "x": 0,
+      "y": 780,
+      "width": 670,
+      "height": 170,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "03-n4",
+      "type": "text",
+      "text": "四 Mapper\nBaseMapper CRUD + ForecastRecord XML",
+      "x": 0,
+      "y": 1040,
+      "width": 670,
+      "height": 170,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "03-n5",
+      "type": "text",
+      "text": "MySQL 8.0.16+\ncity / forecast_model\nweather_element / forecast_record",
+      "x": 0,
+      "y": 1300,
+      "width": 670,
+      "height": 170,
+      "color": "#22c55e"
+    },
+    {
+      "id": "03-frontend",
+      "type": "text",
+      "text": "前端本地资源与状态\n静态山东 GeoJSON / 16市映射\n完整响应缓存 / 时间轴本地切换\nCRUD 后使缓存失效",
+      "x": 950,
+      "y": 0,
+      "width": 620,
+      "height": 230,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "03-query",
+      "type": "text",
+      "text": "WeatherQueryService\nworkbench 组装全省全时段\ntrend 双序列 + 四统计\ncomparison 双模型分组",
+      "x": 950,
+      "y": 780,
+      "width": 620,
+      "height": 230,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "03-sql",
+      "type": "text",
+      "text": "ForecastRecordMapper.xml\nselectWorkbenchData\nselectTrendData\nselectComparisonData\nJOIN / WHERE / ORDER BY",
+      "x": 950,
+      "y": 1130,
+      "width": 620,
+      "height": 260,
+      "color": "#22c55e"
+    },
+    {
+      "id": "03-common",
+      "type": "text",
+      "text": "最小公共组件\nApiResponse<T> / BusinessException\nGlobalExceptionHandler / CorsConfig\n无 Redis / Security / DDD",
+      "x": 950,
+      "y": 400,
+      "width": 620,
+      "height": 230,
+      "color": "#64748b"
+    },
+    {
+      "id": "03-ref",
+      "type": "file",
+      "file": "课程设计/02-系统设计/01-总体架构设计.md",
+      "x": 0,
+      "y": 1570,
+      "width": 670,
+      "height": 130,
+      "color": "#64748b"
+    }
+  ],
+  "edges": [
+    {
+      "id": "03-e1",
+      "fromNode": "03-n0",
+      "fromSide": "bottom",
+      "toNode": "03-n1",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "03-e2",
+      "fromNode": "03-n1",
+      "fromSide": "bottom",
+      "toNode": "03-n2",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "03-e3",
+      "fromNode": "03-n2",
+      "fromSide": "bottom",
+      "toNode": "03-n3",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "03-e4",
+      "fromNode": "03-n3",
+      "fromSide": "bottom",
+      "toNode": "03-n4",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "03-e5",
+      "fromNode": "03-n4",
+      "fromSide": "bottom",
+      "toNode": "03-n5",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "03-local",
+      "fromNode": "03-n0",
+      "fromSide": "right",
+      "toNode": "03-frontend",
+      "toSide": "left",
+      "label": "资源与本地状态",
+      "color": "#64748b"
+    },
+    {
+      "id": "03-queryedge",
+      "fromNode": "03-n3",
+      "fromSide": "right",
+      "toNode": "03-query",
+      "toSide": "left",
+      "label": "职责",
+      "color": "#64748b"
+    },
+    {
+      "id": "03-xmledge",
+      "fromNode": "03-n4",
+      "fromSide": "right",
+      "toNode": "03-sql",
+      "toSide": "left",
+      "label": "自定义查询",
+      "color": "#64748b"
+    }
+  ]
 }

@@ -1,39 +1,386 @@
 {
-	"nodes":[
-		{"id":"01-root","type":"text","text":"江苏省气象预报数据可视化系统","x":490,"y":40,"width":400,"height":100,"color":"#3b82f6"},
-		{"id":"01-group-query","type":"group","label":"气象数据查询模块","x":0,"y":280,"width":420,"height":620,"color":"#64748b"},
-		{"id":"01-module-query","type":"text","text":"气象数据查询","x":40,"y":330,"width":340,"height":80,"color":"#3b82f6"},
-		{"id":"01-query-city","type":"text","text":"城市查询","x":60,"y":450,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-query-date","type":"text","text":"日期查询","x":60,"y":570,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-query-element","type":"text","text":"气象要素查询","x":60,"y":690,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-query-model","type":"text","text":"模型查询","x":60,"y":810,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-group-visual","type":"group","label":"数据可视化模块","x":480,"y":280,"width":420,"height":620,"color":"#64748b"},
-		{"id":"01-module-visual","type":"text","text":"数据可视化","x":520,"y":330,"width":340,"height":80,"color":"#3b82f6"},
-		{"id":"01-visual-temp","type":"text","text":"温度趋势","x":540,"y":450,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-visual-rain","type":"text","text":"降水统计","x":540,"y":570,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-visual-jiangsu","type":"text","text":"江苏城市展示","x":540,"y":690,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-group-manage","type":"group","label":"基础数据管理模块","x":960,"y":280,"width":420,"height":620,"color":"#64748b"},
-		{"id":"01-module-manage","type":"text","text":"基础数据管理","x":1000,"y":330,"width":340,"height":80,"color":"#3b82f6"},
-		{"id":"01-manage-city","type":"text","text":"城市管理","x":1020,"y":450,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-manage-model","type":"text","text":"模型管理","x":1020,"y":570,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-manage-element","type":"text","text":"要素管理","x":1020,"y":690,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-manage-forecast","type":"text","text":"预报数据管理","x":1020,"y":810,"width":300,"height":70,"color":"#3b82f6"},
-		{"id":"01-reference","type":"file","file":"课程设计/02-系统设计/02-功能模块设计.md","x":490,"y":980,"width":400,"height":100,"color":"#64748b"}
-	],
-	"edges":[
-		{"id":"01-edge-root-query","fromNode":"01-root","fromSide":"bottom","toNode":"01-module-query","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-root-visual","fromNode":"01-root","fromSide":"bottom","toNode":"01-module-visual","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-root-manage","fromNode":"01-root","fromSide":"bottom","toNode":"01-module-manage","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-query-city","fromNode":"01-module-query","fromSide":"bottom","toNode":"01-query-city","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-query-date","fromNode":"01-module-query","fromSide":"bottom","toNode":"01-query-date","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-query-element","fromNode":"01-module-query","fromSide":"bottom","toNode":"01-query-element","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-query-model","fromNode":"01-module-query","fromSide":"bottom","toNode":"01-query-model","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-visual-temp","fromNode":"01-module-visual","fromSide":"bottom","toNode":"01-visual-temp","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-visual-rain","fromNode":"01-module-visual","fromSide":"bottom","toNode":"01-visual-rain","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-visual-jiangsu","fromNode":"01-module-visual","fromSide":"bottom","toNode":"01-visual-jiangsu","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-manage-city","fromNode":"01-module-manage","fromSide":"bottom","toNode":"01-manage-city","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-manage-model","fromNode":"01-module-manage","fromSide":"bottom","toNode":"01-manage-model","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-manage-element","fromNode":"01-module-manage","fromSide":"bottom","toNode":"01-manage-element","toSide":"top","color":"#3b82f6"},
-		{"id":"01-edge-manage-forecast","fromNode":"01-module-manage","fromSide":"bottom","toNode":"01-manage-forecast","toSide":"top","color":"#3b82f6"}
-	]
+  "nodes": [
+    {
+      "id": "01-root",
+      "type": "text",
+      "text": "山东气象预报可视化系统 V2\n四页面 / 设计冻结，尚未实现",
+      "x": 740,
+      "y": 0,
+      "width": 600,
+      "height": 130,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "01-weather",
+      "type": "text",
+      "text": "气象工作台 /weather",
+      "x": 0,
+      "y": 250,
+      "width": 500,
+      "height": 110,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "01-0-0",
+      "type": "text",
+      "text": "山东16市地图 P0\nECharts Map + GeoJSON",
+      "x": 0,
+      "y": 440,
+      "width": 500,
+      "height": 160,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "01-0-1",
+      "type": "text",
+      "text": "图层 T2M/PRECIP\n模型 ECMWF/NOAA",
+      "x": 0,
+      "y": 660,
+      "width": 500,
+      "height": 160,
+      "color": "#64748b"
+    },
+    {
+      "id": "01-0-2",
+      "type": "text",
+      "text": "批量加载全时段\n时间轴仅本地过滤",
+      "x": 0,
+      "y": 880,
+      "width": 500,
+      "height": 160,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "01-0-3",
+      "type": "text",
+      "text": "图例 + 城市详情\n携带城市/模型/范围查看趋势",
+      "x": 0,
+      "y": 1100,
+      "width": 500,
+      "height": 160,
+      "color": "#64748b"
+    },
+    {
+      "id": "01-analysis",
+      "type": "text",
+      "text": "趋势分析 /analysis",
+      "x": 560,
+      "y": 250,
+      "width": 500,
+      "height": 110,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "01-1-0",
+      "type": "text",
+      "text": "城市 + 模型 + 时间范围\n一次返回双要素",
+      "x": 560,
+      "y": 440,
+      "width": 500,
+      "height": 160,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "01-1-1",
+      "type": "text",
+      "text": "温度折线 + 降水柱状\n同响应明细表",
+      "x": 560,
+      "y": 660,
+      "width": 500,
+      "height": 160,
+      "color": "#64748b"
+    },
+    {
+      "id": "01-1-2",
+      "type": "text",
+      "text": "最高/最低/平均温\n累计降水，Service计算",
+      "x": 560,
+      "y": 880,
+      "width": 500,
+      "height": 160,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "01-1-3",
+      "type": "text",
+      "text": "缺测断点 / 空统计null\n不增加统计表",
+      "x": 560,
+      "y": 1100,
+      "width": 500,
+      "height": 160,
+      "color": "#64748b"
+    },
+    {
+      "id": "01-comparison",
+      "type": "text",
+      "text": "模型对比 /comparison",
+      "x": 1120,
+      "y": 250,
+      "width": 500,
+      "height": 110,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "01-2-0",
+      "type": "text",
+      "text": "城市 + 要素 + 时间范围\nECMWF vs NOAA",
+      "x": 1120,
+      "y": 440,
+      "width": 500,
+      "height": 160,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "01-2-1",
+      "type": "text",
+      "text": "T2M 双折线\nPRECIP 分组柱状",
+      "x": 1120,
+      "y": 660,
+      "width": 500,
+      "height": 160,
+      "color": "#64748b"
+    },
+    {
+      "id": "01-2-2",
+      "type": "text",
+      "text": "时间并集对齐\n缺值null，不补零",
+      "x": 1120,
+      "y": 880,
+      "width": 500,
+      "height": 160,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "01-2-3",
+      "type": "text",
+      "text": "仅结果视觉比较\n无RMSE/MAE等评分",
+      "x": 1120,
+      "y": 1100,
+      "width": 500,
+      "height": 160,
+      "color": "#64748b"
+    },
+    {
+      "id": "01-management",
+      "type": "text",
+      "text": "数据管理 /management",
+      "x": 1680,
+      "y": 250,
+      "width": 500,
+      "height": 110,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "01-3-0",
+      "type": "text",
+      "text": "一个 Element Plus Tabs\n城市 / 模型 / 要素 / 记录",
+      "x": 1680,
+      "y": 440,
+      "width": 500,
+      "height": 160,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "01-3-1",
+      "type": "text",
+      "text": "四类完整 CRUD\n16 个标准管理接口",
+      "x": 1680,
+      "y": 660,
+      "width": 500,
+      "height": 160,
+      "color": "#64748b"
+    },
+    {
+      "id": "01-3-2",
+      "type": "text",
+      "text": "业务唯一 / 外键限制\n400 / 404 / 409提示",
+      "x": 1680,
+      "y": 880,
+      "width": 500,
+      "height": 160,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "01-3-3",
+      "type": "text",
+      "text": "成功刷新 + 清缓存\n重新查询验证最新数据",
+      "x": 1680,
+      "y": 1100,
+      "width": 500,
+      "height": 160,
+      "color": "#64748b"
+    },
+    {
+      "id": "01-ref",
+      "type": "file",
+      "file": "课程设计/02-系统设计/02-功能模块设计.md",
+      "x": 780,
+      "y": 1370,
+      "width": 480,
+      "height": 130,
+      "color": "#64748b"
+    }
+  ],
+  "edges": [
+    {
+      "id": "01-root-0",
+      "fromNode": "01-root",
+      "fromSide": "bottom",
+      "toNode": "01-weather",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-0-0",
+      "fromNode": "01-weather",
+      "fromSide": "bottom",
+      "toNode": "01-0-0",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-0-1",
+      "fromNode": "01-0-0",
+      "fromSide": "bottom",
+      "toNode": "01-0-1",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-0-2",
+      "fromNode": "01-0-1",
+      "fromSide": "bottom",
+      "toNode": "01-0-2",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-0-3",
+      "fromNode": "01-0-2",
+      "fromSide": "bottom",
+      "toNode": "01-0-3",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-root-1",
+      "fromNode": "01-root",
+      "fromSide": "bottom",
+      "toNode": "01-analysis",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-1-0",
+      "fromNode": "01-analysis",
+      "fromSide": "bottom",
+      "toNode": "01-1-0",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-1-1",
+      "fromNode": "01-1-0",
+      "fromSide": "bottom",
+      "toNode": "01-1-1",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-1-2",
+      "fromNode": "01-1-1",
+      "fromSide": "bottom",
+      "toNode": "01-1-2",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-1-3",
+      "fromNode": "01-1-2",
+      "fromSide": "bottom",
+      "toNode": "01-1-3",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-root-2",
+      "fromNode": "01-root",
+      "fromSide": "bottom",
+      "toNode": "01-comparison",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-2-0",
+      "fromNode": "01-comparison",
+      "fromSide": "bottom",
+      "toNode": "01-2-0",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-2-1",
+      "fromNode": "01-2-0",
+      "fromSide": "bottom",
+      "toNode": "01-2-1",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-2-2",
+      "fromNode": "01-2-1",
+      "fromSide": "bottom",
+      "toNode": "01-2-2",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-2-3",
+      "fromNode": "01-2-2",
+      "fromSide": "bottom",
+      "toNode": "01-2-3",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-root-3",
+      "fromNode": "01-root",
+      "fromSide": "bottom",
+      "toNode": "01-management",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-3-0",
+      "fromNode": "01-management",
+      "fromSide": "bottom",
+      "toNode": "01-3-0",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-3-1",
+      "fromNode": "01-3-0",
+      "fromSide": "bottom",
+      "toNode": "01-3-1",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-3-2",
+      "fromNode": "01-3-1",
+      "fromSide": "bottom",
+      "toNode": "01-3-2",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "01-e-3-3",
+      "fromNode": "01-3-2",
+      "fromSide": "bottom",
+      "toNode": "01-3-3",
+      "toSide": "top",
+      "color": "#64748b"
+    }
+  ]
 }

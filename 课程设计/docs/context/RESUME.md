@@ -1,0 +1,108 @@
+# Codex 快速恢复入口
+
+> 更新日期：2026-09-06
+
+## 项目
+
+- 名称：《山东省气象预报数据可视化系统的设计与实现》
+- 规模：两人、两周课程设计
+- 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
+- 当前阶段：System Design V2 Freeze；UI/后端/数据库范围/API V2 已冻结，工程未初始化
+
+## 先读什么
+
+1. [课程设计 AGENTS.md](../../AGENTS.md)
+2. [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md)
+3. 用户本轮任务
+4. 与任务直接相关的设计文档
+
+若本页与 `CURRENT_CONTEXT.md` 不一致，以后者和可验证的实际文件为准。
+
+## 技术栈
+
+- 前端：Vue 3、Vite、JavaScript
+- UI：Element Plus
+- 图表：ECharts
+- 请求与路由：Axios、Vue Router
+- 后端：Java 8、Spring Boot 2.7.18
+- 数据访问：MyBatis-Plus + MyBatis XML
+- 构建：Maven
+- 数据库：MySQL 8.0.16+
+
+## 核心范围
+
+- Weather Workbench（地图 P0）
+- Trend Analysis（双要素、四统计）
+- Model Comparison（双模型视觉对比）
+- Data Management（四 Tab 完整 CRUD）
+
+## 核心数据
+
+- `city`
+- `forecast_model`
+- `weather_element`
+- `forecast_record`
+- 业务唯一键：`(city_id, model_id, element_id, forecast_time)`
+
+## 核心查询
+
+- 城市：`cityId`
+- 预报模型：`modelId`
+- 气象要素：`elementId`
+- 开始时间：`startTime`
+- 结束时间：`endTime`
+- API V2：16 CRUD + workbench/trend/comparison，共 19 个；按接口规定传参
+- 工作台批量加载、时间轴本地切换；CRUD 后清缓存，表格/图表消费同次响应
+
+## 演示与可视化
+
+- 演示范围：山东全部 16 地级市，名单见 CURRENT_CONTEXT；约 3584 条为规划
+- 核心演示：济南主查询、青岛切换查询
+- 模型：ECMWF、NOAA
+- 要素：T2M、PRECIP
+- T2M：单位 ℃，折线图
+- PRECIP：单位 mm，柱状图
+- 需要覆盖有结果、无结果和城市切换场景
+
+## 当前真实状态
+
+- 核心需求已冻结
+- 数据库详细设计已确认
+- 待执行 DDL 已形成，但没有执行
+- 工程初始化计划已形成，但没有执行
+- 尚无前端、后端和数据库工程
+- 尚无已实现 API 或业务页面
+- 尚未进行联调和正式测试
+- 当前为 Git 仓库，分支 main；存在未提交修改，勿覆盖
+- 地域已于 2026-09-04 由江苏省调整并冻结为山东省
+
+## 不要扩展
+
+- 不做登录、用户、权限或 JWT
+- 不引入 Redis、TDengine 或微服务
+- 不接入 NetCDF、ERA5 或实时气象数据
+- 不增加复杂预测分析和生产部署
+- 不增加超出四张核心表的新业务实体
+- 地图 P0 只用 ECharts + GeoJSON，不引入复杂 GIS、风场、模型评分
+
+## 开始工作前
+
+- 确认允许修改的文件和禁止范围
+- 检查实际目录、同名文件和当前改动
+- 不把规划写成已实现
+- 不自行执行 DDL、下载依赖或初始化 Git
+- 冻结内容需要改变且无最新明确授权时先请求确认
+- 只做当前任务所需的最小修改
+
+## 工作完成前
+
+- 检查事实与冻结文档一致
+- 运行与改动直接相关的验证
+- 未运行的测试写明“未运行”和原因
+- 检查无密码、令牌和本机私有配置
+- 列出实际修改文件和未完成事项
+- 未经要求不创建分支、不提交、不推送
+
+## 下一任务
+
+具体下一阶段、已完成项和未完成项始终查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md)。

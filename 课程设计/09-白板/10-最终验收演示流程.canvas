@@ -1,0 +1,234 @@
+{
+  "nodes": [
+    {
+      "id": "10-title",
+      "type": "text",
+      "text": "最终验收 Demo V2（待执行）\n地图 → 时间轴 → 趋势 → 对比 → 管理 → 重查 → 异常",
+      "x": 0,
+      "y": -220,
+      "width": 2110,
+      "height": 140,
+      "color": "#64748b"
+    },
+    {
+      "id": "10-s0",
+      "type": "text",
+      "text": "01 打开系统\n/ 自动进入 /weather",
+      "x": 0,
+      "y": 0,
+      "width": 640,
+      "height": 230,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "10-s1",
+      "type": "text",
+      "text": "02 默认 ECMWF + T2M\n山东16市温度分布 / 图例",
+      "x": 760,
+      "y": 0,
+      "width": 640,
+      "height": 230,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "10-s2",
+      "type": "text",
+      "text": "03 点击济南\n显示模型 / 要素 / 时间 / 值 / 单位",
+      "x": 1520,
+      "y": 0,
+      "width": 640,
+      "height": 230,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "10-s3",
+      "type": "text",
+      "text": "04 拖动底部时间轴\n地图和济南值同步\n新增 API 请求为 0",
+      "x": 1520,
+      "y": 350,
+      "width": 640,
+      "height": 230,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "10-s4",
+      "type": "text",
+      "text": "05 切换 PRECIP\n降水地图 / 图例 / mm",
+      "x": 760,
+      "y": 350,
+      "width": 640,
+      "height": 230,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "10-s5",
+      "type": "text",
+      "text": "06 查看趋势\n双图 / 明细表 / 四项统计\n补做青岛切换",
+      "x": 0,
+      "y": 350,
+      "width": 640,
+      "height": 230,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "10-s6",
+      "type": "text",
+      "text": "07 模型对比\n济南 + T2M 双折线\nPRECIP 分组柱状",
+      "x": 0,
+      "y": 700,
+      "width": 640,
+      "height": 230,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "10-s7",
+      "type": "text",
+      "text": "08 数据管理四 Tab\n城市 / 模型 / 要素 / 记录\n四类完整 CRUD",
+      "x": 760,
+      "y": 700,
+      "width": 640,
+      "height": 230,
+      "color": "#22c55e"
+    },
+    {
+      "id": "10-s8",
+      "type": "text",
+      "text": "09 新增或修改记录\n成功反馈 / 刷新列表\n清工作台缓存",
+      "x": 1520,
+      "y": 700,
+      "width": 640,
+      "height": 230,
+      "color": "#22c55e"
+    },
+    {
+      "id": "10-s9",
+      "type": "text",
+      "text": "10 重新进入趋势查询\n保存值与表格 / 图表一致\n不能复用旧缓存",
+      "x": 1520,
+      "y": 1050,
+      "width": 640,
+      "height": 230,
+      "color": "#22c55e"
+    },
+    {
+      "id": "10-s10",
+      "type": "text",
+      "text": "11 异常演示\n重复业务键 → 409\n非法时间范围 → 400",
+      "x": 760,
+      "y": 1050,
+      "width": 640,
+      "height": 230,
+      "color": "#22c55e"
+    },
+    {
+      "id": "10-s11",
+      "type": "text",
+      "text": "12 验收结束\n汇总真实测试与证据\n未通过项如实记录",
+      "x": 0,
+      "y": 1050,
+      "width": 640,
+      "height": 230,
+      "color": "#22c55e"
+    },
+    {
+      "id": "10-ref",
+      "type": "file",
+      "file": "课程设计/05-测试与验收/02-最终验收方案.md",
+      "x": 760,
+      "y": 1490,
+      "width": 640,
+      "height": 130,
+      "color": "#64748b"
+    }
+  ],
+  "edges": [
+    {
+      "id": "10-e1",
+      "fromNode": "10-s0",
+      "fromSide": "right",
+      "toNode": "10-s1",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e2",
+      "fromNode": "10-s1",
+      "fromSide": "right",
+      "toNode": "10-s2",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e3",
+      "fromNode": "10-s2",
+      "fromSide": "bottom",
+      "toNode": "10-s3",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e4",
+      "fromNode": "10-s3",
+      "fromSide": "left",
+      "toNode": "10-s4",
+      "toSide": "right",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e5",
+      "fromNode": "10-s4",
+      "fromSide": "left",
+      "toNode": "10-s5",
+      "toSide": "right",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e6",
+      "fromNode": "10-s5",
+      "fromSide": "bottom",
+      "toNode": "10-s6",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e7",
+      "fromNode": "10-s6",
+      "fromSide": "right",
+      "toNode": "10-s7",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e8",
+      "fromNode": "10-s7",
+      "fromSide": "right",
+      "toNode": "10-s8",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e9",
+      "fromNode": "10-s8",
+      "fromSide": "bottom",
+      "toNode": "10-s9",
+      "toSide": "top",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e10",
+      "fromNode": "10-s9",
+      "fromSide": "left",
+      "toNode": "10-s10",
+      "toSide": "right",
+      "color": "#64748b"
+    },
+    {
+      "id": "10-e11",
+      "fromNode": "10-s10",
+      "fromSide": "left",
+      "toNode": "10-s11",
+      "toSide": "right",
+      "color": "#64748b"
+    }
+  ]
+}

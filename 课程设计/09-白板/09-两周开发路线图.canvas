@@ -1,0 +1,226 @@
+{
+  "nodes": [
+    {
+      "id": "09-title",
+      "type": "text",
+      "text": "两周开发路线 V2（功能仍待实现）\n9/11 中检最低主链路；9/18 软件验收；9/25 材料提交",
+      "x": 0,
+      "y": -190,
+      "width": 3600,
+      "height": 110,
+      "color": "#64748b"
+    },
+    {
+      "id": "09-stage-1",
+      "type": "text",
+      "text": "阶段 1\n立项与需求分析\n✅ 已完成",
+      "x": 0,
+      "y": 0,
+      "width": 280,
+      "height": 150,
+      "color": "#22c55e"
+    },
+    {
+      "id": "09-stage-2",
+      "type": "text",
+      "text": "阶段 2\nSystem Design V2\n设计已冻结",
+      "x": 350,
+      "y": 0,
+      "width": 280,
+      "height": 150,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "09-stage-3",
+      "type": "text",
+      "text": "阶段 3（下一任务）\nPROJECT-INIT-1\n尚未初始化",
+      "x": 700,
+      "y": 0,
+      "width": 280,
+      "height": 150,
+      "color": "#64748b"
+    },
+    {
+      "id": "09-stage-4",
+      "type": "text",
+      "text": "阶段 4\n四表 / 16市数据\nWorkbench 查询",
+      "x": 1050,
+      "y": 0,
+      "width": 280,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "09-stage-5",
+      "type": "text",
+      "text": "阶段 5\n山东地图 P0\nECMWF + T2M",
+      "x": 1400,
+      "y": 0,
+      "width": 280,
+      "height": 150,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "09-stage-6",
+      "type": "text",
+      "text": "阶段 6\n时间轴 / 济南详情\n一个趋势图",
+      "x": 1750,
+      "y": 0,
+      "width": 280,
+      "height": 150,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "09-midterm",
+      "type": "text",
+      "text": "9/11 中期检查\n地图 / 16市 / 四表\n工作台主链路\n真实 Git 记录",
+      "x": 2100,
+      "y": -30,
+      "width": 300,
+      "height": 210,
+      "color": "#ef4444"
+    },
+    {
+      "id": "09-stage-7",
+      "type": "text",
+      "text": "中检后补齐\n完整 CRUD / Trend\nComparison / 联调",
+      "x": 2470,
+      "y": 0,
+      "width": 280,
+      "height": 150,
+      "color": "#3b82f6"
+    },
+    {
+      "id": "09-stage-8",
+      "type": "text",
+      "text": "9/17 测试目标\n异常 / 缺测 / 缓存\n四页 GUI",
+      "x": 2820,
+      "y": 0,
+      "width": 280,
+      "height": 150,
+      "color": "#64748b"
+    },
+    {
+      "id": "09-acceptance",
+      "type": "text",
+      "text": "9/18 软件验收\n完整十二步 Demo\n记录真实结果",
+      "x": 3170,
+      "y": -30,
+      "width": 300,
+      "height": 210,
+      "color": "#ef4444"
+    },
+    {
+      "id": "09-stage-9",
+      "type": "text",
+      "text": "9/25 材料提交\n报告 / 截图 / 答辩\n阶段版本记录",
+      "x": 3540,
+      "y": 0,
+      "width": 300,
+      "height": 150,
+      "color": "#64748b"
+    },
+    {
+      "id": "09-current-note",
+      "type": "text",
+      "text": "当前：System Design V2 Freeze\nUI / 后端 / 数据库范围 / API 已冻结\n全部功能仍待实现；不自动创建工程\n旧项目管理计划只作历史安排参考",
+      "x": 350,
+      "y": 300,
+      "width": 630,
+      "height": 210,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "09-reference",
+      "type": "file",
+      "file": "课程设计/05-测试与验收/01-中期检查方案.md",
+      "x": 2820,
+      "y": 300,
+      "width": 650,
+      "height": 120,
+      "color": "#64748b"
+    }
+  ],
+  "edges": [
+    {
+      "id": "09-edge-01",
+      "fromNode": "09-stage-1",
+      "fromSide": "right",
+      "toNode": "09-stage-2",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "09-edge-02",
+      "fromNode": "09-stage-2",
+      "fromSide": "right",
+      "toNode": "09-stage-3",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "09-edge-03",
+      "fromNode": "09-stage-3",
+      "fromSide": "right",
+      "toNode": "09-stage-4",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "09-edge-04",
+      "fromNode": "09-stage-4",
+      "fromSide": "right",
+      "toNode": "09-stage-5",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "09-edge-05",
+      "fromNode": "09-stage-5",
+      "fromSide": "right",
+      "toNode": "09-stage-6",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "09-edge-06",
+      "fromNode": "09-stage-6",
+      "fromSide": "right",
+      "toNode": "09-midterm",
+      "toSide": "left",
+      "color": "#ef4444"
+    },
+    {
+      "id": "09-edge-07",
+      "fromNode": "09-midterm",
+      "fromSide": "right",
+      "toNode": "09-stage-7",
+      "toSide": "left",
+      "color": "#ef4444"
+    },
+    {
+      "id": "09-edge-08",
+      "fromNode": "09-stage-7",
+      "fromSide": "right",
+      "toNode": "09-stage-8",
+      "toSide": "left",
+      "color": "#64748b"
+    },
+    {
+      "id": "09-edge-09",
+      "fromNode": "09-stage-8",
+      "fromSide": "right",
+      "toNode": "09-acceptance",
+      "toSide": "left",
+      "color": "#ef4444"
+    },
+    {
+      "id": "09-edge-10",
+      "fromNode": "09-acceptance",
+      "fromSide": "right",
+      "toNode": "09-stage-9",
+      "toSide": "left",
+      "color": "#ef4444"
+    }
+  ]
+}
