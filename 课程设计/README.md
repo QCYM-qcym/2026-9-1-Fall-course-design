@@ -1,14 +1,8 @@
 # 山东省气象预报数据可视化系统
 
-<<<<<<< HEAD
 课题名称：《山东省气象预报数据可视化系统的设计与实现》。本课程设计由两名成员在约两周内协作完成，V2 范围为 Weather Workbench、Trend Analysis、Model Comparison、Data Management 四个页面。
 
 当前状态为“System Design V2 Freeze：UI、后端、数据库范围与 API V2 已冻结”。项目尚未开始正式编码、实际建库、接口联调或测试。本README中的工程目录、开发分支和Git命令均为后续开发规范或推荐示例，不表示对应目录、分支或功能已经存在。
-=======
-课题名称：《山东省气象预报数据可视化系统的设计与实现》。本课程设计由两名成员在约两周内协作完成，范围限定为气象数据查询、气象数据可视化和基础数据管理。
-
-当前状态为“核心需求已冻结，数据库详细设计已确认，工程初始化方案已形成”。项目尚未开始正式编码、实际建库、接口联调或测试。本README中的工程目录、开发分支和Git命令均为后续开发规范或推荐示例，不表示对应目录、分支或功能已经存在。
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
 
 ## 文档入口
 
@@ -16,14 +10,10 @@
 - [项目当前状态](00-项目总览/项目当前状态.md)：查看完成度、冻结内容和下一阶段。
 - [需求冻结确认](01-立项与需求/09-需求冻结确认.md)：查看开发与验收必须遵守的冻结口径。
 - [SQL设计说明](03-数据库设计/08-SQL设计说明.md)：查看待执行DDL、约束与初始化要求。
-<<<<<<< HEAD
 - [API V2](02-系统设计/04-接口设计.md)：唯一当前 19 接口契约。
 - [前端 V2](02-系统设计/02-功能模块设计.md)：四页、组件、地图与 UI。
 - [中期检查](05-测试与验收/01-中期检查方案.md) / [最终验收](05-测试与验收/02-最终验收方案.md)：V2 分层验收。
-- [工程初始化计划（历史参考）](06-项目管理/05-工程初始化计划.md)：只参考执行顺序，旧范围由 V2 替代，当前尚未创建工程。
-=======
-- [工程初始化计划](06-项目管理/05-工程初始化计划.md)：查看下一阶段执行顺序；当前尚未创建工程。
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
+- [工程初始化计划 V2](06-项目管理/05-工程初始化计划.md)：当前初始化边界、测试门禁与中检优先级；计划已修订，工程尚未创建。
 - [系统总体架构图](09-白板/03-系统总体架构图.canvas)：中期检查架构入口。
 - [最终验收演示流程](09-白板/10-最终验收演示流程.canvas)：固定演示与验收流程。
 
@@ -32,11 +22,7 @@
 | 层次 | 技术 |
 | --- | --- |
 | 前端 | Vue 3、Vite、JavaScript、Element Plus、ECharts、Axios、Vue Router |
-<<<<<<< HEAD
 | 后端 | Java 8、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven |
-=======
-| 后端 | Java 8、Spring Boot 2.7.18、MyBatis-Plus、Maven |
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
 | 数据库 | MySQL 8.0.16+ |
 | 文档与版本管理 | Markdown、Obsidian Canvas、Git、GitHub |
 
@@ -50,10 +36,9 @@
 
 本项目不拆分为`weather-frontend`和`weather-backend`两个独立仓库。
 
-<<<<<<< HEAD
 ## 当前目录与未来职责
 
-目前仅文档与 Canvas，课程设计/ 内有 00 项目总览、01 需求、02 系统设计、03 数据库设计、05 测试与验收、06 历史管理计划、09 白板、AGENTS.md 及 docs/context/；根 versions/ 已有 V1 和本次 V2 阶段记录。
+目前仅文档与 Canvas，课程设计/ 内有 00 项目总览、01 需求、02 系统设计、03 数据库设计、05 测试与验收、06 项目管理（含当前初始化计划 V2 与其他历史计划）、09 白板、AGENTS.md 及 docs/context/；根 versions/ 已有 V1 和 V2 阶段记录。
 
 未来规划（本轮不创建工程）：
 
@@ -67,57 +52,6 @@
 ```
 
 不另建根 docs/ 重复体系。frontend/backend 物理分离，不使用混合 src/main/java 与 src/frontend；Git commit/tag 保存源码历史，versions/ 不复制完整源码或 node_modules/target。
-=======
-## 当前实际目录
-
-当前工作区仍处于文档阶段，实际目录如下：
-
-```text
-课程设计/
-├── 00-项目总览/       # 项目入口、状态与文档实施记录
-├── 01-立项与需求/     # 背景、需求、用例、数据需求与需求冻结
-├── 02-系统设计/       # 总体架构、功能模块与业务流程
-├── 03-数据库设计/     # ER、关系模型、数据字典、约束、索引与SQL设计
-├── 06-项目管理/       # 分工、计划、里程碑、风险与工程初始化计划
-├── 09-白板/           # Obsidian Canvas软件工程图
-└── README.md
-```
-
-当前没有`frontend/`、`backend/`、`database/`或工程化`docs/`目录。本轮不创建、不移动也不重构目录；后续初始化GitHub工程时再按实际情况建立或映射。
-
-## 推荐Monorepo目录
-
-工程初始化后的推荐结构如下：
-
-```text
-shandong-weather-visualization/
-│
-├── frontend/
-│   ├── package.json
-│   └── src/
-│
-├── backend/
-│   ├── pom.xml
-│   └── src/
-│
-├── database/
-│   ├── schema.sql
-│   ├── data.sql
-│   └── README.md
-│
-├── docs/
-│   ├── requirements/
-│   ├── design/
-│   ├── database/
-│   ├── test/
-│   └── presentation/
-│
-├── README.md
-└── .gitignore
-```
-
-该结构是工程初始化目标，不要求为了匹配示意图立即重构当前文档目录。实际目录一旦确定，README应以真实结构为准。
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
 
 ## 目录职责与前后端边界
 
@@ -133,16 +67,10 @@ shandong-weather-visualization/
 
 负责MySQL DDL、初始化数据、演示数据和数据库实施说明。`schema.sql`是数据库结构变更的版本化依据，`data.sql`用于可复现的初始化或演示数据。
 
-<<<<<<< HEAD
 ### `课程设计/` 与 `versions/`
 
 课程设计/ 保存当前需求、系统设计、数据库设计、测试验收、上下文和 Canvas。versions/ 每阶段保存目标、功能、前后端与数据库状态、测试、截图、API/数据库变化摘要、真实 branch/commit/tag。未提交写“未提交”，无 tag 写“未创建”。
 
-=======
-### `docs/`
-
-负责需求分析、系统设计、数据库设计、测试、中期检查、最终验收和答辩材料。当前Obsidian文档后续如何迁移或映射到`docs/`，需在工程初始化时确认，本轮不移动文件。
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
 
 ## Git分支策略
 
@@ -259,19 +187,7 @@ main
 - 时间格式；
 - 错误返回。
 
-<<<<<<< HEAD
 API 当前已冻结为 [V2.0](02-系统设计/04-接口设计.md)：16 个管理 CRUD，加 workbench、trend、comparison 三展示查询。管理筛选五参数可选、时间成对；展示查询按各契约必填项。前端不得自行假设字段；若实际实现冲突需报告并同步契约，不再把记录列表接口当作工作台逐时刻查询。
-=======
-核心查询接口可以`GET /api/forecast-records`作为契约讨论起点，查询字段统一使用：
-
-- `cityId`
-- `modelId`
-- `elementId`
-- `startTime`
-- `endTime`
-
-该示例用于冻结协作命名，不表示接口已经实现。前端不能长期基于自行假设的API开发，应以`docs/`中已确认的接口文档或后端实际接口为准。
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
 
 后端接口完成并合并`main`后，前端功能分支应及时同步：
 
@@ -287,11 +203,7 @@ git merge origin/main
 数据库结构变更必须同步更新：
 
 - `database/schema.sql`；
-<<<<<<< HEAD
 - `课程设计/03-数据库设计/`相关文档。
-=======
-- `docs/database/`相关文档。
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
 
 如果修改`forecast_record`字段，还必须同步检查：
 
@@ -379,11 +291,7 @@ git diff --cached
 | 项目 | 规则 |
 | --- | --- |
 | 仓库 | Monorepo |
-<<<<<<< HEAD
 | 工程目录 | `frontend/`、`backend/`、`database/`、`课程设计/`、`versions/` |
-=======
-| 工程目录 | `frontend/`、`backend/`、`database/`、`docs/` |
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
 | 主分支 | `main` |
 | 开发分支 | `feat/*`、`fix/*`、`docs/*`、`test/*` |
 | 分支原则 | 短分支、单一任务、完成后及时合并和删除 |
@@ -391,14 +299,11 @@ git diff --cached
 | 同步方式 | 统一使用`merge`，频繁同步`main` |
 | 联调原则 | 先确认接口契约，后端完成后尽快合并 |
 | 稳定性 | `main`尽量保持可运行或可检查 |
-<<<<<<< HEAD
 
 ## V2 范围与下一阶段
 
 山东地图 P0，ECharts Map + 静态 GeoJSON；16 市、ECMWF/NOAA、T2M/PRECIP。工作台批量加载、前端时间轴本地切换；趋势双图四统计；模型对比只做视觉展示；四类完整 CRUD。仍四表、3NF、无 Redis、无复杂 GIS。
 
-本次按用户授权冻结 V2，versions/v0.2-api-contract/ 保留历史内容；早期 00 文档体系计划及 06 项目管理正文仅作历史安排参考，当前功能范围、数据和验收以 V2 为准。原课程日期不变，9/11 中检、9/18 软件验收、9/25 材料提交。
+V2 设计保持冻结，versions/v0.2-api-contract/ 保留历史内容；早期 00 文档体系计划及 06 中其他旧管理计划仅作历史安排参考，05-工程初始化计划已修订为当前 V2 计划。原课程日期不变，9/11 中检、9/18 软件验收、9/25 材料提交。
 
 下一阶段仅 PROJECT-INIT-1：收到新任务后初始化 frontend/、backend/、database/，建立 versions/v0.3-project-init/。本轮没有开始编码、建库、下载 GeoJSON、安装依赖、commit、push 或 tag。
-=======
->>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
