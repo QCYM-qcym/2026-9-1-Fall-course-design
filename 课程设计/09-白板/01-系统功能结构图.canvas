@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "nodes": [
     {
       "id": "01-root",
@@ -383,4 +384,43 @@
       "color": "#64748b"
     }
   ]
+=======
+	"nodes":[
+		{"id":"01-root","type":"text","text":"山东省气象预报数据可视化系统","x":490,"y":40,"width":400,"height":100,"color":"#3b82f6"},
+		{"id":"01-group-query","type":"group","label":"气象数据查询模块","x":0,"y":280,"width":420,"height":620,"color":"#64748b"},
+		{"id":"01-module-query","type":"text","text":"气象数据查询","x":40,"y":330,"width":340,"height":80,"color":"#3b82f6"},
+		{"id":"01-query-city","type":"text","text":"城市查询","x":60,"y":450,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-query-date","type":"text","text":"日期/时间范围查询","x":60,"y":570,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-query-element","type":"text","text":"气象要素查询","x":60,"y":690,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-query-model","type":"text","text":"模型查询","x":60,"y":810,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-group-visual","type":"group","label":"数据可视化模块","x":480,"y":280,"width":420,"height":620,"color":"#64748b"},
+		{"id":"01-module-visual","type":"text","text":"数据可视化","x":520,"y":330,"width":340,"height":80,"color":"#3b82f6"},
+		{"id":"01-visual-temp","type":"text","text":"温度趋势","x":540,"y":450,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-visual-rain","type":"text","text":"降水统计","x":540,"y":570,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-visual-shandong","type":"text","text":"山东城市展示（增强）","x":540,"y":690,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-group-manage","type":"group","label":"基础数据管理模块","x":960,"y":280,"width":420,"height":620,"color":"#64748b"},
+		{"id":"01-module-manage","type":"text","text":"基础数据管理","x":1000,"y":330,"width":340,"height":80,"color":"#3b82f6"},
+		{"id":"01-manage-city","type":"text","text":"城市管理","x":1020,"y":450,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-manage-model","type":"text","text":"模型管理","x":1020,"y":570,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-manage-element","type":"text","text":"要素管理","x":1020,"y":690,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-manage-forecast","type":"text","text":"预报数据管理","x":1020,"y":810,"width":300,"height":70,"color":"#3b82f6"},
+		{"id":"01-reference","type":"file","file":"课程设计/02-系统设计/02-功能模块设计.md","x":490,"y":980,"width":400,"height":100,"color":"#64748b"}
+	],
+	"edges":[
+		{"id":"01-edge-root-query","fromNode":"01-root","fromSide":"bottom","toNode":"01-module-query","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-root-visual","fromNode":"01-root","fromSide":"bottom","toNode":"01-module-visual","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-root-manage","fromNode":"01-root","fromSide":"bottom","toNode":"01-module-manage","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-query-city","fromNode":"01-module-query","fromSide":"bottom","toNode":"01-query-city","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-query-date","fromNode":"01-module-query","fromSide":"bottom","toNode":"01-query-date","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-query-element","fromNode":"01-module-query","fromSide":"bottom","toNode":"01-query-element","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-query-model","fromNode":"01-module-query","fromSide":"bottom","toNode":"01-query-model","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-visual-temp","fromNode":"01-module-visual","fromSide":"bottom","toNode":"01-visual-temp","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-visual-rain","fromNode":"01-module-visual","fromSide":"bottom","toNode":"01-visual-rain","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-visual-shandong","fromNode":"01-module-visual","fromSide":"bottom","toNode":"01-visual-shandong","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-manage-city","fromNode":"01-module-manage","fromSide":"bottom","toNode":"01-manage-city","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-manage-model","fromNode":"01-module-manage","fromSide":"bottom","toNode":"01-manage-model","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-manage-element","fromNode":"01-module-manage","fromSide":"bottom","toNode":"01-manage-element","toSide":"top","color":"#3b82f6"},
+		{"id":"01-edge-manage-forecast","fromNode":"01-module-manage","fromSide":"bottom","toNode":"01-manage-forecast","toSide":"top","color":"#3b82f6"}
+	]
+>>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
 }

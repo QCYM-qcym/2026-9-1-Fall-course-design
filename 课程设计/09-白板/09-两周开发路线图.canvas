@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "nodes": [
     {
       "id": "09-title",
@@ -224,3 +225,34 @@
     }
   ]
 }
+=======
+	"nodes":[
+		{"id":"09-title","type":"text","text":"两周开发路线图\nCanvas 展示阶段，详细日期以《两周开发计划》为准","x":0,"y":-190,"width":3600,"height":110,"color":"#64748b"},
+		{"id":"09-stage-1","type":"text","text":"阶段 1\n立项与需求分析\n✅ 已完成","x":0,"y":0,"width":280,"height":150,"color":"#22c55e"},
+		{"id":"09-stage-2","type":"text","text":"阶段 2\n系统与数据库设计\n当前收口阶段","x":350,"y":0,"width":280,"height":150,"color":"#f59e0b"},
+		{"id":"09-stage-3","type":"text","text":"阶段 3\n工程初始化","x":700,"y":0,"width":280,"height":150,"color":"#64748b"},
+		{"id":"09-stage-4","type":"text","text":"阶段 4\n后端核心功能","x":1050,"y":0,"width":280,"height":150,"color":"#3b82f6"},
+		{"id":"09-stage-5","type":"text","text":"阶段 5\n前端核心页面","x":1400,"y":0,"width":280,"height":150,"color":"#8b5cf6"},
+		{"id":"09-stage-6","type":"text","text":"阶段 6\nECharts 可视化","x":1750,"y":0,"width":280,"height":150,"color":"#8b5cf6"},
+		{"id":"09-midterm","type":"text","text":"里程碑\n中期检查","x":2100,"y":-30,"width":300,"height":210,"color":"#ef4444"},
+		{"id":"09-stage-7","type":"text","text":"阶段 7\n功能补齐与联调","x":2470,"y":0,"width":280,"height":150,"color":"#3b82f6"},
+		{"id":"09-stage-8","type":"text","text":"阶段 8\n测试","x":2820,"y":0,"width":280,"height":150,"color":"#64748b"},
+		{"id":"09-acceptance","type":"text","text":"里程碑\n软件验收","x":3170,"y":-30,"width":300,"height":210,"color":"#ef4444"},
+		{"id":"09-stage-9","type":"text","text":"阶段 9\n报告与答辩材料","x":3540,"y":0,"width":300,"height":150,"color":"#64748b"},
+		{"id":"09-current-note","type":"text","text":"当前定位\n前期软件工程设计基本完成，\n下一步为需求与数据库设计最终冻结，\n随后进入工程初始化。","x":350,"y":300,"width":630,"height":210,"color":"#f59e0b"},
+		{"id":"09-reference","type":"file","file":"课程设计/06-项目管理/02-两周开发计划.md","x":2820,"y":300,"width":650,"height":120,"color":"#64748b"}
+	],
+	"edges":[
+		{"id":"09-edge-01","fromNode":"09-stage-1","fromSide":"right","toNode":"09-stage-2","toSide":"left","color":"#64748b"},
+		{"id":"09-edge-02","fromNode":"09-stage-2","fromSide":"right","toNode":"09-stage-3","toSide":"left","color":"#64748b"},
+		{"id":"09-edge-03","fromNode":"09-stage-3","fromSide":"right","toNode":"09-stage-4","toSide":"left","color":"#64748b"},
+		{"id":"09-edge-04","fromNode":"09-stage-4","fromSide":"right","toNode":"09-stage-5","toSide":"left","color":"#64748b"},
+		{"id":"09-edge-05","fromNode":"09-stage-5","fromSide":"right","toNode":"09-stage-6","toSide":"left","color":"#64748b"},
+		{"id":"09-edge-06","fromNode":"09-stage-6","fromSide":"right","toNode":"09-midterm","toSide":"left","color":"#ef4444"},
+		{"id":"09-edge-07","fromNode":"09-midterm","fromSide":"right","toNode":"09-stage-7","toSide":"left","color":"#ef4444"},
+		{"id":"09-edge-08","fromNode":"09-stage-7","fromSide":"right","toNode":"09-stage-8","toSide":"left","color":"#64748b"},
+		{"id":"09-edge-09","fromNode":"09-stage-8","fromSide":"right","toNode":"09-acceptance","toSide":"left","color":"#ef4444"},
+		{"id":"09-edge-10","fromNode":"09-acceptance","fromSide":"right","toNode":"09-stage-9","toSide":"left","color":"#ef4444"}
+	]
+}
+>>>>>>> acfdd7f44aa976e84028721eacaa4c5e581bdaf7
