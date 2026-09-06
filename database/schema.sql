@@ -1,16 +1,83 @@
--- Shandong weather visualization database schema skeleton.
--- Target: MySQL 8.0.16+.
--- PROJECT-INIT-1 only reserves the four-table design; no DDL is executed here.
--- DB-INIT-1 will add reviewed DDL, keys, constraints, and indexes.
+-- 山东省气象预报数据可视化系统数据库初始化脚本
+-- Target: MySQL 8.0.16+; source files and DDL are UTF-8.
+-- DB-INIT-1: executable four-table schema for the frozen Database V2 design.
+-- The script is rerunnable and drops/recreates only the four application tables.
 
--- Table: city
--- Future scope: 16 Shandong prefecture-level cities.
+CREATE DATABASE IF NOT EXISTS shandong_weather
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
 
--- Table: forecast_model
--- Future seed scope: ECMWF and NOAA.
+USE shandong_weather;
 
--- Table: weather_element
--- Future seed scope: T2M and PRECIP.
+SET NAMES utf8mb4;
 
--- Table: forecast_record
--- Future business key: city_id, model_id, element_id, forecast_time.
+-- Drop dependents before referenced dictionary tables.
+DROP TABLE IF EXISTS forecast_record;
+DROP TABLE IF EXISTS weather_element;
+DROP TABLE IF EXISTS forecast_model;
+DROP TABLE IF EXISTS city;
+
+CREATE TABLE city (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  city_code VARCHAR(32) NOT NULL,
+  city_name VARCHAR(50) NOT NULL,
+  longitude DECIMAL(10,6) NOT NULL,
+  latitude DECIMAL(10,6) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT uq_city_city_code UNIQUE (city_code),
+  CONSTRAINT chk_city_longitude CHECK (longitude BETWEEN -180.000000 AND 180.000000),
+  CONSTRAINT chk_city_latitude CHECK (latitude BETWEEN -90.000000 AND 90.000000)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='山东省地级市字典';
+
+CREATE TABLE forecast_model (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  model_code VARCHAR(32) NOT NULL,
+  model_name VARCHAR(50) NOT NULL,
+  description VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT uq_forecast_model_model_code UNIQUE (model_code)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='预报模型字典';
+
+CREATE TABLE weather_element (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  element_code VARCHAR(32) NOT NULL,
+  element_name VARCHAR(50) NOT NULL,
+  unit VARCHAR(16) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT uq_weather_element_element_code UNIQUE (element_code)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='气象要素字典';
+
+CREATE TABLE forecast_record (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  city_id BIGINT UNSIGNED NOT NULL,
+  model_id BIGINT UNSIGNED NOT NULL,
+  element_id BIGINT UNSIGNED NOT NULL,
+  forecast_time DATETIME NOT NULL,
+  value DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT uq_forecast_record_business
+    UNIQUE (city_id, model_id, element_id, forecast_time),
+  KEY idx_forecast_record_workbench (model_id, element_id, forecast_time),
+  KEY idx_forecast_record_element_id (element_id),
+  CONSTRAINT fk_forecast_record_city
+    FOREIGN KEY (city_id) REFERENCES city (id)
+    ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_forecast_record_model
+    FOREIGN KEY (model_id) REFERENCES forecast_model (id)
+    ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_forecast_record_element
+    FOREIGN KEY (element_id) REFERENCES weather_element (id)
+    ON UPDATE RESTRICT ON DELETE RESTRICT
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='气象预报记录；PRECIP 表示不重叠三小时时段量';

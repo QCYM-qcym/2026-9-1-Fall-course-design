@@ -5,10 +5,10 @@
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：PROJECT-INIT-1 completed。
-已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前端、后端和数据库工程骨架已初始化，健康检查、构建和基础测试已验证，业务功能与正式数据库初始化仍未开始。
+当前阶段：PROJECT-INIT-1 completed；DB-INIT-1 COMPLETED。
+已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前端、后端和数据库工程骨架已初始化，数据库 SQL、种子数据及 MySQL 8.0.46 运行验证已完成，业务功能仍未开始。
 
-当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；当前分支 feat/project-init。个人安装路径不作为项目规范。
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46；当前分支 feat/db-init。个人安装路径和数据库凭据不作为项目规范。
 
 本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
 
@@ -23,10 +23,10 @@
 - 五 Controller、五 Service、四 Mapper，ForecastRecordMapper.xml 承担 selectWorkbenchData、selectTrendData、selectComparisonData。
 - 四表 city、forecast_model、weather_element、forecast_record，3NF；唯一键 (city_id,model_id,element_id,forecast_time)，无新增实体。
 - 山东 16 市：济南、青岛、淄博、枣庄、东营、烟台、潍坊、济宁、泰安、威海、日照、临沂、德州、聊城、滨州、菏泽；核心验收济南、青岛。
-- ECMWF/NOAA；T2M（2 米气温，℃）/PRECIP（降水量，mm）；16×2×2×56=3584 条仅估算，未生成。
+- ECMWF/NOAA；T2M（2 米气温，℃）/PRECIP（降水量，mm）；MySQL 已实际导入 16×2×2×3=192 条固定合成演示记录，规划规模 16×2×2×56=3584 条仍仅为估算。
 - value 有限、满足 DECIMAL(10,2)，PRECIP ≥ 0；取消 V1 人为范围。PRECIP 为非重叠 3 小时时段量，缺测不补零、空统计 null。
 - API V2 共 19 个：16 CRUD + workbench/trend/comparison。HTTP 与 code 一致；时间 yyyy-MM-dd HH:mm:ss 本地业务时间；400/404/409/500 与空匹配 200 区分。
-- 预报记录二级索引仅业务唯一、workbench 联合、element_id 单列三项（另有主键）；尚未实测 EXPLAIN。
+- 预报记录二级索引仅业务唯一、workbench 联合、element_id 单列三项（另有主键）；MySQL 8.0.46 已实测 SHOW INDEX 与 EXPLAIN，小数据集实际选择 element_id 索引，不扩展冻结索引。
 
 ## 3. 文档与历史
 
@@ -48,7 +48,7 @@ versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-已完成：本机 Java 17.0.11、Maven 3.9.16、Node.js、npm 核验；frontend/、backend/、database/ 骨架初始化；前端构建、后端 Context 测试、jar 打包、major version 61 和健康检查验证。尚未完成：正式 DDL 与数据初始化、GeoJSON 来源许可及映射、数据整理、19 个业务 API、GUI 业务实现、联调、正式测试、截图和验收记录。设计检查不能替代运行测试。
+已完成：本机 Java 17.0.11、Maven 3.9.16、Node.js、npm、MySQL 8.0.46 核验；frontend/、backend/、database/ 骨架初始化；前端构建、后端 Context 测试、jar 打包、major version 61 和健康检查验证；数据库四表 DDL、16/2/2/192 数据导入、约束、JOIN、索引、字符集运行验证。尚未完成：GeoJSON 来源许可及映射、扩展数据整理、19 个业务 API、GUI 业务实现、联调、正式测试、截图和验收记录。设计检查不能替代运行测试。
 
 ## 5. 长期边界与协作
 
@@ -58,6 +58,6 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 
 ## 6. 下一阶段
 
-PROJECT-INIT-1 已完成：已依工程初始化计划 V2 建立 frontend/、backend/、database/ 骨架与 versions/v0.3-project-init/ 阶段记录；未实现业务 API、地图、时间轴或正式数据。下一阶段仅为 DB-INIT-1，不自动进入。
+PROJECT-INIT-1 与 DB-INIT-1 均已完成：四表及 16/2/2/192 工程样例已在 MySQL 8.0.46 实际验证；未实现业务 API、地图或时间轴。下一阶段建议 `BE-WORKBENCH-1`，不自动进入。
 
 恢复入口：[RESUME.md](RESUME.md)。[既有任务模板（历史格式参考）](../development/TASK_TEMPLATE.md) 的旧三模块、六城举例和记录接口示例不作为当前规范；编写新任务时必须按本页链接的 V2 需求/API 填写。模板正文不在本轮允许修改范围内，保持原文。仅阶段、决策、实际完成项或下一优先级变化时更新上下文。

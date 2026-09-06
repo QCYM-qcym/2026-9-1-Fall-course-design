@@ -7,7 +7,7 @@
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：PROJECT-INIT-1 completed；UI/后端/数据库范围/API V2 已冻结，工程骨架已初始化
+- 当前阶段：PROJECT-INIT-1 completed；DB-INIT-1 COMPLETED；UI/后端/数据库范围/API V2 已冻结，数据库基线已就绪
 - 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
@@ -28,7 +28,7 @@
 - 后端：Java 17、Spring Boot 2.7.18、Maven 3.9.16
 - 数据访问：MyBatis-Plus + MyBatis XML
 - 构建：Maven
-- 数据库：MySQL 8.0.16+
+- 数据库：MySQL 8.0.16+；当前验证实例为 MySQL 8.0.46
 
 ## 核心范围
 
@@ -69,12 +69,12 @@
 
 - 核心需求已冻结
 - 数据库详细设计已确认
-- 待执行 DDL 已形成，但没有执行
+- Database baseline ready：四表 DDL、16/2/2/192 固定种子、约束、JOIN、索引和字符集已在 MySQL 8.0.46 实际验证
 - 工程初始化计划 V2 已执行并完成验收
 - frontend/、backend/、database/ 工程骨架已创建
 - 仅有工程健康检查；尚无业务 API 或业务页面
 - 尚未进行联调和正式测试
-- 当前为 Git 仓库，分支 feat/project-init；初始化改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
+- 当前为 Git 仓库，分支 feat/db-init；本轮改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
 - 地域已于 2026-09-04 由江苏省调整并冻结为山东省
 
 ## 不要扩展
@@ -106,4 +106,4 @@
 
 ## 下一任务
 
-具体下一阶段、已完成项和未完成项始终查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md)。
+具体下一阶段、已完成项和未完成项始终查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md)。Next：`BE-WORKBENCH-1`，但不自动开始。
