@@ -8,7 +8,7 @@
 
 Weather Workbench（山东地图 P0、16 市、批量加载、本地时间轴）、Trend Analysis（双要素与四统计）、Model Comparison（ECMWF/NOAA 视觉对比）、Data Management（一个 Tabs 页面四类完整 CRUD）。
 
-前端 Vue 3/Vite/JavaScript/Element Plus/ECharts/Axios/Vue Router；后端 Java 8/Spring Boot 2.7.18/MyBatis-Plus/MyBatis XML/Maven；MySQL 8.0.16+。仍四表，T2M/PRECIP，API 19 个。
+前端 Vue 3/Vite/JavaScript/Element Plus/ECharts/Axios/Vue Router；后端 Java 17/Spring Boot 2.7.18/MyBatis-Plus/MyBatis XML/Maven 3.9.16；MySQL 8.0.16+。仍四表，T2M/PRECIP，API 19 个。
 
 ## 导航与历史
 

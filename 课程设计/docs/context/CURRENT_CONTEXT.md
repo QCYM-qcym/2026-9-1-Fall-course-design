@@ -5,15 +5,17 @@
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：System Design V2 Freeze。
-已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；全部软件功能仍为设计，Frontend / Backend / Database 均未初始化，无已实现 API、页面或正式测试。
+当前阶段：PROJECT-INIT-1 completed。
+已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前端、后端和数据库工程骨架已初始化，健康检查、构建和基础测试已验证，业务功能与正式数据库初始化仍未开始。
+
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；当前分支 feat/project-init。个人安装路径不作为项目规范。
 
 本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
 
 ## 2. 冻结方案
 
 - 前端：Vue 3、Vite、JavaScript、Element Plus、ECharts、Axios、Vue Router。
-- 后端：Java 8、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven；MySQL 8.0.16+。
+- 后端：Java 17、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven 3.9.16；MySQL 8.0.16+。
 - 测试：JUnit 5、Spring Boot Test、Postman / Apifox。
 - 四页：/weather（/ 重定向）、/analysis、/comparison、/management。
 - 工作台地图 P0，ECharts Map + 静态 GeoJSON；16 市，默认 ECMWF + T2M + 约 7 天演示窗口，批量加载、前端内存缓存、时间轴本地过滤。
@@ -40,13 +42,13 @@
 - [项目导航](../../00-项目总览/项目导航.md)
 - [V2 阶段归档](../../../versions/v0.2.1-system-design-v2/README.md)
 
-versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档的链接不是不可变 V1 正文副本。00 早期文档体系计划/设计与 06 中其他旧管理计划仅为历史安排参考；[工程初始化计划 V2](../../06-项目管理/05-工程初始化计划.md) 已修订为当前初始化依据，尚未执行。2026-09-04 江苏改山东的决定继续有效。
+versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档的链接不是不可变 V1 正文副本。00 早期文档体系计划/设计与 06 中其他旧管理计划仅为历史安排参考；[工程初始化计划 V2](../../06-项目管理/05-工程初始化计划.md) 已修订并完成 PROJECT-INIT-1 验收。2026-09-04 江苏改山东的决定继续有效。
 
 ## 4. 周期和未完成事项
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-尚未完成：本机环境核验、工程/依赖/数据库初始化、GeoJSON 来源许可及映射、数据整理、API/GUI 实现、联调、正式测试、截图、验收记录。base package 留待初始化确认，不自行指定。设计检查不能替代运行测试。
+已完成：本机 Java 17.0.11、Maven 3.9.16、Node.js、npm 核验；frontend/、backend/、database/ 骨架初始化；前端构建、后端 Context 测试、jar 打包、major version 61 和健康检查验证。尚未完成：正式 DDL 与数据初始化、GeoJSON 来源许可及映射、数据整理、19 个业务 API、GUI 业务实现、联调、正式测试、截图和验收记录。设计检查不能替代运行测试。
 
 ## 5. 长期边界与协作
 
@@ -56,6 +58,6 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 
 ## 6. 下一阶段
 
-用户先通过 GitHub Desktop 核对 main 同步状态、审查文档修复、提交并推送，使 Git 基线干净后再授权 PROJECT-INIT-1。届时核验环境、确认 base package，依工程初始化计划 V2 建立 frontend/、backend/、database/ 骨架与 versions/v0.3-project-init/ 阶段记录；不在初始化阶段实现业务 API、地图、时间轴或正式数据。当前不得自动进入该阶段。
+PROJECT-INIT-1 已完成：已依工程初始化计划 V2 建立 frontend/、backend/、database/ 骨架与 versions/v0.3-project-init/ 阶段记录；未实现业务 API、地图、时间轴或正式数据。下一阶段仅为 DB-INIT-1，不自动进入。
 
 恢复入口：[RESUME.md](RESUME.md)。[既有任务模板（历史格式参考）](../development/TASK_TEMPLATE.md) 的旧三模块、六城举例和记录接口示例不作为当前规范；编写新任务时必须按本页链接的 V2 需求/API 填写。模板正文不在本轮允许修改范围内，保持原文。仅阶段、决策、实际完成项或下一优先级变化时更新上下文。

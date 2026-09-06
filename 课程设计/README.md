@@ -22,7 +22,7 @@
 | 层次 | 技术 |
 | --- | --- |
 | 前端 | Vue 3、Vite、JavaScript、Element Plus、ECharts、Axios、Vue Router |
-| 后端 | Java 8、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven |
+| 后端 | Java 17、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven 3.9.16 |
 | 数据库 | MySQL 8.0.16+ |
 | 文档与版本管理 | Markdown、Obsidian Canvas、Git、GitHub |
 

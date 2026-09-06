@@ -1,0 +1,5 @@
+-- Shandong weather visualization initialization data skeleton.
+-- PROJECT-INIT-1 does not insert records or execute this file.
+-- DB-INIT-1 will review and add 16 cities, 2 models, 2 elements,
+-- and only the necessary, clearly identified demonstration forecast data.
+-- The planned 16 x 2 x 2 x 56 = 3584 records are not generated here.

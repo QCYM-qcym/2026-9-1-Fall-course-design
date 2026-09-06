@@ -8,7 +8,7 @@
 
 ## 2. 冻结方案
 
-- 技术栈：Vue 3、Vite、JavaScript、Element Plus、ECharts、Axios、Vue Router；Java 8、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven；MySQL 8.0.16+。
+- 技术栈：Vue 3、Vite、JavaScript、Element Plus、ECharts、Axios、Vue Router；Java 17、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven 3.9.16；MySQL 8.0.16+。
 - 业务模块：Weather Workbench、Trend Analysis、Model Comparison、Data Management。
 - 核心表：`city`、`forecast_model`、`weather_element`、`forecast_record`。
 - 业务唯一键：`(city_id, model_id, element_id, forecast_time)`。

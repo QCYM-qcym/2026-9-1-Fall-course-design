@@ -1,0 +1,1 @@
+// Weather element API boundary reserved for a later business implementation.

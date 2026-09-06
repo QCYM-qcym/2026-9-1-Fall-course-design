@@ -7,7 +7,8 @@
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：System Design V2 Freeze；UI/后端/数据库范围/API V2 已冻结，工程未初始化
+- 当前阶段：PROJECT-INIT-1 completed；UI/后端/数据库范围/API V2 已冻结，工程骨架已初始化
+- 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
 
@@ -24,7 +25,7 @@
 - UI：Element Plus
 - 图表：ECharts
 - 请求与路由：Axios、Vue Router
-- 后端：Java 8、Spring Boot 2.7.18
+- 后端：Java 17、Spring Boot 2.7.18、Maven 3.9.16
 - 数据访问：MyBatis-Plus + MyBatis XML
 - 构建：Maven
 - 数据库：MySQL 8.0.16+
@@ -69,11 +70,11 @@
 - 核心需求已冻结
 - 数据库详细设计已确认
 - 待执行 DDL 已形成，但没有执行
-- 工程初始化计划已修订为 V2，但没有执行
-- 尚无前端、后端和数据库工程
-- 尚无已实现 API 或业务页面
+- 工程初始化计划 V2 已执行并完成验收
+- frontend/、backend/、database/ 工程骨架已创建
+- 仅有工程健康检查；尚无业务 API 或业务页面
 - 尚未进行联调和正式测试
-- 当前为 Git 仓库，分支 main；文档冲突修复及初始化计划 V2 修订尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
+- 当前为 Git 仓库，分支 feat/project-init；初始化改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
 - 地域已于 2026-09-04 由江苏省调整并冻结为山东省
 
 ## 不要扩展
