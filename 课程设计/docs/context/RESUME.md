@@ -7,7 +7,7 @@
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：BE-WORKBENCH-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX 已完成
+- 当前阶段：BE-DICTIONARY-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1 已完成
 - 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
@@ -73,8 +73,10 @@
 - 工程初始化计划 V2 已执行并完成验收
 - frontend/、backend/、database/ 工程骨架已创建
 - GET /api/weather/workbench 后端调用链已完成；用户真实 Mapper 集成测试 5 项、完整测试 52 项及 package 均通过；Codex 实测正常/400/404/空结果 HTTP 行为通过，四表数量断言保持 16/2/2/192
+- 三个字典 GET /api/cities、/api/forecast-models、/api/weather-elements 已完成；用户真实 DictionaryMapperIntegrationTests 3 项、完整测试 76 项、package 均通过，失败/错误/跳过均为 0。Codex 已实测三个字典 HTTP 200、16/2/2，以及 Workbench HTTP 200、3 times/48 records；四表数量断言保持 16/2/2/192。test-compile、前端 build 通过
+- 最终收口时再次访问 8080 无法连接；成功 HTTP 验收记录来自此前已启动的同一实现，不代表服务持续在线。需要访问接口时，在已配置环境变量的终端重新启动后端，不索取或记录密码
 - 尚无业务页面；前后端联调与课程正式验收尚未进行
-- 当前为 Git 仓库，分支 feat/be-workbench；本轮改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
+- 当前为 Git 仓库，分支 feat/be-dictionary；本阶段开始时工作区干净，HEAD 与本地 origin/main 均为 35aa067d13a0e4e9d5dad073c406f6d94a216a80。本轮字典改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
 - 地域已于 2026-09-04 由江苏省调整并冻结为山东省
 
 ## 不要扩展
@@ -106,4 +108,4 @@
 
 ## 下一任务
 
-详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 和 [v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md)。当前 Gate：READY FOR NEXT PHASE；用户通过 GitHub Desktop 检查提交，再另行指定下一任务，不自动开始后续业务。
+详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 和 [v0.6-be-dictionary](../../../versions/v0.6-be-dictionary/README.md)。当前 Gate：READY FOR FE-WORKBENCH-1；用户通过 GitHub Desktop 检查提交，再另行授权 FE-WORKBENCH-1，不自动开始。前置 [v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md) 归档保持历史原文。

@@ -5,10 +5,10 @@
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：PROJECT-INIT-1 completed；DB-INIT-1 COMPLETED；PRE-BE-WORKBENCH-FIX COMPLETED；BE-WORKBENCH-1 COMPLETED。
-已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前后端骨架与数据库初始化已完成；GET /api/weather/workbench 后端实现、真实 Mapper/MySQL、完整测试、打包和 HTTP 验收均已完成，其他业务功能仍未开始。
+当前阶段：BE-DICTIONARY-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1 已完成。
+已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前后端骨架与数据库初始化已完成；GET /api/weather/workbench 和三个只读字典 GET 均已完成真实验收，完整后端测试 76 项和打包通过，其他业务功能仍未开始。
 
-当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46；当前分支 feat/be-workbench。个人安装路径和数据库凭据不作为项目规范。
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46；当前分支 feat/be-dictionary。个人安装路径和数据库凭据不作为项目规范。
 
 本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
 
@@ -48,7 +48,7 @@ versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-已完成：本机环境与工程骨架、PROJECT-INIT-1 构建和健康检查、DB-INIT-1 四表及 16/2/2/192 数据运行验证；Workbench Controller → Service → Mapper → XML 四表 JOIN 实现、52 项完整测试、打包与真实 HTTP 验收。尚未完成：其余 18 个业务 API、GeoJSON 来源许可及映射、扩展数据整理、GUI、前后端联调、课程正式验收和展示材料。
+已完成：本机环境与工程骨架、PROJECT-INIT-1 构建和健康检查、DB-INIT-1 四表及 16/2/2/192 数据运行验证；Workbench Controller → Service → Mapper → XML 四表 JOIN 实现及真实验收。三个字典 GET 已完成真实验收，当前完整测试 76 项、打包与 Workbench HTTP 回归通过；其余 15 个业务 API、GeoJSON 来源许可及映射、扩展数据整理、GUI、前后端联调、课程正式验收和展示材料尚未完成。
 
 ## 5. 长期边界与协作
 
@@ -71,7 +71,7 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 
 本课程设计本地开发与课程验收阶段使用本机 MySQL root 账号，用户名和密码仅通过环境变量注入，不写入仓库。本轮 ForecastRecordMapper 已注册，Spring Context/XML 绑定检查中未再出现 No MyBatis mapper 提示；真实 MySQL 集成测试已验证 SQL 执行成功。
 
-当前 BE-WORKBENCH-1 COMPLETED：
+前置 BE-WORKBENCH-1 COMPLETED（以下为该阶段验收记录）：
 
 - 唯一业务 endpoint：GET /api/weather/workbench；四个必填参数、严格本地时间、400/404/空结果及稳定排序遵循 API V2；Schema 和 Seed 未修改。
 - 核心城市/模型/要素编码范围在 application.yml 配置，ID、名称和单位从数据库读取；records 仅返回 cityId、cityName、forecastTime、value。
@@ -79,6 +79,18 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 - 用户于 2026-09-07 在本机数据库环境变量齐备的 PowerShell 中执行并提供真实日志：Mapper 集成测试 5/0/0/0（16:03:48 BUILD SUCCESS）；完整 mvn test 52/0/0/0（16:03:53 BUILD SUCCESS）；mvn package 52/0/0/0，Spring Boot repackage 成功（16:04:02 BUILD SUCCESS）。此处依次为 tests/failures/errors/skipped，非 Codex 本轮重跑结果。
 - WorkbenchMapperIntegrationTests 的 5 项真实只读测试通过：48 records / 3 times、济南合成值 19.00/20.20/21.10、NOAA、PRECIP 非负、闭区间、空结果、城市范围；每项测试后的四表数量断言仍为 16 / 2 / 2 / 192。
 - Codex 已对用户启动的应用执行真实只读 HTTP 验收：ECMWF/T2M、NOAA/T2M、ECMWF/PRECIP 均为 HTTP/code 200、48 records、3 times；ECMWF/T2M 每时次 16 市；时间倒置与缺 modelId 均为 HTTP/code 400；不存在模型为 404；无数据范围为 200 且保留元数据、空数组。
-- 当前 Gate：READY FOR NEXT PHASE。阶段归档：[v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md)。Git 提交和推送由用户在 GitHub Desktop 中检查后操作；下一任务由用户另行指定，不自动进入后续业务阶段。
+- 该阶段 Gate：READY FOR NEXT PHASE。阶段归档：[v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md)。Git 提交和推送由用户在 GitHub Desktop 中检查后操作。
+
+当前 BE-DICTIONARY-1 COMPLETED：
+
+- 开始时只读 Git Gate 通过：feat/be-dictionary，工作区干净，HEAD 与本地 origin/main 均为 35aa067d13a0e4e9d5dad073c406f6d94a216a80；未 fetch，不声明在线远端状态。
+- 新增 GET /api/cities、GET /api/forecast-models、GET /api/weather-elements：Controller → Service → MyBatis-Plus BaseMapper；三个最小 Entity 的字段与 API V2 一致，坐标为 BigDecimal，description 保留 string/null。全部字典按 id ASC 查询，不按核心编码过滤，无参数、分页或缓存；空表返回 HTTP/code 200、data=[]。
+- TDD：实现前三个路由测试均因实际 404、期望 200 而失败；实现后 CityServiceTest 3、ForecastModelServiceTest 3、WeatherElementServiceTest 3、DictionaryControllerTest 9、DictionaryMapperBindingTest 3 通过。连同既有非数据库测试 46 项，合计 67 passed / 0 failures / 0 errors / 0 skipped。
+- mvn test-compile PASS，包含新 DictionaryMapperIntegrationTests 的 3 项真实只读测试源码；该测试通过真实 Service/Mapper 验证字典数量、排序、编码唯一、名称、坐标、℃/mm，并在每项前后断言四表 16/2/2/192。原有测试源码未修改。
+- 用户于 2026-09-07 提供本机环境变量齐备的真实日志：DictionaryMapperIntegrationTests 3/0/0/0（20:50:41 BUILD SUCCESS）；完整 mvn test 76/0/0/0（20:50:47 BUILD SUCCESS）；mvn package 76/0/0/0，Spring Boot repackage 成功（20:50:52 BUILD SUCCESS）。依次为 tests/failures/errors/skipped；本轮 Codex 未重跑数据库测试，不再保留 Runtime 待验收状态。
+- DictionaryMapperIntegrationTests、DatabaseConnectionTests、WorkbenchMapperIntegrationTests 全部通过，真实 DataSource/MyBatis/MySQL 链路及四表数量 16/2/2/192 断言通过；凭据仍由本机环境变量注入，未记录密码。
+- 用户启动本轮应用后，Codex 已实际只读 HTTP 验收：三个字典均 HTTP/code 200，分别返回 16/2/2；城市含经纬度，模型含 description，要素含 T2M/℃、PRECIP/mm。Workbench ECMWF/T2M 在 2026-09-07 08:00～14:00 返回 HTTP/code 200、3 times、48 records，每时次 16 个不同城市。最终收口再次请求时 8080 无法连接；本阶段采用此前同一实现的成功 HTTP 证据，不声称服务当前仍在运行。
+- 前端 npm run build 在最终收口再次 PASS；既有 1,303.21 kB chunk 提示为 KNOWN NON-BLOCKING MINOR。Schema、Seed、Workbench、pom.xml、前端源码和历史归档均未修改，NO_SCHEMA_CHANGE_REQUIRED。
+- 当前 Gate：READY FOR FE-WORKBENCH-1。阶段归档：[v0.6-be-dictionary](../../../versions/v0.6-be-dictionary/README.md)。下一推荐任务 FE-WORKBENCH-1，不自动开始。Git 写操作仍全部由用户通过 GitHub Desktop 完成。
 
 恢复入口：[RESUME.md](RESUME.md)。[既有任务模板（历史格式参考）](../development/TASK_TEMPLATE.md) 的旧三模块、六城举例和记录接口示例不作为当前规范；编写新任务时必须按本页链接的 V2 需求/API 填写。模板正文不在本轮允许修改范围内，保持原文。仅阶段、决策、实际完成项或下一优先级变化时更新上下文。
