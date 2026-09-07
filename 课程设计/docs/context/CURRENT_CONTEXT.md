@@ -1,11 +1,11 @@
 # 当前项目上下文
 
-> 更新日期：2026-09-06
+> 更新日期：2026-09-07
 
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：PROJECT-INIT-1 completed；DB-INIT-1 COMPLETED。
+当前阶段：PROJECT-INIT-1 completed；DB-INIT-1 COMPLETED；PRE-BE-WORKBENCH-FIX COMPLETED。
 已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前端、后端和数据库工程骨架已初始化，数据库 SQL、种子数据及 MySQL 8.0.46 运行验证已完成，业务功能仍未开始。
 
 当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46；当前分支 feat/db-init。个人安装路径和数据库凭据不作为项目规范。
@@ -58,6 +58,19 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 
 ## 6. 下一阶段
 
-PROJECT-INIT-1 与 DB-INIT-1 均已完成：四表及 16/2/2/192 工程样例已在 MySQL 8.0.46 实际验证；未实现业务 API、地图或时间轴。下一阶段建议 `BE-WORKBENCH-1`，不自动进入。
+PRE-BE-WORKBENCH-FIX 最终 Gate：READY FOR BE-WORKBENCH-1；IMP-01 RESOLVED，IMP-02 RESOLVED。2026-09-07 只读复核确认根目录 .DS_Store 已不再被 Git 跟踪。
+
+- Application DB Connection：READY
+- Database：shandong_weather
+- Development Account：root via local environment variables
+- DatabaseConnectionTests：PASS
+- Backend tests：2 passed / 0 failures / 0 errors / 0 skipped
+- Backend package：PASS（含 Spring Boot repackage）
+
+验证依据：用户在包含真实本机数据库环境变量的 PowerShell 中执行 `mvn -Dtest=DatabaseConnectionTests test`、`mvn test`、`mvn package`，提供的真实输出均为 BUILD SUCCESS；单独连接测试 1 项通过，完整测试和打包中的测试均为 2 项通过。Codex 本轮未重新执行 Maven。连接测试通过真实 Spring DataSource/HikariCP/JDBC 验证 SELECT 1 = 1、SELECT DATABASE() = shandong_weather，以及 city / forecast_model / weather_element / forecast_record 数量为 16 / 2 / 2 / 192。
+
+本课程设计本地开发与课程验收阶段使用本机 MySQL root 账号，用户名和密码仅通过环境变量注入，不写入仓库。当前未创建业务 Mapper，No MyBatis mapper 提示为预期非阻塞提示，不为消除提示创建空 Mapper 或修改扫描配置。
+
+PROJECT-INIT-1、DB-INIT-1 与 PRE-BE-WORKBENCH-FIX 均已完成；未实现业务 API、地图或时间轴。下一阶段建议 `BE-WORKBENCH-1`，不自动进入。
 
 恢复入口：[RESUME.md](RESUME.md)。[既有任务模板（历史格式参考）](../development/TASK_TEMPLATE.md) 的旧三模块、六城举例和记录接口示例不作为当前规范；编写新任务时必须按本页链接的 V2 需求/API 填写。模板正文不在本轮允许修改范围内，保持原文。仅阶段、决策、实际完成项或下一优先级变化时更新上下文。
