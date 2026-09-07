@@ -15,3 +15,10 @@ mybatis-plus:
 
 server:
   port: ${SERVER_PORT:8080}
+
+# Frozen API V2 display scope; IDs, names and units are always read from MySQL.
+weather:
+  workbench:
+    city-codes: JINAN,QINGDAO,ZIBO,ZAOZHUANG,DONGYING,YANTAI,WEIFANG,JINING,TAIAN,WEIHAI,RIZHAO,LINYI,DEZHOU,LIAOCHENG,BINZHOU,HEZE
+    model-codes: ECMWF,NOAA
+    element-codes: T2M,PRECIP

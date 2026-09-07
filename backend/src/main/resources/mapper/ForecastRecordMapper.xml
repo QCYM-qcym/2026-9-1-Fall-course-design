@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shandong.weather.mapper.ForecastRecordMapper">
+    <resultMap id="workbenchModel" type="com.shandong.weather.mapper.WorkbenchModelRow">
+        <constructor>
+            <idArg column="id" javaType="_long"/>
+            <arg column="model_code" javaType="java.lang.String"/>
+            <arg column="model_name" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="workbenchElement" type="com.shandong.weather.mapper.WorkbenchElementRow">
+        <constructor>
+            <idArg column="id" javaType="_long"/>
+            <arg column="element_code" javaType="java.lang.String"/>
+            <arg column="element_name" javaType="java.lang.String"/>
+            <arg column="unit" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="workbenchRecord" type="com.shandong.weather.mapper.WorkbenchRecordRow">
+        <constructor>
+            <arg column="city_id" javaType="_long"/>
+            <arg column="city_name" javaType="java.lang.String"/>
+            <arg column="forecast_time" javaType="java.time.LocalDateTime"/>
+            <arg column="value" javaType="java.math.BigDecimal"/>
+        </constructor>
+    </resultMap>
+
+    <!-- Independent metadata lookups preserve real dictionaries for empty ranges. -->
+    <select id="selectWorkbenchModel" resultMap="workbenchModel">
+        SELECT id, model_code, model_name
+        FROM forecast_model
+        WHERE id = #{modelId}
+    </select>
+    <select id="selectWorkbenchElement" resultMap="workbenchElement">
+        SELECT id, element_code, element_name, unit
+        FROM weather_element
+        WHERE id = #{elementId}
+    </select>
+
+    <select id="selectWorkbenchData" resultMap="workbenchRecord">
+        SELECT fr.city_id, c.city_name, fr.forecast_time, fr.value
+        FROM forecast_record fr
+        JOIN city c ON fr.city_id = c.id
+        JOIN forecast_model fm ON fr.model_id = fm.id
+        JOIN weather_element we ON fr.element_id = we.id
+        WHERE fr.model_id = #{modelId}
+          AND fr.element_id = #{elementId}
+          AND fr.forecast_time BETWEEN #{startTime} AND #{endTime}
+        <choose>
+            <when test="cityCodes != null and !cityCodes.isEmpty()">
+                AND c.city_code IN
+                <foreach collection="cityCodes" item="cityCode" open="(" separator="," close=")">
+                    #{cityCode}
+                </foreach>
+            </when>
+            <otherwise>
+                AND 1 = 0
+            </otherwise>
+        </choose>
+        ORDER BY fr.forecast_time ASC, fr.city_id ASC
+    </select>
+</mapper>
