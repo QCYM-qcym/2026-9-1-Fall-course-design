@@ -5,10 +5,10 @@
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：BE-TREND-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1、BE-DICTIONARY-1、FE-WORKBENCH-1 及 TREND-BACKEND-AUDIT 已完成。当前 Gate：READY FOR FE-TREND-1，不自动开始下一阶段。
-已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前后端骨架与数据库初始化已完成；GET /api/weather/workbench、三个只读字典 GET 及 GET /api/weather/trend 均已完成真实验收，用户本阶段完整后端测试 134 项和打包通过。/weather 已实现并按用户人工浏览器验收确认完成收口；各项证据及未单独验证项见下文，其他业务页面仍为骨架。
+当前阶段：FE-TREND-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1、BE-DICTIONARY-1、FE-WORKBENCH-1、TREND-BACKEND-AUDIT 及 BE-TREND-1 已完成。当前 Gate：READY FOR NEXT PHASE。下一建议先审计 Comparison Backend，不假设 /api/weather/comparison 已实现，不自动开始下一阶段。
+已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前后端骨架与数据库初始化已完成；GET /api/weather/workbench、三个只读字典 GET 及 GET /api/weather/trend 均已完成真实验收，前置完整后端测试 134 项和打包通过。/weather 与 /analysis 已实现并按用户人工浏览器验收确认完成收口；当前前端测试 45 项及 build 通过。各阶段证据见下文，Comparison 与 Management 页面仍为骨架。
 
-当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；当前分支 feat/be-trend。个人安装路径和数据库凭据不作为项目规范。
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；当前分支 feat/fe-trend。个人安装路径和数据库凭据不作为项目规范。
 
 本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
 
@@ -48,7 +48,7 @@ versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-已完成：本机环境与工程骨架、PROJECT-INIT-1 构建和健康检查、DB-INIT-1 四表及 16/2/2/192 数据运行验证；Workbench Controller → Service → Mapper → XML 四表 JOIN 实现及真实验收。三个字典 GET 已完成真实验收，前置完整测试 76 项、打包与 Workbench HTTP 回归通过。真实 GeoJSON 与 16 市映射、/weather 页面及该阶段真实前后端联调已按用户确认收口；Trend 后端已完成真实运行验收，完整后端 134 项及打包通过；其余 14 个业务 API、扩展数据整理、其他 GUI、课程正式验收和展示材料尚未完成。
+已完成：本机环境与工程骨架、PROJECT-INIT-1 构建和健康检查、DB-INIT-1 四表及 16/2/2/192 数据运行验证；Workbench Controller → Service → Mapper → XML 四表 JOIN 实现及真实验收。三个字典 GET 已完成真实验收，前置完整测试 76 项、打包与 Workbench HTTP 回归通过。真实 GeoJSON 与 16 市映射、/weather 页面及该阶段真实前后端联调已按用户确认收口；Trend 后端真实运行验收、完整后端 134 项及打包通过，/analysis 前端双图、四统计及状态/交互也已通过用户真实浏览器验收；其余 14 个业务 API、扩展数据整理、其他 GUI、课程正式验收和展示材料尚未完成。
 
 ## 5. 长期边界与协作
 
@@ -110,7 +110,7 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 - 最终只读复核：待提交内容均属 FE-WORKBENCH-1；未发现 node_modules、dist、.vite、.env、.mylogin.cnf、日志或临时文件进入待提交。既有 `课程设计/.DS_Store` 记为 TRACKED_GENERATED_FILE，属于独立仓库清理项，按用户要求不阻塞完成、不执行 git rm。
 - Gate：READY FOR TREND BACKEND AUDIT，依据用户最新人工验收确认及收口范围完成，而非宣称此前全部细分 Runtime Gate 已由工具验证。阶段归档：[v0.7-fe-workbench](../../../versions/v0.7-fe-workbench/README.md)。下一步建议先审计 Trend Backend，须另行授权；未开始 Trend、Comparison 或 Management。Git 暂存、提交、tag、推送仍由用户操作。
 
-当前 BE-TREND-1 COMPLETED（2026-09-08）：
+前置 BE-TREND-1 COMPLETED（2026-09-08，以下为该阶段记录）：
 
 - 沿用已完成的 TREND-BACKEND-AUDIT：NO_SCHEMA_CHANGE_REQUIRED、SEED_READY_FOR_TREND；未重复审计。开始 Gate 通过：feat/be-trend、工作区干净，HEAD 与本地 origin/main 均为 274773c9d1e3b491db8b8f0c907d66ccdbfe1c62，git diff --check 通过；未 fetch，未执行任何 Git 写操作。
 - 仅新增 GET /api/weather/trend：四个必填参数 cityId/modelId/startTime/endTime；严格本地时间及闭区间；响应 data 为 cityId/cityName/modelId/modelName/temperature/precipitation/statistics，统计为 temperatureMax/temperatureMin/temperatureAvg/precipitationTotal。Controller → Service → ForecastRecordMapper → XML → MySQL → TrendVO 已实现并通过用户真实运行验收。
@@ -125,5 +125,21 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 - 用户同时确认既有 API 回归：health code=200/data=ok，三个字典数量 16/2/2，Workbench ECMWF/T2M code=200、3 times/48 records。凭据仍仅由本机环境变量提供，不索取或记录密码。
 - Schema、Seed、Workbench 业务逻辑/SQL、Dictionary 行为、前端、历史归档未修改；实现轮仅既有 Workbench 两个测试适配新增构造依赖。最终收口只同步两份上下文并创建 [v0.8-be-trend](../../../versions/v0.8-be-trend/README.md) 阶段说明，不复制源码。既有课程设计/.DS_Store 仍为独立非阻塞清理项，未移除。
 - Gate：READY FOR FE-TREND-1。BE-TREND-1 COMPLETED，下一建议 FE-TREND-1；未开始 FE-TREND 或 Comparison。Git 暂存、提交、tag、推送仍由用户通过 GitHub Desktop 操作，本轮 Git writes：NONE。
+
+当前 FE-TREND-1 COMPLETED（2026-09-08）：
+
+- 开始 Gate：feat/fe-trend、工作区干净，HEAD 与本地 origin/main 均为 4a528eee9866e752fb3a11dfe2e3184be0e435b1；未 fetch，未执行 Git 写操作。前置 BE-TREND-1 COMPLETED；本阶段后端与数据库未修改，沿用真实 134 tests PASS、Package PASS、Trend Runtime PASS。
+- /analysis 复用 TrendAnalysis.vue、现有 App Shell 与 Axios /api；TrendFilterBar、TrendStatistics、通用 TrendChart 实现深色气象工作台风格的城市/模型/时间范围/查询按钮、T2M 折线图、PRECIP 柱状图、四项统计卡，以及 Loading、Empty、Error、Retry、Race Protection 和响应式布局。未新增依赖或 Cache。
+- 并行读取 GET /api/cities 与 GET /api/forecast-models，按 JINAN/ECMWF 编码选择默认项，缺省时使用可用核心选项；复用集中定义的 2026-09-07 08:00:00～14:00:00 范围。初始化自动查询一次 GET /api/weather/trend，之后只在点击查询时请求，编辑筛选不自动请求；不转换 UTC。
+- temperature/precipitation 各自独立使用 forecastTime/value，不按数组下标强制对齐，不补零。四项 statistics 只读取 temperatureMax/temperatureMin/temperatureAvg/precipitationTotal，不在前端重算；真实 0 显示 0.00，null/undefined 显示 --。页面提示统计基于返回样本。两个 ECharts 实例分别 init、setOption、resize，卸载 dispose 并释放监听/观察器。
+- requestVersion 废弃旧成功、旧失败和卸载后的响应；Retry 使用当前四项筛选，不重置用户条件。提交新查询清除旧结果；筛选已修改但未提交时，页面明确提示并保留已查询结果的元数据。
+- 实现轮 TDD：原 20 项通过、新 25 项因功能缺失失败；实现后 npm test 45 passed / 0 failed / 0 skipped，包含 API 参数、默认编码、图表真实 ECharts SVG 渲染与销毁、零值/空值、双系列不同时次、四统计映射、状态、Retry 与竞态。独立代码审查通过，无 Critical/Important/Minor。npm run build PASS（2125 modules）；主 JS 1345.66 kB/gzip 447.95 kB，大 chunk 为 KNOWN NON-BLOCKING MINOR。本轮仅文档收口，未重跑测试或构建。
+- 最终 Runtime 证据来源：用户本次明确确认真实 Spring Boot + MySQL 人工浏览器验收全部通过，不冒充 Codex 本轮直接采集；此前 Codex 后端离线及截图裁切限制不再作为未完成项，但不声明服务当前持续在线。
+- Default PASS：济南 + ECMWF，默认 2026-09-07 08:00～14:00；T2M 19.00/20.20/21.10℃，PRECIP 0.00/0.40/0.20 mm；temperatureMax/temperatureMin/temperatureAvg/precipitationTotal 为 21.10/19.00/20.10/0.60。
+- City Switch PASS：JINAN → QINGDAO 两图与四统计刷新，无济南残留；Model Switch PASS：ECMWF → NOAA 两图与统计刷新。Loading 可见、框架保持、无白屏；无数据日期 HTTP 200，页面 Empty、四统计 --，无 Error/NaN/undefined。
+- Error / Retry PASS：后端断开进入 Error，恢复后重试成功且保留筛选。Race PASS：快速模型/筛选切换，最终状态对应最后一次请求，无旧响应覆盖。
+- Responsive：1366×768 PASS、1920×1080 PASS，无横向溢出，筛选、统计卡及图表布局正常。Console PASS：0 Uncaught Error、0 Unhandled Promise、0 Vue warning、0 ECharts disposed error。/weather regression PASS：山东地图、ECMWF/T2M、Timeline、City Detail 正常，Trend 样式未污染 Workbench；以上均来源于用户本次人工验收。
+- 最终收口仅更新 CURRENT_CONTEXT、RESUME 并创建 [v0.9-fe-trend](../../../versions/v0.9-fe-trend/README.md)，不复制源码、不改历史归档、不修改业务代码。课程设计/.DS_Store 仍为独立非阻塞清理项，未自行移除；凭据不入库。
+- Gate：READY FOR NEXT PHASE。下一建议先审计 Comparison Backend，不直接假设 /api/weather/comparison 已实现；不自动开始审计、Comparison 或 Management。Git 暂存、commit、tag、push 仍由用户通过 GitHub Desktop 操作，本轮 Git writes：NONE。
 
 恢复入口：[RESUME.md](RESUME.md)。[既有任务模板（历史格式参考）](../development/TASK_TEMPLATE.md) 的旧三模块、六城举例和记录接口示例不作为当前规范；编写新任务时必须按本页链接的 V2 需求/API 填写。模板正文不在本轮允许修改范围内，保持原文。仅阶段、决策、实际完成项或下一优先级变化时更新上下文。
