@@ -31,6 +31,9 @@ class WeatherQueryControllerTest {
     // Keep the controller and service real; only the database boundary is replaced.
     @MockBean
     private ForecastRecordMapper mapper;
+    @MockBean private com.shandong.weather.mapper.CityMapper cities;
+    @MockBean private com.shandong.weather.mapper.ForecastModelMapper models;
+    @MockBean private com.shandong.weather.mapper.WeatherElementMapper elements;
 
     @BeforeEach
     void setUp() {

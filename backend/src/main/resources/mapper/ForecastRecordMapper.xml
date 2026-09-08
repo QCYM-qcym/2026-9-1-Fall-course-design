@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shandong.weather.mapper.ForecastRecordMapper">
+    <resultMap id="trendRecord" type="com.shandong.weather.mapper.TrendRecordRow">
+        <constructor>
+            <arg column="element_code" javaType="java.lang.String"/>
+            <arg column="forecast_time" javaType="java.time.LocalDateTime"/>
+            <arg column="value" javaType="java.math.BigDecimal"/>
+        </constructor>
+    </resultMap>
+
+    <!-- City/model metadata already comes from validated dictionary entities. -->
+    <select id="selectTrendData" resultMap="trendRecord">
+        SELECT we.element_code, fr.forecast_time, fr.value
+        FROM forecast_record fr
+        JOIN weather_element we ON fr.element_id = we.id
+        WHERE fr.city_id = #{cityId}
+          AND fr.model_id = #{modelId}
+        <choose>
+            <when test="elementIds != null and !elementIds.isEmpty()">
+                AND fr.element_id IN
+                <foreach collection="elementIds" item="elementId" open="(" separator="," close=")">
+                    #{elementId}
+                </foreach>
+            </when>
+            <otherwise>
+                AND 1 = 0
+            </otherwise>
+        </choose>
+          AND fr.forecast_time BETWEEN #{startTime} AND #{endTime}
+        ORDER BY we.element_code ASC, fr.forecast_time ASC
+    </select>
+
     <resultMap id="workbenchModel" type="com.shandong.weather.mapper.WorkbenchModelRow">
         <constructor>
             <idArg column="id" javaType="_long"/>

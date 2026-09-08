@@ -7,7 +7,7 @@
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：FE-WORKBENCH-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1、BE-DICTIONARY-1 已完成
+- 当前阶段：BE-TREND-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1、BE-DICTIONARY-1、FE-WORKBENCH-1 及 TREND-BACKEND-AUDIT 已完成
 - 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
@@ -78,9 +78,14 @@
 - /weather 已实现真实 16 市 GeoJSON、字典与 Workbench API 客户端、浮动控件、日期范围、地图图例、城市详情、时间轴、简单内存缓存和请求竞态保护；自动测试 20 项及 build PASS，未新增依赖。当前时次动态图例遵循用户本轮确认要求
 - 用户最终人工验收确认 Timeline 本地切换与 0 additional Workbench request、Cache PASS、ECMWF/NOAA、T2M/PRECIP、℃/mm 切换正常、16 市地图点击正常、济南 08/11/14 时为 19.00/20.20/21.10℃；Network 无异常，整体运行无明显问题。默认 ECMWF + T2M，GeoJSON 16 features/16 matched
 - 既有真实浏览器证据：1366×768 有数据布局 PASS、Error State PASS、Console 无错误。Loading/Empty/Retry 及竞态逻辑自动测试 PASS；这些场景的专门真实浏览器验收与 1920×1080 完整视觉未单独补齐，不写成全部 Runtime 子项 PASS。按用户最新收口要求记录证据限制并完成阶段归档：[v0.7-fe-workbench](../../../versions/v0.7-fe-workbench/README.md)
-- 最终收口重新执行 npm test：20 passed / 0 failed / 0 skipped；npm run build PASS，大 chunk 为 KNOWN NON-BLOCKING MINOR。backend/database 未修改，按用户授权采用此前真实 backend 76-test baseline PASS，本轮未重跑 Maven
+- FE-WORKBENCH-1 最终收口执行 npm test：20 passed / 0 failed / 0 skipped；npm run build PASS，大 chunk 为 KNOWN NON-BLOCKING MINOR。该阶段 backend/database 未修改，按用户授权采用此前真实 backend 76-test baseline PASS，未重跑 Maven
 - 待提交内容均属本阶段，未发现构建产物、.env、.mylogin.cnf、日志或临时文件进入待提交；既有 `课程设计/.DS_Store` 为 TRACKED_GENERATED_FILE，独立清理项，不阻塞本阶段，不自行移除
-- 当前分支 feat/fe-workbench；本阶段开始时工作区干净，HEAD d94254655000f0b9c70f0a413e7eb9a3252c7a56，本地 origin/main 35aa067d13a0e4e9d5dad073c406f6d94a216a80；未 fetch。本轮前端改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
+- 当前分支 feat/be-trend；本阶段开始时工作区干净，HEAD 与本地 origin/main 均为 274773c9d1e3b491db8b8f0c907d66ccdbfe1c62，git diff --check 通过；未 fetch。本轮 Trend 改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
+- GET /api/weather/trend 已实现冻结的四参数、七字段响应与四项统计；按编码解析 T2M/PRECIP 实际 ID，双系列独立排序、缺测不补零、BigDecimal/HALF_UP 两位、Empty 两空数组与四 null。Schema/Seed、Workbench 业务逻辑/SQL、Dictionary 行为和前端源码未修改
+- 本轮非数据库测试 121 passed / 0 failures / 0 errors / 0 skipped（Trend Service 20、Controller 31、Binding 3，既有 67）；test-compile 和限定这 121 项测试的 package/repackage PASS；前端 20 项及 build 再次 PASS。独立审查无 Critical/Important，补齐双系列不同时次缺测用例后回归通过
+- 用户最终提供真实 Spring Boot + MySQL 验收结果：TrendMapperIntegrationTests 4 passed、完整 mvn test 134 passed、mvn package 134 passed/repackage PASS，均 0 failures / 0 errors / 0 skipped、BUILD SUCCESS；本轮 Codex 仅核验结果与测试源码，未重跑 Maven，不索取或记录密码。集成测试每项前后四表数量断言通过：16/2/2/192
+- 用户真实 Trend HTTP：济南 ECMWF 08/11/14 时各 3 个温度/降水点，19.00/20.20/21.10℃、0.00/0.40/0.20 mm；四统计 21.10/19.00/20.10/0.60；正常 200、倒置时间 400、不存在城市 404、Empty 200/两空数组/四 null 全部通过。PowerShell 中文终端显示问题不修改业务代码
+- 用户既有 API 回归：health code=200/data=ok，字典 16/2/2，Workbench ECMWF/T2M code=200、3 times/48 records。Schema/Seed unchanged；当前 Gate：READY FOR FE-TREND-1，阶段归档 [v0.8-be-trend](../../../versions/v0.8-be-trend/README.md) 已创建；未开始 FE-TREND 或 Comparison
 - 地域已于 2026-09-04 由江苏省调整并冻结为山东省
 
 ## 不要扩展
@@ -112,4 +117,4 @@
 
 ## 下一任务
 
-详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md)。当前 FE-WORKBENCH-1 COMPLETED；Gate：READY FOR TREND BACKEND AUDIT。下一阶段建议先审计 Trend Backend，须用户另行授权，不自动开始 Trend 或其他业务实现。前置 [v0.6-be-dictionary](../../../versions/v0.6-be-dictionary/README.md) 和 [v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md) 保持历史原文。
+详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 与 [v0.8-be-trend](../../../versions/v0.8-be-trend/README.md)。当前 BE-TREND-1 COMPLETED；Gate：READY FOR FE-TREND-1。下一建议 FE-TREND-1，须用户另行授权，不自动开始。前置 [v0.7-fe-workbench](../../../versions/v0.7-fe-workbench/README.md)、[v0.6-be-dictionary](../../../versions/v0.6-be-dictionary/README.md) 和 [v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md) 保持历史原文。

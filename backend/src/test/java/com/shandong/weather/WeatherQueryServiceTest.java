@@ -23,7 +23,10 @@ class WeatherQueryServiceTest {
     @BeforeEach
     void setUp() {
         mapper = mock(ForecastRecordMapper.class);
-        service = new WeatherQueryService(mapper, CITIES, List.of("ECMWF", "NOAA"), List.of("T2M", "PRECIP"));
+        service = new WeatherQueryService(mapper, CITIES, List.of("ECMWF", "NOAA"), List.of("T2M", "PRECIP"),
+                mock(com.shandong.weather.mapper.CityMapper.class),
+                mock(com.shandong.weather.mapper.ForecastModelMapper.class),
+                mock(com.shandong.weather.mapper.WeatherElementMapper.class));
     }
 
     private void dictionaries() {
