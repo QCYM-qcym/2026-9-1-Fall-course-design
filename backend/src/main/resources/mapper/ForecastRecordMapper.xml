@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shandong.weather.mapper.ForecastRecordMapper">
+    <resultMap id="comparisonRecord" type="com.shandong.weather.mapper.ComparisonRecordRow">
+        <constructor>
+            <arg column="model_code" javaType="java.lang.String"/>
+            <arg column="forecast_time" javaType="java.time.LocalDateTime"/>
+            <arg column="value" javaType="java.math.BigDecimal"/>
+        </constructor>
+    </resultMap>
+
+    <!-- City/element/model metadata is retained from validated dictionaries, even for empty ranges. -->
+    <select id="selectComparisonData" resultMap="comparisonRecord">
+        SELECT fm.model_code, fr.forecast_time, fr.value
+        FROM forecast_record fr
+        JOIN forecast_model fm ON fr.model_id = fm.id
+        WHERE fr.city_id = #{cityId}
+          AND fr.element_id = #{elementId}
+        <choose>
+            <when test="modelIds != null and !modelIds.isEmpty()">
+                AND fr.model_id IN
+                <foreach collection="modelIds" item="modelId" open="(" separator="," close=")">
+                    #{modelId}
+                </foreach>
+            </when>
+            <otherwise>
+                AND 1 = 0
+            </otherwise>
+        </choose>
+          AND fr.forecast_time BETWEEN #{startTime} AND #{endTime}
+        ORDER BY fm.model_code ASC, fr.forecast_time ASC
+    </select>
+
     <resultMap id="trendRecord" type="com.shandong.weather.mapper.TrendRecordRow">
         <constructor>
             <arg column="element_code" javaType="java.lang.String"/>

@@ -7,7 +7,7 @@
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：FE-TREND-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1、BE-DICTIONARY-1、FE-WORKBENCH-1、TREND-BACKEND-AUDIT 及 BE-TREND-1 已完成
+- 当前阶段：BE-COMPARISON-1 COMPLETED；前置 FE-WORKBENCH-1、BE-TREND-1、FE-TREND-1 及 COMPARISON-BACKEND-AUDIT 已完成；Gate：READY FOR FE-COMPARISON-1
 - 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
@@ -80,7 +80,7 @@
 - 既有真实浏览器证据：1366×768 有数据布局 PASS、Error State PASS、Console 无错误。Loading/Empty/Retry 及竞态逻辑自动测试 PASS；这些场景的专门真实浏览器验收与 1920×1080 完整视觉未单独补齐，不写成全部 Runtime 子项 PASS。按用户最新收口要求记录证据限制并完成阶段归档：[v0.7-fe-workbench](../../../versions/v0.7-fe-workbench/README.md)
 - FE-WORKBENCH-1 最终收口执行 npm test：20 passed / 0 failed / 0 skipped；npm run build PASS，大 chunk 为 KNOWN NON-BLOCKING MINOR。该阶段 backend/database 未修改，按用户授权采用此前真实 backend 76-test baseline PASS，未重跑 Maven
 - 待提交内容均属本阶段，未发现构建产物、.env、.mylogin.cnf、日志或临时文件进入待提交；既有 `课程设计/.DS_Store` 为 TRACKED_GENERATED_FILE，独立清理项，不阻塞本阶段，不自行移除
-- 当前分支 feat/fe-trend；本阶段开始时工作区干净，HEAD 与本地 origin/main 均为 4a528eee9866e752fb3a11dfe2e3184be0e435b1，git diff --check 通过；未 fetch。当前 FE-TREND 改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
+- 当前分支 feat/be-comparison；本阶段开始时工作区干净，HEAD 与本地 origin/main 均为 f15832089ec3f2a8431769bbc88567443e9227fd，git diff --check 通过；未 fetch。Git 写操作由用户通过 GitHub Desktop 完成
 - GET /api/weather/trend 已实现冻结的四参数、七字段响应与四项统计；按编码解析 T2M/PRECIP 实际 ID，双系列独立排序、缺测不补零、BigDecimal/HALF_UP 两位、Empty 两空数组与四 null。Schema/Seed、Workbench 业务逻辑/SQL、Dictionary 行为和前端源码未修改
 - BE-TREND 实现轮非数据库测试 121 passed / 0 failures / 0 errors / 0 skipped（Trend Service 20、Controller 31、Binding 3，既有 67）；test-compile 和限定这 121 项测试的 package/repackage PASS；该阶段前端 20 项及 build PASS。独立审查无 Critical/Important，补齐双系列不同时次缺测用例后回归通过
 - 用户最终提供真实 Spring Boot + MySQL 验收结果：TrendMapperIntegrationTests 4 passed、完整 mvn test 134 passed、mvn package 134 passed/repackage PASS，均 0 failures / 0 errors / 0 skipped、BUILD SUCCESS；本轮 Codex 仅核验结果与测试源码，未重跑 Maven，不索取或记录密码。集成测试每项前后四表数量断言通过：16/2/2/192
@@ -89,7 +89,11 @@
 - /analysis 已完成城市/模型/时间范围/查询、T2M 折线图、PRECIP 柱状图、四项后端统计卡与 Loading/Empty/Error/Retry/Race Protection/Responsive；复用现有 Axios、默认编码及集中演示日期，初始化查询一次，之后按钮触发，不加 Cache、不重算统计、不按下标对齐双系列，零值保留，null/undefined 显示 --
 - FE-TREND 实现轮 npm test 45 passed / 0 failed / 0 skipped（原 20 + 新 25），npm run build PASS；独立代码审查无 Critical/Important/Minor。最终文档收口未重跑测试/构建；backend/database 未修改，沿用真实后端 134 tests、Package、Trend Runtime PASS
 - 用户本次人工浏览器验收全部 PASS：默认济南 + ECMWF、2026-09-07 08:00～14:00；温度 19.00/20.20/21.10℃，降水 0.00/0.40/0.20 mm，四统计 21.10/19.00/20.10/0.60；济南→青岛、ECMWF→NOAA、Loading、Empty、断开/恢复后的 Error/Retry、Race 均通过。1366×768、1920×1080、Console、/weather 地图/Timeline/City Detail 回归 PASS。此为用户真实验收证据，不冒充 Codex 本轮浏览器结果
-- FE-TREND-1 COMPLETED；当前 Gate：READY FOR NEXT PHASE，归档 [v0.9-fe-trend](../../../versions/v0.9-fe-trend/README.md) 已创建。下一建议先审计 Comparison Backend，不假设 /api/weather/comparison 已实现；未开始下一阶段
+- 前置 FE-TREND-1 COMPLETED；该阶段 Gate：READY FOR NEXT PHASE，归档 [v0.9-fe-trend](../../../versions/v0.9-fe-trend/README.md) 保留历史原文；其后 Comparison Audit 及 BE-COMPARISON-1 已完成
+- GET /api/weather/comparison 已完成：cityId/elementId/startTime/endTime 四参数，data 为 cityId/cityName/element/series。按 modelCode 解析真实模型 ID，固定 ECMWF→NOAA，各自时间升序；缺测不补零/占位点，真实零保留，Empty 保留两系列空 values。Schema/Seed unchanged
+- 用户本次真实 Runtime：Comparison Integration 4 passed，完整 mvn test 193 passed，mvn package 193 passed/repackage PASS，均 0 failures / 0 errors / 0 skipped；Spring Boot Startup PASS。四表 16/2/2/192，集成测试只读。此为用户验收证据，不冒充 Codex 收口轮执行
+- Comparison HTTP 全部 PASS：济南 2026-09-07 08/11/14，T2M ECMWF 19.00/20.20/21.10、NOAA 18.40/19.60/20.50；PRECIP ECMWF 0.00/0.40/0.20、NOAA 0.10/0.60/0.30 mm。倒置时间 400、城市不存在 404、要素不存在 404；9/8 空范围 200，保留 ECMWF/NOAA 两个空 values
+- 实现轮非数据库测试 176 passed、test-compile/package PASS；前端回归 45 passed/build PASS，frontend 未修改。收口只更新上下文并创建 [v0.10-be-comparison](../../../versions/v0.10-be-comparison/README.md)，未重跑测试或 HTTP，不声明服务持续在线。当前 BE-COMPARISON-1 COMPLETED，READY FOR FE-COMPARISON-1；未开始下一阶段
 - 地域已于 2026-09-04 由江苏省调整并冻结为山东省
 
 ## 不要扩展
@@ -121,4 +125,4 @@
 
 ## 下一任务
 
-详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 与 [v0.9-fe-trend](../../../versions/v0.9-fe-trend/README.md)。当前 FE-TREND-1 COMPLETED；Gate：READY FOR NEXT PHASE。下一建议先审计 Comparison Backend，不直接假设 /api/weather/comparison 已实现；须用户另行授权，不自动开始审计或开发。前置 v0.5～v0.8 归档保持历史原文。
+详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 与 [v0.10-be-comparison](../../../versions/v0.10-be-comparison/README.md)。当前 BE-COMPARISON-1 COMPLETED；Gate：READY FOR FE-COMPARISON-1。下一阶段 FE-COMPARISON-1，须用户另行授权，不自动开始。前置版本归档保持历史原文。

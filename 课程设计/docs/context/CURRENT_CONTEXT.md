@@ -5,10 +5,10 @@
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：FE-TREND-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1、BE-DICTIONARY-1、FE-WORKBENCH-1、TREND-BACKEND-AUDIT 及 BE-TREND-1 已完成。当前 Gate：READY FOR NEXT PHASE。下一建议先审计 Comparison Backend，不假设 /api/weather/comparison 已实现，不自动开始下一阶段。
-已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前后端骨架与数据库初始化已完成；GET /api/weather/workbench、三个只读字典 GET 及 GET /api/weather/trend 均已完成真实验收，前置完整后端测试 134 项和打包通过。/weather 与 /analysis 已实现并按用户人工浏览器验收确认完成收口；当前前端测试 45 项及 build 通过。各阶段证据见下文，Comparison 与 Management 页面仍为骨架。
+当前阶段：BE-COMPARISON-1 COMPLETED；前置 FE-WORKBENCH-1、BE-TREND-1、FE-TREND-1 及 COMPARISON-BACKEND-AUDIT 已完成。当前 Gate：READY FOR FE-COMPARISON-1。下一阶段 FE-COMPARISON-1，须另行授权，不自动开始。
+已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前后端骨架与数据库初始化已完成；GET /api/weather/workbench、三个只读字典 GET、GET /api/weather/trend 及 GET /api/weather/comparison 均已完成真实验收，完整后端测试 193 项和打包通过。/weather 与 /analysis 已完成收口；前端回归 45 项及 build 通过。各阶段证据见下文，Comparison 与 Management 前端页面仍为骨架。
 
-当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；当前分支 feat/fe-trend。个人安装路径和数据库凭据不作为项目规范。
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；当前分支 feat/be-comparison。个人安装路径和数据库凭据不作为项目规范。
 
 本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
 
@@ -48,7 +48,7 @@ versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-已完成：本机环境与工程骨架、PROJECT-INIT-1 构建和健康检查、DB-INIT-1 四表及 16/2/2/192 数据运行验证；Workbench Controller → Service → Mapper → XML 四表 JOIN 实现及真实验收。三个字典 GET 已完成真实验收，前置完整测试 76 项、打包与 Workbench HTTP 回归通过。真实 GeoJSON 与 16 市映射、/weather 页面及该阶段真实前后端联调已按用户确认收口；Trend 后端真实运行验收、完整后端 134 项及打包通过，/analysis 前端双图、四统计及状态/交互也已通过用户真实浏览器验收；其余 14 个业务 API、扩展数据整理、其他 GUI、课程正式验收和展示材料尚未完成。
+已完成：本机环境与工程骨架、PROJECT-INIT-1 构建和健康检查、DB-INIT-1 四表及 16/2/2/192 数据运行验证；Workbench、Trend、Comparison 三个展示查询与三个字典 GET 已完成真实验收，完整后端 193 项及打包通过。/weather 真实 GeoJSON、16 市映射及 /analysis 双图、四统计与交互已完成用户浏览器验收。其余 13 个业务 API、Comparison 前端、扩展数据整理、其他 GUI、课程正式验收和展示材料尚未完成。
 
 ## 5. 长期边界与协作
 
@@ -126,7 +126,7 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 - Schema、Seed、Workbench 业务逻辑/SQL、Dictionary 行为、前端、历史归档未修改；实现轮仅既有 Workbench 两个测试适配新增构造依赖。最终收口只同步两份上下文并创建 [v0.8-be-trend](../../../versions/v0.8-be-trend/README.md) 阶段说明，不复制源码。既有课程设计/.DS_Store 仍为独立非阻塞清理项，未移除。
 - Gate：READY FOR FE-TREND-1。BE-TREND-1 COMPLETED，下一建议 FE-TREND-1；未开始 FE-TREND 或 Comparison。Git 暂存、提交、tag、推送仍由用户通过 GitHub Desktop 操作，本轮 Git writes：NONE。
 
-当前 FE-TREND-1 COMPLETED（2026-09-08）：
+前置 FE-TREND-1 COMPLETED（2026-09-08，以下为该阶段记录）：
 
 - 开始 Gate：feat/fe-trend、工作区干净，HEAD 与本地 origin/main 均为 4a528eee9866e752fb3a11dfe2e3184be0e435b1；未 fetch，未执行 Git 写操作。前置 BE-TREND-1 COMPLETED；本阶段后端与数据库未修改，沿用真实 134 tests PASS、Package PASS、Trend Runtime PASS。
 - /analysis 复用 TrendAnalysis.vue、现有 App Shell 与 Axios /api；TrendFilterBar、TrendStatistics、通用 TrendChart 实现深色气象工作台风格的城市/模型/时间范围/查询按钮、T2M 折线图、PRECIP 柱状图、四项统计卡，以及 Loading、Empty、Error、Retry、Race Protection 和响应式布局。未新增依赖或 Cache。
@@ -141,5 +141,19 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 - Responsive：1366×768 PASS、1920×1080 PASS，无横向溢出，筛选、统计卡及图表布局正常。Console PASS：0 Uncaught Error、0 Unhandled Promise、0 Vue warning、0 ECharts disposed error。/weather regression PASS：山东地图、ECMWF/T2M、Timeline、City Detail 正常，Trend 样式未污染 Workbench；以上均来源于用户本次人工验收。
 - 最终收口仅更新 CURRENT_CONTEXT、RESUME 并创建 [v0.9-fe-trend](../../../versions/v0.9-fe-trend/README.md)，不复制源码、不改历史归档、不修改业务代码。课程设计/.DS_Store 仍为独立非阻塞清理项，未自行移除；凭据不入库。
 - Gate：READY FOR NEXT PHASE。下一建议先审计 Comparison Backend，不直接假设 /api/weather/comparison 已实现；不自动开始审计、Comparison 或 Management。Git 暂存、commit、tag、push 仍由用户通过 GitHub Desktop 操作，本轮 Git writes：NONE。
+
+当前 BE-COMPARISON-1 COMPLETED（2026-09-08）：
+
+- 开始 Gate：feat/be-comparison，工作区 clean，HEAD 与本地 origin/main 均为 f15832089ec3f2a8431769bbc88567443e9227fd；未 fetch、未执行 Git 写操作。沿用已完成 Comparison Audit 的 NO_SCHEMA_CHANGE_REQUIRED、NO_NEW_INDEX_REQUIRED、SEED_READY_FOR_COMPARISON。
+- Endpoint：GET /api/weather/comparison；cityId、elementId、startTime、endTime 全必填，严格本地业务时间与闭区间，起止相等合法。调用链为 WeatherQueryController → WeatherQueryService → ForecastRecordMapper → XML → MySQL，ComparisonRecordRow 投影及 ComparisonVO 响应。
+- data：cityId、cityName、element、series；element 含 id/elementCode/elementName/unit；series 每项含 modelId/modelCode/modelName/values，点含 forecastTime/value。按 modelCode 解析 ECMWF/NOAA 实际 ID，不硬编码 1/2、不依赖字典顺序；响应固定 ECMWF first、NOAA second，不返回 statistics 或顶层 times。
+- selectComparisonData 使用 forecast_record JOIN forecast_model；绑定 cityId/elementId/modelIds/startTime/endTime，foreach 与空集合保护。各系列由 Service 再按 forecastTime 升序；缺测不补 0 或 null 点，BigDecimal 原值及真实零保留。Empty HTTP/code 200 保留城市、要素和两个空 values 系列。非法参数/非支持范围 400，城市或要素不存在 404，任一核心模型缺失 500。
+- 实现轮 TDD：Service 20、Controller 32、Binding 3 项先失败再通过；连同原有非数据库回归共 176 passed / 0 failures / 0 errors / 0 skipped。test-compile 与限定非数据库测试的 package/repackage PASS；独立只读代码审查无 Critical/Important/Minor。
+- 最终 Runtime 依据用户本次提供的真实 Spring Boot + MySQL 验收，不冒充 Codex 收口轮重跑：ComparisonMapperIntegrationTests 4 passed；完整 mvn test 193 passed；mvn package 193 passed、Spring Boot repackage PASS；均 0 failures / 0 errors / 0 skipped、BUILD SUCCESS。193 = 既有 134 + Comparison 59。Application Startup PASS：Tomcat 8080、Started WeatherApplication；不声明服务持续在线。
+- 济南、2026-09-07 08:00～14:00：T2M HTTP/code 200，两个系列各 3 点；ECMWF 19.00/20.20/21.10℃，NOAA 18.40/19.60/20.50℃。PRECIP HTTP/code 200、mm；ECMWF 0.00/0.40/0.20，NOAA 0.10/0.60/0.30，真实零保留，均 PASS。数据为固定合成工程演示数据，不是真实模型预报。
+- Runtime 边界 PASS：时间倒置 HTTP 400，cityId=999999 HTTP 404，elementId=999999 HTTP 404。2026-09-08 08:00～14:00 Empty HTTP/code 200，仍为 ECMWF/NOAA 两个 series 且 values=[]，不能改成 series=[]。
+- 四项集成测试只读 SELECT，每项前后核验 city/forecast_model/weather_element/forecast_record 为 16/2/2/192；用户确认事务回滚及完整性保持。Schema/Seed unchanged，无新增表或索引。完整 193 项覆盖 Comparison、Trend、Workbench、Dictionary、Database Connection；既有业务行为不变。
+- 本阶段 frontend 未修改；实现轮 npm test 45 passed、npm run build PASS，大 chunk 为既有非阻塞提示。收口轮只同步两份上下文并创建 [v0.10-be-comparison](../../../versions/v0.10-be-comparison/README.md)，未重跑 Maven、前端构建或 HTTP，不复制源码、不改历史归档。
+- 凭据仅由本机环境变量注入，不索取或记录密码。课程设计/.DS_Store 仍为独立非阻塞清理项，不自行移除。Git writes：NONE，暂存/提交/tag/推送由用户操作。Gate：READY FOR FE-COMPARISON-1，未开始 FE-COMPARISON、Management 或 CRUD。
 
 恢复入口：[RESUME.md](RESUME.md)。[既有任务模板（历史格式参考）](../development/TASK_TEMPLATE.md) 的旧三模块、六城举例和记录接口示例不作为当前规范；编写新任务时必须按本页链接的 V2 需求/API 填写。模板正文不在本轮允许修改范围内，保持原文。仅阶段、决策、实际完成项或下一优先级变化时更新上下文。

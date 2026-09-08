@@ -3,6 +3,8 @@ package com.shandong.weather.service;
 import com.shandong.weather.common.BusinessException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shandong.weather.entity.WeatherElement;
+import com.shandong.weather.entity.ForecastModel;
+import com.shandong.weather.mapper.ComparisonRecordRow;
 import com.shandong.weather.mapper.CityMapper;
 import com.shandong.weather.mapper.ForecastModelMapper;
 import com.shandong.weather.mapper.WeatherElementMapper;
@@ -11,6 +13,7 @@ import com.shandong.weather.mapper.ForecastRecordMapper;
 import com.shandong.weather.mapper.WorkbenchRecordRow;
 import com.shandong.weather.vo.WorkbenchVO;
 import com.shandong.weather.vo.TrendVO;
+import com.shandong.weather.vo.ComparisonVO;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Comparator;
@@ -46,6 +49,50 @@ public class WeatherQueryService {
         this.cities = cities;
         this.models = models;
         this.elements = elements;
+    }
+
+    public ComparisonVO comparison(Long cityId, Long elementId, LocalDateTime startTime, LocalDateTime endTime) {
+        validateId(cityId, "cityId");
+        validateId(elementId, "elementId");
+        if (startTime == null || endTime == null || startTime.isAfter(endTime)) {
+            throw new BusinessException(400, "startTime and endTime are required; startTime must not exceed endTime");
+        }
+        var city = cities.selectById(cityId);
+        if (city == null) {
+            throw new BusinessException(404, "cityId does not exist");
+        }
+        var element = elements.selectById(elementId);
+        if (element == null) {
+            throw new BusinessException(404, "elementId does not exist");
+        }
+        // Check both associations before enforcing the frozen display scope.
+        if (!cityCodes.contains(city.getCityCode()) || !elementCodes.contains(element.getElementCode())) {
+            throw new BusinessException(400, "city or element is not supported by comparison");
+        }
+        var coreModels = models.selectList(new QueryWrapper<ForecastModel>()
+                .in("model_code", List.of("ECMWF", "NOAA")));
+        var ecmwf = requireCoreModel(coreModels, "ECMWF");
+        var noaa = requireCoreModel(coreModels, "NOAA");
+        var rows = mapper.selectComparisonData(cityId, elementId, List.of(ecmwf.getId(), noaa.getId()),
+                startTime, endTime);
+        // Dictionary or SQL ordering must not determine the public series order.
+        return new ComparisonVO(city.getId(), city.getCityName(),
+                new ComparisonVO.ElementInfo(element.getId(), element.getElementCode(),
+                        element.getElementName(), element.getUnit()),
+                List.of(comparisonSeries(rows, ecmwf), comparisonSeries(rows, noaa)));
+    }
+
+    private ForecastModel requireCoreModel(List<ForecastModel> entries, String code) {
+        return entries.stream().filter(entry -> code.equals(entry.getModelCode())).findFirst()
+                .orElseThrow(() -> new BusinessException(500, "core forecast model configuration is missing"));
+    }
+
+    private ComparisonVO.ModelSeries comparisonSeries(List<ComparisonRecordRow> rows, ForecastModel model) {
+        var values = rows.stream().filter(row -> model.getModelCode().equals(row.modelCode()))
+                .sorted(Comparator.comparing(ComparisonRecordRow::forecastTime))
+                .map(row -> new ComparisonVO.SeriesPoint(RESPONSE_TIME.format(row.forecastTime()), row.value()))
+                .toList();
+        return new ComparisonVO.ModelSeries(model.getId(), model.getModelCode(), model.getModelName(), values);
     }
 
     public TrendVO trend(Long cityId, Long modelId, LocalDateTime startTime, LocalDateTime endTime) {

@@ -7,6 +7,13 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ForecastRecordMapper {
+    List<ComparisonRecordRow> selectComparisonData(
+            @Param("cityId") long cityId,
+            @Param("elementId") long elementId,
+            @Param("modelIds") List<Long> modelIds,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime);
+
     List<TrendRecordRow> selectTrendData(
             @Param("cityId") long cityId,
             @Param("modelId") long modelId,

@@ -5,6 +5,7 @@ import com.shandong.weather.common.BusinessException;
 import com.shandong.weather.service.WeatherQueryService;
 import com.shandong.weather.vo.WorkbenchVO;
 import com.shandong.weather.vo.TrendVO;
+import com.shandong.weather.vo.ComparisonVO;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -47,6 +48,16 @@ public class WeatherQueryController {
             @RequestParam("endTime") String endTime) {
         return ApiResponse.success(service.trend(
                 cityId, modelId, parseTime(startTime), parseTime(endTime)));
+    }
+
+    @GetMapping("/comparison")
+    public ApiResponse<ComparisonVO> comparison(
+            @RequestParam("cityId") Long cityId,
+            @RequestParam("elementId") Long elementId,
+            @RequestParam("startTime") String startTime,
+            @RequestParam("endTime") String endTime) {
+        return ApiResponse.success(service.comparison(
+                cityId, elementId, parseTime(startTime), parseTime(endTime)));
     }
 
     private LocalDateTime parseTime(String value) {
