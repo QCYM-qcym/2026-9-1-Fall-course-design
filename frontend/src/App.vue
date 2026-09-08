@@ -1,5 +1,10 @@
+<script setup>
+import { useRoute } from 'vue-router'
+const route = useRoute()
+</script>
+
 <template>
-  <div class="app-shell">
+  <div class="app-shell" :class="{ 'weather-shell': route.path === '/weather' }">
     <header class="app-header">
       <div>
         <p class="brand-kicker">SHANDONG WEATHER</p>
@@ -17,3 +22,9 @@
     </main>
   </div>
 </template>
+
+<style>
+.weather-shell .app-main { width: 100%; padding: 0; margin: 0; }
+.weather-shell .app-header { height: 92px; padding: 14px 25px; }
+@media(max-width: 760px) { .weather-shell .app-header { height: auto; } }
+</style>

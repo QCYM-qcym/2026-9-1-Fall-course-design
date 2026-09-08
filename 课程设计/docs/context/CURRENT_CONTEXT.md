@@ -1,14 +1,14 @@
 # 当前项目上下文
 
-> 更新日期：2026-09-07
+> 更新日期：2026-09-08
 
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：BE-DICTIONARY-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1 已完成。
-已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前后端骨架与数据库初始化已完成；GET /api/weather/workbench 和三个只读字典 GET 均已完成真实验收，完整后端测试 76 项和打包通过，其他业务功能仍未开始。
+当前阶段：FE-WORKBENCH-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1、BE-DICTIONARY-1 已完成。当前 Gate：READY FOR TREND BACKEND AUDIT，不自动开始下一阶段。
+已冻结：UI V2、Backend V2、Database V2 数据范围/索引、API V2；前后端骨架与数据库初始化已完成；GET /api/weather/workbench 和三个只读字典 GET 均已完成真实验收，完整后端测试 76 项和打包通过。/weather 已实现并按用户最新人工浏览器验收确认完成收口；各项证据及未单独验证项见下文，其他业务页面仍为骨架。
 
-当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46；当前分支 feat/be-dictionary。个人安装路径和数据库凭据不作为项目规范。
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46；当前分支 feat/fe-workbench。个人安装路径和数据库凭据不作为项目规范。
 
 本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
 
@@ -48,7 +48,7 @@ versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-已完成：本机环境与工程骨架、PROJECT-INIT-1 构建和健康检查、DB-INIT-1 四表及 16/2/2/192 数据运行验证；Workbench Controller → Service → Mapper → XML 四表 JOIN 实现及真实验收。三个字典 GET 已完成真实验收，当前完整测试 76 项、打包与 Workbench HTTP 回归通过；其余 15 个业务 API、GeoJSON 来源许可及映射、扩展数据整理、GUI、前后端联调、课程正式验收和展示材料尚未完成。
+已完成：本机环境与工程骨架、PROJECT-INIT-1 构建和健康检查、DB-INIT-1 四表及 16/2/2/192 数据运行验证；Workbench Controller → Service → Mapper → XML 四表 JOIN 实现及真实验收。三个字典 GET 已完成真实验收，前置完整测试 76 项、打包与 Workbench HTTP 回归通过。真实 GeoJSON 与 16 市映射、/weather 页面及本阶段真实前后端联调已按用户确认收口；其余 15 个业务 API、扩展数据整理、其他 GUI、课程正式验收和展示材料尚未完成。
 
 ## 5. 长期边界与协作
 
@@ -81,7 +81,7 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 - Codex 已对用户启动的应用执行真实只读 HTTP 验收：ECMWF/T2M、NOAA/T2M、ECMWF/PRECIP 均为 HTTP/code 200、48 records、3 times；ECMWF/T2M 每时次 16 市；时间倒置与缺 modelId 均为 HTTP/code 400；不存在模型为 404；无数据范围为 200 且保留元数据、空数组。
 - 该阶段 Gate：READY FOR NEXT PHASE。阶段归档：[v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md)。Git 提交和推送由用户在 GitHub Desktop 中检查后操作。
 
-当前 BE-DICTIONARY-1 COMPLETED：
+前置 BE-DICTIONARY-1 COMPLETED：
 
 - 开始时只读 Git Gate 通过：feat/be-dictionary，工作区干净，HEAD 与本地 origin/main 均为 35aa067d13a0e4e9d5dad073c406f6d94a216a80；未 fetch，不声明在线远端状态。
 - 新增 GET /api/cities、GET /api/forecast-models、GET /api/weather-elements：Controller → Service → MyBatis-Plus BaseMapper；三个最小 Entity 的字段与 API V2 一致，坐标为 BigDecimal，description 保留 string/null。全部字典按 id ASC 查询，不按核心编码过滤，无参数、分页或缓存；空表返回 HTTP/code 200、data=[]。
@@ -92,5 +92,22 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 - 用户启动本轮应用后，Codex 已实际只读 HTTP 验收：三个字典均 HTTP/code 200，分别返回 16/2/2；城市含经纬度，模型含 description，要素含 T2M/℃、PRECIP/mm。Workbench ECMWF/T2M 在 2026-09-07 08:00～14:00 返回 HTTP/code 200、3 times、48 records，每时次 16 个不同城市。最终收口再次请求时 8080 无法连接；本阶段采用此前同一实现的成功 HTTP 证据，不声称服务当前仍在运行。
 - 前端 npm run build 在最终收口再次 PASS；既有 1,303.21 kB chunk 提示为 KNOWN NON-BLOCKING MINOR。Schema、Seed、Workbench、pom.xml、前端源码和历史归档均未修改，NO_SCHEMA_CHANGE_REQUIRED。
 - 当前 Gate：READY FOR FE-WORKBENCH-1。阶段归档：[v0.6-be-dictionary](../../../versions/v0.6-be-dictionary/README.md)。下一推荐任务 FE-WORKBENCH-1，不自动开始。Git 写操作仍全部由用户通过 GitHub Desktop 完成。
+
+当前 FE-WORKBENCH-1 COMPLETED（2026-09-08）：
+
+- 开始 Git Gate：feat/fe-workbench，工作区干净；HEAD d94254655000f0b9c70f0a413e7eb9a3252c7a56，本地 origin/main 35aa067d13a0e4e9d5dad073c406f6d94a216a80；未 fetch，未执行任何 Git 写操作。
+- /weather 复用现有 App Shell、Axios /api 和 Vite proxy，实现浮动日期范围、模型/要素选择、ECharts 地图、动态图例、时间轴及可关闭城市详情；仅本页面局部布局调整，未改 backend/database 或其他业务页面。
+- GeoJSON：[资源与许可说明](../../../frontend/src/assets/maps/README.md)。Supeset/China-GeoData MIT 资源中筛选山东 16 个真实 Polygon/MultiPolygon，保留原始坐标；49 个闭合环、7153 个点通过几何检查；真实字典与地图匹配 16/16，unmatched=0。此前 Codex 实际点击济南、青岛、烟台 Polygon 映射正确，用户本轮确认 16 市点击正常。
+- 默认按字典 code 选择 ECMWF/T2M，ID 不写死；集中演示范围为 2026-09-07 08:00:00～14:00:00，界面标记合成课程演示数据。按本轮已确认要求，色标随当前时次动态计算（本轮优先于旧设计的全响应固定色标）；简单 Map 缓存不加 TTL/LRU。
+- 字典并行加载；城市 id 关联记录和坐标；缺测不补零。四参数构成缓存 key；时间轴只本地过滤；requestVersion 在缓存命中时也递增，旧成功/失败响应不能覆盖最新选择；卸载清缓存、断开 ResizeObserver 并 dispose ECharts。
+- 最终收口 Codex 重新执行 npm test：20 passed / 0 failed / 0 skipped，包括真实 ECharts SVG 渲染与 dispose、16 市映射、缺测、当前时次色标、默认编码、缓存回访、旧请求晚到、空结果、错误重试、卸载失效。fixture 仅用于测试，生产页面没有 Mock API。未新增依赖，仅新增 npm test 脚本。
+- 最终收口 npm run build 再次 PASS：2116 modules；主 JS 1339.62 kB（gzip 445.77 kB），Workbench 路由 377.77 kB（gzip 131.60 kB）。大 chunk 继续记为 KNOWN NON-BLOCKING MINOR，不扩大优化范围。
+- 真实 API 采用此前已确认结果：三个字典 HTTP/code 200、16/2/2；Workbench HTTP/code 200、3 times/48 records。默认 ECMWF + T2M；济南 08/11/14 时分别为 19.00/20.20/21.10℃，此前 Codex 浏览器核验与用户本轮确认一致。本轮仅收口，不声明服务持续在线。
+- 用户本轮人工浏览器验收确认：Timeline local filtering PASS，0 additional Workbench request；Cache PASS；ECMWF/NOAA、T2M/PRECIP、℃/mm 切换 PASS；16 市点击正常，Network 未见异常请求，整体运行无明显问题。Network 结论来源为用户人工验收，不冒充 Codex 工具直接采集结果。
+- 浏览器既有证据：1366×768 有数据及城市详情打开布局 PASS，无横向溢出；Error State PASS；Console 检查无错误。Loading 状态流转、Empty、Retry、旧请求晚到保护有自动测试 PASS，但 Loading 可见过程、真实空范围 UI、后端恢复后的 Retry、快速切换乱序的专门浏览器证据未单独补齐；1920×1080 仅有 DOM 无溢出证据，完整视觉仍未单独验证。这些证据限制按用户最新收口要求如实保留，不写为全部 Runtime 子项 PASS。
+- Backend regression：76-test baseline PASS，采用用户此前真实 76 passed / 0 failures / 0 errors / 0 skipped；本阶段 backend/database 未修改，本轮未重跑 Maven，不将既有基线写成本轮执行结果，不索取或记录密码。
+- 只读审查未发现 Critical/Important；未发现本轮明文凭据或新增跟踪 .env/.mylogin.cnf，构建产物没有进入待提交。额外检查发现既有 `课程设计/.DS_Store` 仍被跟踪，本轮未处理（根目录 .DS_Store 的前置结论不代表递归全库无此文件）。
+- 最终只读复核：待提交内容均属 FE-WORKBENCH-1；未发现 node_modules、dist、.vite、.env、.mylogin.cnf、日志或临时文件进入待提交。既有 `课程设计/.DS_Store` 记为 TRACKED_GENERATED_FILE，属于独立仓库清理项，按用户要求不阻塞完成、不执行 git rm。
+- Gate：READY FOR TREND BACKEND AUDIT，依据用户最新人工验收确认及收口范围完成，而非宣称此前全部细分 Runtime Gate 已由工具验证。阶段归档：[v0.7-fe-workbench](../../../versions/v0.7-fe-workbench/README.md)。下一步建议先审计 Trend Backend，须另行授权；未开始 Trend、Comparison 或 Management。Git 暂存、提交、tag、推送仍由用户操作。
 
 恢复入口：[RESUME.md](RESUME.md)。[既有任务模板（历史格式参考）](../development/TASK_TEMPLATE.md) 的旧三模块、六城举例和记录接口示例不作为当前规范；编写新任务时必须按本页链接的 V2 需求/API 填写。模板正文不在本轮允许修改范围内，保持原文。仅阶段、决策、实际完成项或下一优先级变化时更新上下文。

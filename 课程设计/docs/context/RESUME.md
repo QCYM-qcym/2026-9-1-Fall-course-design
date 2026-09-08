@@ -1,13 +1,13 @@
 # Codex 快速恢复入口
 
-> 更新日期：2026-09-07
+> 更新日期：2026-09-08
 
 ## 项目
 
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：BE-DICTIONARY-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1 已完成
+- 当前阶段：FE-WORKBENCH-1 COMPLETED；前置 PROJECT-INIT-1、DB-INIT-1、PRE-BE-WORKBENCH-FIX、BE-WORKBENCH-1、BE-DICTIONARY-1 已完成
 - 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
@@ -74,9 +74,13 @@
 - frontend/、backend/、database/ 工程骨架已创建
 - GET /api/weather/workbench 后端调用链已完成；用户真实 Mapper 集成测试 5 项、完整测试 52 项及 package 均通过；Codex 实测正常/400/404/空结果 HTTP 行为通过，四表数量断言保持 16/2/2/192
 - 三个字典 GET /api/cities、/api/forecast-models、/api/weather-elements 已完成；用户真实 DictionaryMapperIntegrationTests 3 项、完整测试 76 项、package 均通过，失败/错误/跳过均为 0。Codex 已实测三个字典 HTTP 200、16/2/2，以及 Workbench HTTP 200、3 times/48 records；四表数量断言保持 16/2/2/192。test-compile、前端 build 通过
-- 最终收口时再次访问 8080 无法连接；成功 HTTP 验收记录来自此前已启动的同一实现，不代表服务持续在线。需要访问接口时，在已配置环境变量的终端重新启动后端，不索取或记录密码
-- 尚无业务页面；前后端联调与课程正式验收尚未进行
-- 当前为 Git 仓库，分支 feat/be-dictionary；本阶段开始时工作区干净，HEAD 与本地 origin/main 均为 35aa067d13a0e4e9d5dad073c406f6d94a216a80。本轮字典改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
+- HTTP 验收采用此前真实 16/2/2 字典与 Workbench 3 times/48 records 成功证据；不声明服务持续在线。需要访问接口时，在已配置环境变量的终端启动后端，不索取或记录密码
+- /weather 已实现真实 16 市 GeoJSON、字典与 Workbench API 客户端、浮动控件、日期范围、地图图例、城市详情、时间轴、简单内存缓存和请求竞态保护；自动测试 20 项及 build PASS，未新增依赖。当前时次动态图例遵循用户本轮确认要求
+- 用户最终人工验收确认 Timeline 本地切换与 0 additional Workbench request、Cache PASS、ECMWF/NOAA、T2M/PRECIP、℃/mm 切换正常、16 市地图点击正常、济南 08/11/14 时为 19.00/20.20/21.10℃；Network 无异常，整体运行无明显问题。默认 ECMWF + T2M，GeoJSON 16 features/16 matched
+- 既有真实浏览器证据：1366×768 有数据布局 PASS、Error State PASS、Console 无错误。Loading/Empty/Retry 及竞态逻辑自动测试 PASS；这些场景的专门真实浏览器验收与 1920×1080 完整视觉未单独补齐，不写成全部 Runtime 子项 PASS。按用户最新收口要求记录证据限制并完成阶段归档：[v0.7-fe-workbench](../../../versions/v0.7-fe-workbench/README.md)
+- 最终收口重新执行 npm test：20 passed / 0 failed / 0 skipped；npm run build PASS，大 chunk 为 KNOWN NON-BLOCKING MINOR。backend/database 未修改，按用户授权采用此前真实 backend 76-test baseline PASS，本轮未重跑 Maven
+- 待提交内容均属本阶段，未发现构建产物、.env、.mylogin.cnf、日志或临时文件进入待提交；既有 `课程设计/.DS_Store` 为 TRACKED_GENERATED_FILE，独立清理项，不阻塞本阶段，不自行移除
+- 当前分支 feat/fe-workbench；本阶段开始时工作区干净，HEAD d94254655000f0b9c70f0a413e7eb9a3252c7a56，本地 origin/main 35aa067d13a0e4e9d5dad073c406f6d94a216a80；未 fetch。本轮前端改动尚未提交，Git 写操作由用户通过 GitHub Desktop 完成
 - 地域已于 2026-09-04 由江苏省调整并冻结为山东省
 
 ## 不要扩展
@@ -108,4 +112,4 @@
 
 ## 下一任务
 
-详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 和 [v0.6-be-dictionary](../../../versions/v0.6-be-dictionary/README.md)。当前 Gate：READY FOR FE-WORKBENCH-1；用户通过 GitHub Desktop 检查提交，再另行授权 FE-WORKBENCH-1，不自动开始。前置 [v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md) 归档保持历史原文。
+详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md)。当前 FE-WORKBENCH-1 COMPLETED；Gate：READY FOR TREND BACKEND AUDIT。下一阶段建议先审计 Trend Backend，须用户另行授权，不自动开始 Trend 或其他业务实现。前置 [v0.6-be-dictionary](../../../versions/v0.6-be-dictionary/README.md) 和 [v0.5-be-workbench](../../../versions/v0.5-be-workbench/README.md) 保持历史原文。
