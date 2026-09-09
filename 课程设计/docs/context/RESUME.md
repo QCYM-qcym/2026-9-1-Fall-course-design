@@ -1,13 +1,13 @@
 # Codex 快速恢复入口
 
-> 更新日期：2026-09-08
+> 更新日期：2026-09-09
 
 ## 项目
 
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：BE-COMPARISON-1 COMPLETED；前置 FE-WORKBENCH-1、BE-TREND-1、FE-TREND-1 及 COMPARISON-BACKEND-AUDIT 已完成；Gate：READY FOR FE-COMPARISON-1
+- 当前阶段：FE-COMPARISON-1 COMPLETED；DB-CONNECTION-CONFIG-FIX COMPLETED；Gate：READY FOR MANAGEMENT-BACKEND-AUDIT
 - 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
@@ -62,10 +62,15 @@
 - 模型：ECMWF、NOAA
 - 要素：T2M、PRECIP
 - T2M：单位 ℃，折线图
-- PRECIP：单位 mm，柱状图
+- PRECIP：单位 mm；Trend 柱状图，Comparison 按最新确认采用 ECMWF/NOAA 双折线
 - 需要覆盖有结果、无结果和城市切换场景
 
 ## 当前真实状态
+
+- 最新收口（2026-09-09）：/weather、/analysis、/comparison 均已有真实后端闭环；/management 仍为占位页。用户确认 Comparison Default T2M、PRECIP、City Switch、Loading/Empty/Error/Retry/Race、1366×768、1920×1080、Console 及两个既有页面回归全部 PASS。
+- Comparison 默认 JINAN/T2M，2026-09-07 08:00～14:00；两要素均双折线，时间并集 ASC、缺测 null、零值保留，no cache/no metrics。前端实现轮 71 passed（45+26）/0 failed/0 skipped，build PASS，大包 warning 非阻塞；收口未重跑。
+- JDBC 仅追加 allowPublicKeyRetrieval=true，保留 useSSL=false 与原环境变量机制；无账号、密码或 Schema/Seed 修改。用户确认三个字典 GET 200、三个页面恢复。此前 Codex 修复轮 Maven test/package 因仓库网络访问被拒未进入测试，不视为 PASS。归档见 [v0.11-fe-comparison](../../../versions/v0.11-fe-comparison/README.md)。
+- 本次收口分支 audit/management-backend，开始工作区 clean；本轮只修改上下文与归档。下列为前置阶段历史证据，不代替最新状态。
 
 - 核心需求已冻结
 - 数据库详细设计已确认
@@ -125,4 +130,4 @@
 
 ## 下一任务
 
-详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 与 [v0.10-be-comparison](../../../versions/v0.10-be-comparison/README.md)。当前 BE-COMPARISON-1 COMPLETED；Gate：READY FOR FE-COMPARISON-1。下一阶段 FE-COMPARISON-1，须用户另行授权，不自动开始。前置版本归档保持历史原文。
+详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 与 [v0.11-fe-comparison](../../../versions/v0.11-fe-comparison/README.md)。FE-COMPARISON-1 COMPLETED；DB-CONNECTION-CONFIG-FIX COMPLETED；Gate：READY FOR MANAGEMENT-BACKEND-AUDIT。下一阶段须先完成独立只读开始 Gate；本轮不开始审计或 CRUD 实现。前置归档保持原文，Git 暂存、提交和推送由用户操作。
