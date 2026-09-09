@@ -39,6 +39,32 @@ test('timeline is local, valid selections persist and unknown time is ignored', 
   app.selectTime('invalid'); assert.equal(app.state.selectedTime, times[1])
   app.selectTime(times[2]); assert.equal(app.requests.length, 1)
 })
+
+for (const resource of ['city', 'model', 'element']) {
+  test(`management-added ${resource} stays outside workbench core dictionaries after re-entry`, async () => {
+    const app = setup()
+    if (resource === 'city') app.api.fetchCities = async () => [...cities, { id: 99, cityCode: 'TMP_CITY', cityName: '临时城市', longitude: 117, latitude: 36 }]
+    if (resource === 'model') app.api.fetchForecastModels = async () => [...models, { id: 99, modelCode: 'TMP_MODEL', modelName: '临时模型', description: null }]
+    if (resource === 'element') app.api.fetchWeatherElements = async () => [...elements, { id: 99, elementCode: 'TMP_ELEMENT', elementName: '临时要素', unit: 'mm' }]
+    await app.initialize()
+    assert.equal(app.state.status, 'success')
+    assert.equal(app.state.cities.length, 16)
+    assert.equal(app.state.matched, 16)
+    assert.deepEqual(app.state.models.map(item => item.modelCode).sort(), ['ECMWF', 'NOAA'])
+    assert.deepEqual(app.state.elements.map(item => item.elementCode).sort(), ['PRECIP', 'T2M'])
+    assert.equal(app.state.response.records.length, 48)
+    assert.equal(app.requests.length, 1)
+  })
+}
+
+test('filtering temporary cities does not hide a missing core city', async () => {
+  const app = setup()
+  app.api.fetchCities = async () => [...cities.slice(1), { id: 99, cityCode: 'TMP_CITY', cityName: '临时城市', longitude: 117, latitude: 36 }]
+  await app.initialize()
+  assert.equal(app.state.status, 'error')
+  assert.equal(app.state.dictionariesReady, false)
+  assert.equal(app.requests.length, 0)
+})
 test('returning to the same model/element/range consumes cache without another request', async () => {
   const app = setup(); await app.initialize()
   await app.load({ elementId: 5 }); await app.load({ elementId: 17 })

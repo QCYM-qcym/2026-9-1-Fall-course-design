@@ -5,12 +5,47 @@
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：FE-MANAGEMENT-CRUD-1 COMPLETED。当前 Gate：READY FOR SYSTEM FINAL REVIEW。下一建议为系统级最终回归与需求、文档、实现一致性审查，须另行授权，不自动开始；本阶段完成不代表全系统最终验收、生产就绪或零缺陷。
-Management Backend 沿用 v0.12 已完成的 16 / 16 API 基线；/management 四资源 CRUD 前端已完成。/weather、/analysis、/comparison 均保持 COMPLETED，已有真实后端闭环。前端最近实际验证为 142 passed / 0 failed / 0 skipped、build PASS，本轮仅文档收口，不重跑。UI V2、Backend V2、Database V2 与 API V2 冻结范围不变；Comparison 采用 T2M、PRECIP 双折线。
+当前阶段：SYSTEM-FINALIZE-1 COMPLETED。用户补充的本机完整 mvn package 日志已核验：293 tests / 0 failures / 0 errors / 0 skipped，JAR 与 Spring Boot repackage 成功，BUILD SUCCESS；最终验证缺项已补齐。课程设计软件 v1.0 可交由用户检查并提交，归档见 [v1.0-final](../../../versions/v1.0-final/README.md)，不代表已提交、教师正式验收或生产就绪。
+Management Backend 沿用 v0.12 已完成的 16 / 16 API 基线；四页面均已有真实后端闭环，19 个业务 API 保持兼容。前端沿用本阶段前轮实际验证 146 passed / 0 failed / 0 skipped、build PASS；后端采用用户本机最新日志，不冒充 Codex 重跑。Comparison 采用 T2M、PRECIP 双折线，管理记录 GET 全量 id ASC、无筛选；没有业务范围扩展。
 
-当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；收口检查分支 feat/fe-management-crud。个人安装路径和数据库凭据不作为项目规范。
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；检查分支 main，审查轮开始时 clean，最终文档收口保留此前 16 个修改文件，未切换分支。个人安装路径和数据库凭据不作为项目规范。
 
-本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
+### SYSTEM-FINALIZE-1 本轮结果（2026-09-09）
+
+- 审查与修复：工作台原来直接使用全量字典，管理新增临时城市会破坏严格 16 市映射，临时模型/要素也会成为不受后端支持的选项。现在先按核心编码筛选再映射/选默认值，管理字典保持全量。新增三类临时字典测试先实际失败，再最小修复通过；另补缺核心城市不得被临时城市替代的测试。独立复核未发现重要遗留问题。
+- frontend：本轮 npm test 146 PASS（Node 92 + Vitest 54），0 failed / 0 skipped；原有 142 项保留，新增 4 项。npm run build PASS，共享包 >500 kB 警告未优化。
+- backend 历史尝试：Codex 前轮执行完整 mvn package，293 tests / 0 failures / 20 errors / 0 skipped，其中 273 passed；因该进程未取得数据库凭据，默认 example_user 无密码连接被拒绝而 BUILD FAILURE。该环境失败记录保留，不判为代码失败，不改凭据。
+- backend 最终通过证据：用户在具备真实本机数据库环境的 PowerShell 执行完整 mvn package，提供日志结束时间 2026-09-09T13:55:12+08:00、耗时 8.388 s；293 tests / 0 failures / 0 errors / 0 skipped，jar:3.2.2 生成 weather-backend-0.3.0-SNAPSHOT.jar，spring-boot:2.7.18:repackage 替换主归档，BUILD SUCCESS。来源 USER_PROVIDED_LOCAL_MAVEN_OUTPUT；本次仅核验，不重跑测试，不索取或记录密码。由此解除最终验证阻塞。
+- 本轮真实只读 HTTP：四类 GET 均 HTTP/code 200，数量 16/2/2/192；Workbench code 200、3 times/48 records、济南 T2M 19.00/20.20/21.10；Trend 与 Comparison 正常响应。首次受工具代理影响的 GET 502 未作为后端失败证据，直连本机复核成功。
+- 本轮浏览器：修复后重新进入 /weather，16/16 有值和边界匹配、济南 19.00℃、三个时次正常；/analysis 济南/ECMWF、两图各 3 样本，四统计 21.10/19.00/20.10/0.60；/comparison 默认 T2M 双模型各 3 点；/management 城市与记录真实列表、名称、本地时间和 0.00 正常。新浏览器会话 Console 仅 Vite 连接调试日志，无错误/警告。本轮未做临时字典 HTTP 写入；修复的临时字典边界证据为自动测试，不冒充真实新增后的浏览器测试。
+- 未受修改影响的 CRUD、引用保护、Race、Error/Retry、1366×768 与 1920×1080 采用 v0.13 及其引用的已有验收证据；Management Empty 仍为 BROWSER_SIMULATED_EMPTY / USER_MANUAL_CONFIRMED，不是 REAL_MYSQL_EMPTY_PASS。
+- 本轮无 HTTP 写入、无新增临时 ID，数量基线不等同全库字段逐值未变。backend、database、Schema/Seed、依赖及历史 versions/ 均未修改。当前需求/架构/模块/API/流程/验收与导航纠正工程未创建、七天窗口、Comparison 柱状、Trend 明细表/跨页传参及管理筛选等过时说明，不恢复旧设计行为。
+- 系统使用合成课程演示数据，不是实时气象服务；本地 JDBC useSSL=false/allowPublicKeyRetrieval=true、开发代理及本机账号方式不是生产部署方案。无认证权限，不应公开暴露管理写接口；本轮不扩展生产能力。
+- 最终 Gate：关键验证已补齐，SYSTEM-FINALIZE-1 COMPLETED；创建 versions/v1.0-final/README.md，可作为课程设计软件 v1.0 提交，不自动开始新阶段。启动方式见 RESUME；正式课程材料和教师验收不由本次软件收口替代。
+- Git：main，保留前轮 16 个已跟踪文件修改；本次仅更新 CURRENT_CONTEXT、RESUME 并新增 v1.0-final/README.md。前轮 diff --check、冲突/凭据/生成物检查通过，本次再核对文档差异与修改范围。课程设计/.DS_Store 仍为既有跟踪文件，未改动；Git writes = NONE。
+
+本阶段前轮实际修改文件（本次仅再同步其中两份上下文，另新增 v1.0 归档）：
+
+```text
+frontend/src/utils/workbenchState.js
+frontend/src/utils/workbenchState.test.js
+课程设计/AGENTS.md
+课程设计/README.md
+课程设计/00-项目总览/README.md
+课程设计/00-项目总览/项目导航.md
+课程设计/00-项目总览/项目当前状态.md
+课程设计/01-立项与需求/04-功能需求.md
+课程设计/01-立项与需求/09-需求冻结确认.md
+课程设计/02-系统设计/01-总体架构设计.md
+课程设计/02-系统设计/02-功能模块设计.md
+课程设计/02-系统设计/03-业务流程设计.md
+课程设计/02-系统设计/04-接口设计.md
+课程设计/05-测试与验收/02-最终验收方案.md
+课程设计/docs/context/CURRENT_CONTEXT.md
+课程设计/docs/context/RESUME.md
+```
+
+以下为 DOC-V2-INIT-PLAN 的历史记录，不代表当前 Git 状态：当时工作区干净，但 30 个文档/Canvas 中保留已提交冲突标记；该轮清理冲突并修订初始化计划 V2。该轮核对 main 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a，未 fetch。Git 暂存、commit、push、pull、merge、tag 等写操作始终由用户通过 GitHub Desktop 完成。
 
 ## 2. 冻结方案
 
@@ -18,8 +53,8 @@ Management Backend 沿用 v0.12 已完成的 16 / 16 API 基线；/management �
 - 后端：Java 17、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven 3.9.16；MySQL 8.0.16+。
 - 测试：JUnit 5、Spring Boot Test、Postman / Apifox。
 - 四页：/weather（/ 重定向）、/analysis、/comparison、/management。
-- 工作台地图 P0，ECharts Map + 静态 GeoJSON；16 市，默认 ECMWF + T2M + 约 7 天演示窗口，批量加载、前端内存缓存、时间轴本地过滤。
-- 趋势双要素双图、明细表与四项 Service 统计；双模型对比只做视觉比较；管理一个 Tabs 页面四类完整 CRUD。
+- 工作台地图 P0，ECharts Map + 静态 GeoJSON；16 市，默认 ECMWF + T2M + 2026-09-07 08:00～14:00，批量加载、页面实例内存缓存、时间轴本地过滤、当前时次动态色标。
+- 趋势双要素双图与四项 Service 统计，无明细表；双模型对比只做视觉比较；管理一个 Tabs 页面四类完整 CRUD。
 - 五 Controller、五 Service、四 Mapper，ForecastRecordMapper.xml 承担 selectWorkbenchData、selectTrendData、selectComparisonData。
 - 四表 city、forecast_model、weather_element、forecast_record，3NF；唯一键 (city_id,model_id,element_id,forecast_time)，无新增实体。
 - 山东 16 市：济南、青岛、淄博、枣庄、东营、烟台、潍坊、济宁、泰安、威海、日照、临沂、德州、聊城、滨州、菏泽；核心验收济南、青岛。
@@ -48,7 +83,7 @@ versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-已完成：本机环境与工程骨架、PROJECT-INIT-1、DB-INIT-1；三个展示查询与 Management 16 / 16 CRUD API，以及四个前端页面的阶段验收。系统级最终回归与一致性审查、扩展数据整理、课程正式验收和展示材料仍待后续安排。
+已完成：本机环境与工程骨架、PROJECT-INIT-1、DB-INIT-1；三个展示查询与 Management 16 / 16 CRUD API、四页面阶段验收，以及 SYSTEM-FINALIZE-1 系统级最终回归、必要修复与当前文档一致性同步。扩展数据整理、课程正式验收和展示材料不属于本次软件收口，不自动开展。
 
 ## 5. 长期边界与协作
 
@@ -58,7 +93,7 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 
 ## 6. 下一阶段
 
-下一建议：系统级最终回归与需求、文档、实现一致性审查，须另行授权。FE-MANAGEMENT-CRUD-1 COMPLETED：
+SYSTEM-FINALIZE-1 已完成并归档 v1.0；提交由用户通过 GitHub Desktop 操作，不自动创建新阶段。以下保留 FE-MANAGEMENT-CRUD-1 COMPLETED / v0.13 历史收口证据：
 
 - /management：城市、预报模型、气象要素、预报记录四 Tab；各自列表、新增、编辑、删除、校验与冲突提示，引用保护交互，Loading/Empty/Error/Retry，独立 Draft、防重复提交、旧响应及卸载保护；字典变更使记录元数据和对应下拉失效并在下次使用前刷新。沿用既有 16 API、Axios；无分页、动态 CRUD 框架或业务扩展。
 - 前轮实际执行：四资源真实 CRUD、描述清空 null 后显示 --、数字 ID/本地时间、PRECIP 负值拦截与 0.00、重复冲突、字典刷新通过。临时要素 #8 的删除、编码及单位修改均独立复核 HTTP/code 409，UI 保留原行和草稿；临时记录 #202、要素 #8 已清理并确认 ID 不存在。

@@ -52,6 +52,25 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>portable</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>false</filtering>
+                    </resource>
+                    <resource>
+                        <directory>../frontend/dist</directory>
+                        <targetPath>static</targetPath>
+                        <filtering>false</filtering>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>

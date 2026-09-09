@@ -7,7 +7,7 @@
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：FE-MANAGEMENT-CRUD-1 COMPLETED；Gate：READY FOR SYSTEM FINAL REVIEW
+- 当前阶段：SYSTEM-FINALIZE-1 COMPLETED；课程设计软件 v1.0 已归档，可交用户提交，不自动进入新阶段
 - 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
@@ -144,4 +144,17 @@
 
 ## 下一任务
 
-详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 与 [v0.13-fe-management-crud](../../../versions/v0.13-fe-management-crud/README.md)。FE-MANAGEMENT-CRUD-1 COMPLETED；Gate：READY FOR SYSTEM FINAL REVIEW。下一建议为系统级最终回归与需求、文档、实现一致性审查，包含旧文档与已批准实现差异；须另行授权，不自动开始。前置归档保持原文，Git 暂存、提交和推送由用户操作。
+详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md)。SYSTEM-FINALIZE-1 已修复工作台临时字典污染展示范围，补 4 项回归，npm test 146 PASS / build PASS；当前文档已按批准实现最小同步，历史 [v0.13](../../../versions/v0.13-fe-management-crud/README.md) 等不变。四页正常演示与四类 GET 16/2/2/192 本轮复核成功；未受影响的 CRUD/异常/宽屏沿用已有证据，Empty 仍标浏览器模拟。
+
+最终后端证据已补齐：用户提供本机完整 mvn package 输出，结束于 2026-09-09T13:55:12+08:00，293 tests / 0 failures / 0 errors / 0 skipped，JAR 与 Spring Boot repackage 成功，BUILD SUCCESS（8.388 s）。来源 USER_PROVIDED_LOCAL_MAVEN_OUTPUT，本次未重跑；前轮 Codex 进程缺凭据导致的 20 errors 作为历史环境失败保留在 CURRENT_CONTEXT，不再构成最终 Gate 缺项。仅更新两份上下文并创建 [v1.0-final](../../../versions/v1.0-final/README.md)，可作为课程设计软件 v1.0 交用户检查提交；不代表 Git 已提交、教师正式验收或生产部署。Git writes = NONE，不自动开始新阶段。
+
+## 本地启动与最终复核
+
+前置：现有 MySQL 实例及四表数据已准备，Java 17、Maven 3.9.16 与 Node/npm 已安装。不要对现有数据库重复运行 schema.sql/data.sql；凭据仅由本机环境变量提供，不写入文件。
+
+1. 在具有 DB_HOST、DB_PORT、DB_NAME、DB_USERNAME、DB_PASSWORD 的 PowerShell 中进入仓库 backend/，执行 `mvn package`；必须完整测试成功，无跳过数据库测试。
+2. 同一环境在 backend/ 执行 `mvn spring-boot:run`，保持终端运行。已有后端占用 8080 时不要重复启动或擅自终止用户进程。
+3. 另一终端进入 frontend/，执行 `npm run dev -- --host 127.0.0.1`；访问输出的本机地址，通常为 http://127.0.0.1:5173，Vite 的 /api 默认代理到 localhost:8080。依赖已存在时无需重装或升级。
+4. `/weather`、`/analysis`、`/comparison` 默认范围为 2026-09-07 08:00～14:00；`/management` 提供四资源 CRUD。前端复核命令为 `npm test`、`npm run build`。
+
+本系统为合成课程演示数据，不是实时气象服务。本地 JDBC 与开发代理不是生产配置；无权限体系，不应公开暴露写接口。共享包 >500 kB、既有被跟踪 .DS_Store、要素单位引用冲突文案为已知非阻塞项；不因此扩展功能。

@@ -1,0 +1,34 @@
+{
+  "java": {
+    "version": "Temurin JRE 17.0.11+9 Windows x64 HotSpot",
+    "file": "OpenJDK17U-jre_x64_windows_hotspot_17.0.11_9.zip",
+    "url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.11%2B9/OpenJDK17U-jre_x64_windows_hotspot_17.0.11_9.zip",
+    "algorithm": "SHA256",
+    "checksum": "4bafe2e94439c8193fc8c68247cb0dbaf4e80265b903288f63f128304f129bbe",
+    "checksumSource": "https://api.adoptium.net/v3/assets/version/17.0.11%2B9?architecture=x64&image_type=jre&os=windows&vendor=eclipse"
+  },
+  "mysql": {
+    "version": "MySQL Community Server 8.0.46 Windows x64 noinstall",
+    "file": "mysql-8.0.46-winx64.zip",
+    "url": "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.46-winx64.zip",
+    "algorithm": "MD5",
+    "checksum": "003f527d5df61b663ff191038cd676bd",
+    "checksumSource": "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.46-winx64.zip.md5"
+  },
+  "javaSource": {
+    "version": "Temurin corresponding sources 17.0.11+9",
+    "file": "OpenJDK17U-jdk-sources_17.0.11_9.tar.gz",
+    "url": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.11%2B9/OpenJDK17U-jdk-sources_17.0.11_9.tar.gz",
+    "algorithm": "SHA256",
+    "checksum": "ab84e710f2069db2201f73cc3d0ed4138b2357168509c970504bf2cfe280ee59",
+    "checksumSource": "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.11%2B9/OpenJDK17U-jdk-sources_17.0.11_9.tar.gz.sha256.txt"
+  },
+  "mysqlSource": {
+    "version": "MySQL corresponding sources with Boost 8.0.46",
+    "file": "mysql-boost-8.0.46.tar.gz",
+    "url": "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-boost-8.0.46.tar.gz",
+    "algorithm": "MD5",
+    "checksum": "74cf76377b30f68815b3a711cd6bf715",
+    "checksumSource": "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-boost-8.0.46.tar.gz.md5"
+  }
+}

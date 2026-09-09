@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { DEMO_RANGE, buildWorkbenchCacheKey, createWorkbenchCache, selectDefault, validateCityMapping } from './weatherWorkbench.js'
+import { DEMO_RANGE, buildWorkbenchCacheKey, createWorkbenchCache, selectDefault, validateCityMapping, resolveGeoName } from './weatherWorkbench.js'
 
 // Dependencies are the real API module in the page; tests substitute only the network boundary.
 export function createWorkbenchState(api, geo) {
@@ -17,8 +17,11 @@ export function createWorkbenchState(api, geo) {
     state.status = 'loading'
     state.error = ''
     try {
-      const [cities, models, elements] = await Promise.all([api.fetchCities(), api.fetchForecastModels(), api.fetchWeatherElements()])
+      const [allCities, allModels, allElements] = await Promise.all([api.fetchCities(), api.fetchForecastModels(), api.fetchWeatherElements()])
       if (disposed || version !== requestVersion) return
+      const cities = allCities.filter(city => resolveGeoName(city.cityCode))
+      const models = allModels.filter(model => ['ECMWF', 'NOAA'].includes(model.modelCode))
+      const elements = allElements.filter(element => ['T2M', 'PRECIP'].includes(element.elementCode))
       const mapping = validateCityMapping(cities, geo)
       const model = selectDefault(models, 'modelCode', 'ECMWF')
       const element = selectDefault(elements, 'elementCode', 'T2M')

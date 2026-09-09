@@ -15,3 +15,6 @@ backend/target/
 .env
 .env.*
 !.env.example
+
+# Portable demo download cache, builds and isolated runtime verification
+.portable-build/
