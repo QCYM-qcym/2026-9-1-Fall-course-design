@@ -1,0 +1,44 @@
+.management-workspace, .management-dialog, .management-confirm, .management-popper, .management-message {
+  --el-bg-color: #172f3e;
+  --el-bg-color-overlay: #203846;
+  --el-fill-color-blank: #172f3e;
+  --el-fill-color-light: #294453;
+  --el-fill-color-lighter: #203846;
+  --el-text-color-primary: #e3edf0;
+  --el-text-color-regular: #d2e0e8;
+  --el-text-color-secondary: #a6bdc9;
+  --el-text-color-placeholder: #91a9b7;
+  --el-border-color: #466170;
+  --el-border-color-light: #385564;
+  --el-border-color-lighter: #385564;
+  --el-color-primary: #8dc4dc;
+  --el-disabled-bg-color: #203543;
+  --el-disabled-text-color: #94abb8;
+  color: #e3edf0;
+}
+.management-workspace { min-width: 0; }
+.management-heading { margin-bottom: 22px; }
+.management-heading .eyebrow { color: #8fb2c5; letter-spacing: .16em; font-size: 10px; }
+.management-heading h1 { margin: 8px 0; font-size: 28px; font-weight: 500; }
+.management-heading > p:last-child { font-size: 12px; color: #9db6c4; }
+.management-panel { padding: 20px; background: #172f3e; border: 1px solid #385564; border-radius: 10px; min-width: 0; }
+.management-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+.management-toolbar h2 { margin: 0 0 8px; font-size: 18px; font-weight: 500; }
+.management-toolbar p { margin: 0; font-size: 12px; color: #a6bdc9; line-height: 1.6; }
+.management-toolbar > div:last-child { flex-shrink: 0; }
+.management-panel .el-table { width: 100%; --el-table-header-bg-color: #203846; --el-table-row-hover-bg-color: #294453; }
+.management-code { display: block; color: #91a9b7; font-size: 11px; }
+.management-panel [role="alert"], .management-dialog [role="alert"] { padding: 12px; border: 1px solid #966b58; border-radius: 6px; color: #efc5ad; overflow-wrap: anywhere; }
+.management-panel [role="status"] { font-size: 13px; color: #b8cbd5; }
+.management-dialog { max-width: calc(100vw - 32px); max-height: calc(100vh - 64px); overflow-y: auto; margin-top: 32px !important; }
+.management-dialog form { display: grid; gap: 16px; }
+.management-dialog label { display: grid; gap: 8px; font-size: 13px; }
+.management-dialog .el-date-editor, .management-dialog .el-select { width: 100%; }
+.management-dialog p { font-size: 12px; line-height: 1.6; color: #a6bdc9; }
+.management-dialog footer { display: flex; justify-content: flex-end; gap: 10px; }
+.management-confirm { width: 420px; max-width: calc(100vw - 32px); }
+@media (max-width: 800px) {
+  .management-panel { padding: 12px; }
+  .management-toolbar { flex-wrap: wrap; }
+  .management-workspace .el-tabs__item { padding: 0 14px; }
+}

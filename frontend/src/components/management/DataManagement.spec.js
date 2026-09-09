@@ -1,0 +1,17 @@
+import { mount, flushPromises, DOMWrapper } from '@vue/test-utils'
+import ElementPlus, { ElMessage, ElMessageBox } from 'element-plus'
+import { beforeEach, afterEach, expect, it, vi } from 'vitest'
+const api=vi.hoisted(()=>Object.fromEntries(['fetchCities','fetchForecastModels','fetchWeatherElements','fetchForecastRecords','createCity','updateCity','deleteCity','createForecastModel','updateForecastModel','deleteForecastModel','createWeatherElement','updateWeatherElement','deleteWeatherElement','createForecastRecord','updateForecastRecord','deleteForecastRecord'].map(k=>[k,vi.fn()])))
+vi.mock('../../api/management.js',()=>api)
+import Page from '../../views/DataManagement.vue'
+let wrapper,dom,confirm
+const city={id:8,cityCode:'TMP_CITY',cityName:'Temporary city',longitude:120,latitude:36}
+const model={id:41,modelCode:'TMP_MODEL',modelName:'Temporary model',description:null}
+beforeEach(()=>{vi.clearAllMocks();api.fetchCities.mockResolvedValue([city]);api.fetchForecastModels.mockResolvedValue([model]);api.fetchWeatherElements.mockResolvedValue([{id:71,elementCode:'TMP_ELEMENT',elementName:'Temporary element',unit:'mm'}]);api.fetchForecastRecords.mockResolvedValue([]);api.updateForecastModel.mockResolvedValue(model);confirm=vi.spyOn(ElMessageBox,'confirm').mockResolvedValue('confirm')})
+afterEach(()=>{wrapper?.unmount();ElMessage.closeAll();confirm.mockRestore();document.body.innerHTML=''})
+async function start(){wrapper=mount(Page,{attachTo:document.body,global:{plugins:[ElementPlus]}});dom=new DOMWrapper(document.body);await flushPromises()}
+async function tab(name){await wrapper.get('#tab-'+name).trigger('click');await flushPromises()}
+it('defaults to City and lazy-loads each tab once',async()=>{await start();expect(api.fetchCities).toHaveBeenCalledTimes(1);expect(api.fetchForecastModels).not.toHaveBeenCalled();await tab('models');expect(api.fetchForecastModels).toHaveBeenCalledTimes(1);await tab('cities');expect(api.fetchCities).toHaveBeenCalledTimes(1);await tab('elements');await tab('records');expect(api.fetchForecastRecords).toHaveBeenCalledTimes(1)})
+it('model null description renders -- and clearing edit submits null',async()=>{await start();await tab('models');const panel=wrapper.get('[aria-label="预报模型管理"]');expect(panel.text()).toContain('--');await panel.get('[data-test="edit"]').trigger('click');await flushPromises();await dom.get('textarea[name="description"]').setValue('New');await dom.get('textarea[name="description"]').setValue('');await dom.get('form').trigger('submit');await flushPromises();expect(api.updateForecastModel).toHaveBeenCalledWith(41,{modelCode:'TMP_MODEL',modelName:'Temporary model',description:null})})
+it('dictionary successful write invalidates record dictionaries and metadata',async()=>{await start();await tab('records');await tab('models');await wrapper.get('[aria-label="预报模型管理"] [data-test="edit"]').trigger('click');await flushPromises();await dom.get('form').trigger('submit');await flushPromises();const before=api.fetchForecastModels.mock.calls.length;await tab('records');expect(api.fetchForecastModels).toHaveBeenCalledTimes(before+1);expect(api.fetchForecastRecords).toHaveBeenCalledTimes(2)})
+it('failed City GET does not block other tabs',async()=>{api.fetchCities.mockRejectedValue(Error('offline'));await start();await tab('models');expect(wrapper.get('[aria-label="预报模型管理"]').text()).toContain('Temporary model')})

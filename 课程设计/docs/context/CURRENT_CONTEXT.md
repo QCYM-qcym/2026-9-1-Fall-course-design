@@ -5,10 +5,10 @@
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：BE-MANAGEMENT-CRUD-1 COMPLETED；前置 FE-COMPARISON-1 与 DB-CONNECTION-CONFIG-FIX 保持 COMPLETED。当前 Gate：READY FOR FE-MANAGEMENT-CRUD-1。下一阶段须另行授权，本轮不实现前端 Management。
-Management Backend：16 / 16 API implemented，City / Forecast Model / Weather Element / Forecast Record 各 4 / 4。/weather、/analysis、/comparison 均保持 COMPLETED，已有真实后端闭环；/management Frontend 仍为 PLACEHOLDER。前端 71 项及 build 为既有证据；本阶段非数据库测试 273 PASS，用户确认完整 Maven test/package PASS，不推算完整测试总数。UI V2、Backend V2、Database V2 与 API V2 冻结范围不变；Comparison 采用 T2M、PRECIP 双折线。
+当前阶段：FE-MANAGEMENT-CRUD-1 COMPLETED。当前 Gate：READY FOR SYSTEM FINAL REVIEW。下一建议为系统级最终回归与需求、文档、实现一致性审查，须另行授权，不自动开始；本阶段完成不代表全系统最终验收、生产就绪或零缺陷。
+Management Backend 沿用 v0.12 已完成的 16 / 16 API 基线；/management 四资源 CRUD 前端已完成。/weather、/analysis、/comparison 均保持 COMPLETED，已有真实后端闭环。前端最近实际验证为 142 passed / 0 failed / 0 skipped、build PASS，本轮仅文档收口，不重跑。UI V2、Backend V2、Database V2 与 API V2 冻结范围不变；Comparison 采用 T2M、PRECIP 双折线。
 
-当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；收口检查分支 feat/be-management-crud。个人安装路径和数据库凭据不作为项目规范。
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；收口检查分支 feat/fe-management-crud。个人安装路径和数据库凭据不作为项目规范。
 
 本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
 
@@ -48,7 +48,7 @@ versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-已完成：本机环境与工程骨架、PROJECT-INIT-1、DB-INIT-1；三个展示查询与 Management 16 / 16 CRUD API，以及 /weather、/analysis、/comparison 的真实验收。Management 前端、扩展数据整理、课程正式验收和展示材料尚未完成。
+已完成：本机环境与工程骨架、PROJECT-INIT-1、DB-INIT-1；三个展示查询与 Management 16 / 16 CRUD API，以及四个前端页面的阶段验收。系统级最终回归与一致性审查、扩展数据整理、课程正式验收和展示材料仍待后续安排。
 
 ## 5. 长期边界与协作
 
@@ -58,7 +58,17 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 
 ## 6. 下一阶段
 
-下一阶段：FE-MANAGEMENT-CRUD-1，须另行授权。当前 BE-MANAGEMENT-CRUD-1 COMPLETED（2026-09-09）：
+下一建议：系统级最终回归与需求、文档、实现一致性审查，须另行授权。FE-MANAGEMENT-CRUD-1 COMPLETED：
+
+- /management：城市、预报模型、气象要素、预报记录四 Tab；各自列表、新增、编辑、删除、校验与冲突提示，引用保护交互，Loading/Empty/Error/Retry，独立 Draft、防重复提交、旧响应及卸载保护；字典变更使记录元数据和对应下拉失效并在下次使用前刷新。沿用既有 16 API、Axios；无分页、动态 CRUD 框架或业务扩展。
+- 前轮实际执行：四资源真实 CRUD、描述清空 null 后显示 --、数字 ID/本地时间、PRECIP 负值拦截与 0.00、重复冲突、字典刷新通过。临时要素 #8 的删除、编码及单位修改均独立复核 HTTP/code 409，UI 保留原行和草稿；临时记录 #202、要素 #8 已清理并确认 ID 不存在。
+- 最近自动验证：原有 71 + 新增 71 = 142 passed / 0 failed / 0 skipped；保留 node --test，新增授权的 Vitest/Vue Test Utils/DOM 组件测试链路；npm run build PASS。仅引用此前实际结果，不冒充本轮重跑。
+- USER_MANUAL_CONFIRMED：浏览器限速下 GET Loading、指定 GET 受控网络失败时的局部错误、解除阻止后的页面内 Retry、记录依赖字典失败与恢复、四资源 Empty、1920×1080 完整视觉、撤销模拟后的真实列表和正常 Console 均通过。受阻请求不等同后端返回 HTTP 500；Empty 证据为 BROWSER_SIMULATED_EMPTY，不是真实 MySQL 空表。1366×768 沿用前轮列表与弹窗实测。
+- 数据数量 16 / 2 / 2 / 192 采用前轮真实 GET；数量恢复不证明全库所有字段逐值相同。/weather 地图、Timeline、济南详情，/analysis 双图及四统计，/comparison 双模型曲线沿用前轮有效回归，不冒充本轮浏览器重测。
+- 非阻塞事项未修复：共享包 >500 kB、既有被跟踪的课程设计/.DS_Store、要素单位冲突沿用编码冲突文案。旧文档中的工程未初始化、Comparison PRECIP 柱状表现等与已批准实现的差异，留待一致性审查，本轮不改旧文档。
+- 归档：[v0.13-fe-management-crud](../../../versions/v0.13-fe-management-crud/README.md)。本轮只读 Git/源码证据核对及三份收口文档同步，不修改业务、测试、依赖或历史归档，不执行数据库写入。Git writes = NONE。
+
+以下为 v0.12 后端已完成基线的历史证据。BE-MANAGEMENT-CRUD-1 COMPLETED（2026-09-09）：
 
 - 依据用户提供的本机真实 MySQL Runtime 验收结果：四类 GET、四类 POST/PUT/DELETE、重复城市编码与记录组合 409、被引用字典删除 409、不存在城市删除 404、PRECIP 负数 400 与真实 0.00 返回 200，均 PASS。临时 Runtime 数据已清理，Initial / Final DB 均为 16 / 2 / 2 / 192。
 - Controller → Service → Mapper → MySQL；专用写 DTO，新增 ForecastRecord Entity/Service/Controller，既有 ForecastRecordMapper 扩展 BaseMapper，无第二套 Mapper，Workbench/Trend/Comparison 自定义查询保持。GET /api/forecast-records 全量、id ASC、冻结扩展字段，无分页或高级筛选。

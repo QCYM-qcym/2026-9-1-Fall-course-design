@@ -7,7 +7,7 @@
 - 名称：《山东省气象预报数据可视化系统的设计与实现》
 - 规模：两人、两周课程设计
 - 目标：在冻结方案内完成可演示、可检查、可复现的最小系统
-- 当前阶段：BE-MANAGEMENT-CRUD-1 COMPLETED；Gate：READY FOR FE-MANAGEMENT-CRUD-1
+- 当前阶段：FE-MANAGEMENT-CRUD-1 COMPLETED；Gate：READY FOR SYSTEM FINAL REVIEW
 - 当前 Backend 基线：Java 17.0.11 + Spring Boot 2.7.18 + Maven 3.9.16
 
 ## 先读什么
@@ -66,6 +66,14 @@
 - 需要覆盖有结果、无结果和城市切换场景
 
 ## 当前真实状态
+
+- FE-MANAGEMENT-CRUD-1 COMPLETED：/management 四资源列表、新增、编辑、删除已完成；独立 Draft、校验与引用冲突交互、Loading/Empty/Error/Retry、防重复提交、旧响应保护及字典失效刷新均已实现。/weather、/analysis、/comparison 保持 COMPLETED；Management Backend 沿用 v0.12 已完成基线。
+- 前轮真实 CRUD、描述清空 null/--、数字 ID、本地时间、PRECIP 零值/负值、重复冲突与字典刷新通过；要素 #8 删除/编码/单位修改 HTTP/code 409，记录 #202 与要素 #8 已清理。前轮真实数量 16/2/2/192，仅为数量证据，不代表全库字段逐值校验。
+- USER_MANUAL_CONFIRMED：本轮用户补齐 GET 限速 Loading、受控请求阻止后的局部错误及解除后的 Retry、记录依赖字典失败恢复、四资源 Empty、1920×1080 视觉、撤销模拟后真实列表与正常 Console。Empty 为 BROWSER_SIMULATED_EMPTY；受阻请求不写成后端 HTTP 500。1366×768 及三个核心展示页回归沿用前轮有效证据。
+- 最近实际 npm test 142 passed / 0 failed / 0 skipped（原 71 + 新 71），build PASS；本轮纯文档收口未重跑，未改源码/测试/配置。共享包 >500 kB、已跟踪 .DS_Store、单位冲突沿用编码文案仍为非阻塞项。
+- 当前归档：[v0.13-fe-management-crud](../../../versions/v0.13-fe-management-crud/README.md)。当前分支 feat/fe-management-crud；仅同步两份上下文与新增归档，Git writes = NONE。本阶段完成不代表全系统最终验收或生产就绪。
+
+以下三项为 v0.12 后端阶段历史，不代替上述最新前端状态：
 
 - 最新收口（2026-09-09）：BE-MANAGEMENT-CRUD-1 COMPLETED，Management Backend 16 / 16 API（四类各 GET/POST/PUT/DELETE）。依据用户提供的本机真实 MySQL Runtime 验收结果：Runtime PASS，Initial / Final DB 均为 16 / 2 / 2 / 192，临时数据已清理；Dictionary、Workbench、Trend、Comparison regression PASS。
 - ManagementCrudIntegrationTests、Full mvn test、Full mvn package / Spring Boot repackage：用户本机确认 PASS；未提供完整 Maven 测试总数，不推算。实现轮非数据库测试 273 PASS / 0 failures / 0 errors / 0 skipped；本次文档收口不重跑 Maven/HTTP、不索取密码。
@@ -136,4 +144,4 @@
 
 ## 下一任务
 
-详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 与 [v0.12-be-management-crud](../../../versions/v0.12-be-management-crud/README.md)。BE-MANAGEMENT-CRUD-1 COMPLETED；Gate：READY FOR FE-MANAGEMENT-CRUD-1。下一阶段须另行授权并完成只读开始 Gate；本轮不实现 FE Management。前置归档保持原文，Git 暂存、提交和推送由用户操作。
+详细证据查看 [CURRENT_CONTEXT.md](CURRENT_CONTEXT.md) 与 [v0.13-fe-management-crud](../../../versions/v0.13-fe-management-crud/README.md)。FE-MANAGEMENT-CRUD-1 COMPLETED；Gate：READY FOR SYSTEM FINAL REVIEW。下一建议为系统级最终回归与需求、文档、实现一致性审查，包含旧文档与已批准实现差异；须另行授权，不自动开始。前置归档保持原文，Git 暂存、提交和推送由用户操作。

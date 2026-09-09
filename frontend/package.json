@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "node --test src/utils/*.test.js"
+    "test": "node --test src/utils/*.test.js && vitest run --config vitest.config.js",
+    "test:management": "vitest run --config vitest.config.js"
   },
   "dependencies": {
     "axios": "1.13.6",
@@ -17,6 +18,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "6.0.4",
-    "vite": "7.3.1"
+    "vite": "7.3.1",
+    "vitest": "4.1.11",
+    "@vue/test-utils": "2.5.0",
+    "jsdom": "30.0.1"
   }
 }
