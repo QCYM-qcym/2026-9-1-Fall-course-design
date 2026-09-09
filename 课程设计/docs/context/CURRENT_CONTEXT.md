@@ -5,10 +5,10 @@
 ## 1. 当前阶段与真实状态
 
 《山东省气象预报数据可视化系统的设计与实现》，两人、约两周。
-当前阶段：FE-COMPARISON-1 COMPLETED；DB-CONNECTION-CONFIG-FIX COMPLETED。当前 Gate：READY FOR MANAGEMENT-BACKEND-AUDIT。下一阶段仅审计 Management Backend，须另行授权，不自动开始实现。
-三个核心查询与三个字典 GET 已完成真实验收；/weather、/analysis、/comparison 均已有真实后端闭环，/management 仍为占位页。前端 71 项及 build 通过；后端 193 项及打包为既有基线，不代表 JDBC 修复后重跑通过。UI V2、Backend V2、Database V2 与 API V2 的其余冻结范围不变；Comparison 本轮明确采用 T2M、PRECIP 双折线。
+当前阶段：BE-MANAGEMENT-CRUD-1 COMPLETED；前置 FE-COMPARISON-1 与 DB-CONNECTION-CONFIG-FIX 保持 COMPLETED。当前 Gate：READY FOR FE-MANAGEMENT-CRUD-1。下一阶段须另行授权，本轮不实现前端 Management。
+Management Backend：16 / 16 API implemented，City / Forecast Model / Weather Element / Forecast Record 各 4 / 4。/weather、/analysis、/comparison 均保持 COMPLETED，已有真实后端闭环；/management Frontend 仍为 PLACEHOLDER。前端 71 项及 build 为既有证据；本阶段非数据库测试 273 PASS，用户确认完整 Maven test/package PASS，不推算完整测试总数。UI V2、Backend V2、Database V2 与 API V2 冻结范围不变；Comparison 采用 T2M、PRECIP 双折线。
 
-当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；收口检查分支 audit/management-backend。个人安装路径和数据库凭据不作为项目规范。
+当前开发机环境：Windows 11 amd64；Java 17.0.11；javac 17.0.11；Maven 3.9.16；MySQL 8.0.46（此前实测）；收口检查分支 feat/be-management-crud。个人安装路径和数据库凭据不作为项目规范。
 
 本次 DOC-V2-INIT-PLAN 及经用户授权的冲突修复开始时，工作区干净，但 30 个文档/Canvas 中保留了已提交的合并冲突标记。本轮清理冲突、保留 V2 与必要历史记录，并将初始化计划修订为 V2；修改尚未提交。只读核对 main 的 HEAD 与本地 origin/main 均为 1740f78e0b7751ca65e8cbb803c0be6065dba88a；本轮未 fetch，不声称在线远端已刷新。Git 暂存、commit、push、pull、merge、tag 等写操作由用户通过 GitHub Desktop 完成。
 
@@ -48,7 +48,7 @@ versions/v0.2-api-contract/ 原文保留为 V1 历史；其中指向当前文档
 
 保持原课程日期：9/3～18 开发与验收，9/11 中检，9/18 软件验收，9/25 材料提交。中检最低为地图、16 市、一个 ECMWF/T2M workbench 接口、时间轴、济南详情、一个趋势图、四表和真实 Git 记录；完整 CRUD、Comparison 可在中检后完成。
 
-已完成：本机环境与工程骨架、PROJECT-INIT-1、DB-INIT-1；三个展示查询与三个字典 GET，以及 /weather、/analysis、/comparison 的真实浏览器验收。其余 13 个业务 API 的实现情况待 MANAGEMENT-BACKEND-AUDIT 复核；Management 前端、扩展数据整理、课程正式验收和展示材料尚未完成。
+已完成：本机环境与工程骨架、PROJECT-INIT-1、DB-INIT-1；三个展示查询与 Management 16 / 16 CRUD API，以及 /weather、/analysis、/comparison 的真实验收。Management 前端、扩展数据整理、课程正式验收和展示材料尚未完成。
 
 ## 5. 长期边界与协作
 
@@ -57,6 +57,17 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 不引入登录/JWT、Redis、TDengine、ERA5、NetCDF 在线处理、实时采集、复杂 GIS、风场/高空场、模型评分训练、微服务、DDD 或自动交易。Windy 仅交互思想参考，资产和代码不复制。默认不暂存、不提交、不推送，不覆盖用户无关修改。
 
 ## 6. 下一阶段
+
+下一阶段：FE-MANAGEMENT-CRUD-1，须另行授权。当前 BE-MANAGEMENT-CRUD-1 COMPLETED（2026-09-09）：
+
+- 依据用户提供的本机真实 MySQL Runtime 验收结果：四类 GET、四类 POST/PUT/DELETE、重复城市编码与记录组合 409、被引用字典删除 409、不存在城市删除 404、PRECIP 负数 400 与真实 0.00 返回 200，均 PASS。临时 Runtime 数据已清理，Initial / Final DB 均为 16 / 2 / 2 / 192。
+- Controller → Service → Mapper → MySQL；专用写 DTO，新增 ForecastRecord Entity/Service/Controller，既有 ForecastRecordMapper 扩展 BaseMapper，无第二套 Mapper，Workbench/Trend/Comparison 自定义查询保持。GET /api/forecast-records 全量、id ASC、冻结扩展字段，无分页或高级筛选。
+- 已实现必填、长度、坐标、精度、严格时间、安全 ID、关联存在与 PRECIP 非负校验；沿用 ApiResponse/BusinessException/GlobalExceptionHandler 的 400/404/409/500。Service 主动判重、数据库 UNIQUE/FK 兜底；被引用编码及要素 unit 不能改变，无级联/逻辑删除。写操作使用事务，集成测试事务回滚。
+- 实现轮：City CRUD 24、Model CRUD 20、Element CRUD 22、Record CRUD 28、Management Binding 3 PASS；全部非数据库测试 273 PASS / 0 failures / 0 errors / 0 skipped。用户本机确认 ManagementCrudIntegrationTests、Full mvn test、Full mvn package、Spring Boot repackage PASS；未提供完整 Maven Tests run 数量，不推算。收口轮未重跑 Maven 或 HTTP。
+- 用户真实回归：Dictionary、Workbench、Trend、Comparison PASS。Schema / Seed / Index UNCHANGED，仍为四表；本阶段未实现 FE Management。
+- 归档：[v0.12-be-management-crud](../../../versions/v0.12-be-management-crud/README.md)。收口仅改两份上下文与该归档，不改业务或历史归档，不记录密码或虚构 commit/tag/push。课程设计/.DS_Store 为既有独立非阻塞清理项，未移除。Git writes = NONE。
+
+以下为前置阶段历史证据，不代替上述当前状态。
 
 前置阶段 PRE-BE-WORKBENCH-FIX 最终 Gate：READY FOR BE-WORKBENCH-1；IMP-01 RESOLVED，IMP-02 RESOLVED。2026-09-07 只读复核确认根目录 .DS_Store 已不再被 Git 跟踪。以下连接与打包通过记录属于该前置阶段，不代替本轮新增业务的运行验收。
 
@@ -142,7 +153,7 @@ Monorepo：根 frontend/、backend/、database/ 保存当前实现，课程设�
 - 最终收口仅更新 CURRENT_CONTEXT、RESUME 并创建 [v0.9-fe-trend](../../../versions/v0.9-fe-trend/README.md)，不复制源码、不改历史归档、不修改业务代码。课程设计/.DS_Store 仍为独立非阻塞清理项，未自行移除；凭据不入库。
 - Gate：READY FOR NEXT PHASE。下一建议先审计 Comparison Backend，不直接假设 /api/weather/comparison 已实现；不自动开始审计、Comparison 或 Management。Git 暂存、commit、tag、push 仍由用户通过 GitHub Desktop 操作，本轮 Git writes：NONE。
 
-当前 FE-COMPARISON-1 COMPLETED（2026-09-09）：
+前置 FE-COMPARISON-1 COMPLETED（2026-09-09，以下为该阶段记录）：
 
 - /comparison 复用 Axios、日期控件及集中演示范围，按编码默认 JINAN/T2M、2026-09-07 08:00:00～14:00:00。初始化字典完成后查询一次，之后按钮触发。暗色筛选栏、模型摘要及主图；ECMWF/NOAA 的 T2M、PRECIP 均为双折线，时间并集 ASC 对齐，缺测映射 null、真实 0.00 保留。Loading/Empty/Error/Retry/requestVersion Race Protection、resize/dispose 已实现；no cache、no metrics，不含 RMSE/MAE/Bias/Accuracy。
 - 实现轮先失败测试再实现：原 45 + 新 26 = 71 passed / 0 failed / 0 skipped；npm run build PASS，共享包 >500kB warning 为 NON-BLOCKING。收口轮不重跑，不把历史执行写为本轮执行。

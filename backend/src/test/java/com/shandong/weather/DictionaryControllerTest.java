@@ -38,6 +38,8 @@ class DictionaryControllerTest {
     private ForecastModelMapper models;
     @MockBean
     private WeatherElementMapper elements;
+    @MockBean
+    private com.shandong.weather.mapper.ForecastRecordMapper records;
 
     @BeforeEach
     void emptyTables() {

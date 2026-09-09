@@ -1,12 +1,14 @@
 package com.shandong.weather.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.shandong.weather.entity.ForecastRecord;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface ForecastRecordMapper {
+public interface ForecastRecordMapper extends BaseMapper<ForecastRecord> {
     List<ComparisonRecordRow> selectComparisonData(
             @Param("cityId") long cityId,
             @Param("elementId") long elementId,

@@ -1,6 +1,8 @@
 package com.shandong.weather.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -10,6 +12,7 @@ public class ForecastModel {
     private Long id;
     private String modelCode;
     private String modelName;
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private String description;
 
     public Long getId() {
