@@ -5,7 +5,7 @@ const STATISTICS = Object.freeze([
   ['precipitationTotal', '累计降水', 'TOTAL PRECIPITATION', 'mm']
 ])
 
-function validLocalTime(value) {
+export function validLocalTime(value) {
   if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(value)) return false
   const [year, month, day, hour, minute, second] = value.split(/[- :]/).map(Number)
   const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
