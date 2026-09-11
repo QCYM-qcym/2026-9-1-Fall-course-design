@@ -24,6 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(WeatherQueryController.class)
 @Import(WeatherQueryService.class)
+@BusinessSecurityTest
+@org.springframework.security.test.context.support.WithMockUser(roles = "USER")
 class WeatherQueryControllerTest {
     @Autowired
     private MockMvc mvc;

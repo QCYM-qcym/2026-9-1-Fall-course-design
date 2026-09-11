@@ -25,6 +25,8 @@ import static org.mockito.Mockito.*;
 
 @WebMvcTest(WeatherQueryController.class)
 @Import(WeatherQueryService.class)
+@BusinessSecurityTest
+@org.springframework.security.test.context.support.WithMockUser(roles = "USER")
 class WeatherTrendControllerTest {
     @Autowired private MockMvc mvc;
     @MockBean private ForecastRecordMapper mapper;

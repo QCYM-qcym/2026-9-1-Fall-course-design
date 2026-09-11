@@ -18,6 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(CityController.class)
 @Import(CityService.class)
+@BusinessSecurityTest
+@org.springframework.security.test.context.support.WithMockUser(roles = "ADMIN")
 class CityCrudControllerTest {
     @org.junit.jupiter.api.Test void updateLocksDictionaryBeforeReferenceCheck() throws Exception {
         var old = new com.shandong.weather.entity.City(); old.setId(80L); old.setCityCode("TEMP_CITY"); old.setCityName("Test"); old.setLongitude(new java.math.BigDecimal("120.123456")); old.setLatitude(new java.math.BigDecimal("36.5"));

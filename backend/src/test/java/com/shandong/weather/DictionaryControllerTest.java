@@ -28,6 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest({CityController.class, ForecastModelController.class, WeatherElementController.class})
 @Import({CityService.class, ForecastModelService.class, WeatherElementService.class})
+@BusinessSecurityTest
+@org.springframework.security.test.context.support.WithMockUser(roles = "USER")
 class DictionaryControllerTest {
     @Autowired
     private MockMvc mvc;

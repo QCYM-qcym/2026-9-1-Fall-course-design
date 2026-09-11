@@ -2,6 +2,22 @@
 
 ## 当前续作
 
+2026-09-11：**AUTH-ROLE-1 COMPLETED**；Gate：**READY FOR WEATHER-UI-REFINE-1**。本轮只做文档收口，不自动开始下一阶段。先读 [CURRENT_CONTEXT](CURRENT_CONTEXT.md)、[认证说明](../AUTH-ROLE-1.md)和 [v1.1-auth-role 归档](../../../versions/v1.1-auth-role/README.md)。
+
+- 已实现 Spring Security + HttpSession（Session）+ BCrypt + CSRF，以及 USER / ADMIN 双入口；角色只来自数据库 `sys_user.role`。
+- USER 可进入 `/weather`、`/analysis`、`/comparison`，不可进入 `/management` 或调用管理记录列表、管理类写 API；ADMIN 可访问全部业务页面及管理 CRUD。四个 auth API（csrf/login/me/logout）与原 19 个天气业务 API 分开计数，health 另计。
+- 当前开发库：city=16、forecast_model=2、weather_element=6、forecast_record=46080、distinct forecast_time=240、sys_user=2。192 个 city/model/element 组合各 240 条、重复业务键 0、三城市抽查及 12 个旧兼容样例通过；月度数据和认证种子已在前置任务同步完成，不再是旧 192 条开发库。
+- 已取得的测试基线：frontend **178 PASS**、backend **365 PASS**；frontend build PASS、backend package/repackage PASS。本轮按用户确认记录既有证据，未重新运行测试或构建。
+- Portable：Windows PowerShell **5.1 认证 Runtime PASS**；PowerShell 7 失败证据保留，不列为支持环境。未重制完整发布 ZIP，不自动升级旧 portable 数据目录。
+- 前置运行时恢复后：匿名 me=401；USER、ADMIN 正确入口登录=200，me 分别返回 demo_user / USER、demo_admin / ADMIN；双向角色入口不匹配=403，错误密码=401。独立 Cookie/Session + 新 CSRF 链路通过。
+- 最终人工浏览器验收 **PASS / USER_MANUAL_CONFIRMED**：USER 登录、analysis、logout 正常；logout 后手动再次进入 `/analysis` 自动返回 `/login`，旧趋势图和旧统计均不显示。本轮只记录用户提供的人工证据，不冒充新浏览器测试。
+
+恢复提示：从已经具备 DB_HOST、DB_PORT、DB_NAME、DB_USERNAME、DB_PASSWORD 的终端，在 backend 执行 `mvn spring-boot:run`；新 Java 进程必须实际继承这五项变量，私有凭据不写入参数、文件或仓库。此前旧 8080 进程缺少全部 DB_*，回退默认配置而登录 500，已在 AUTH-RUNTIME-ENV-RECOVERY 中恢复；不应为该环境问题修改认证代码或重导 SQL。已有服务状态需按后续任务只读确认，不擅自停止或重复启动。
+
+本轮只更新四份收口文档；业务代码、数据库和 `versions/v1.0-final` 不变，Tests Re-run=NO，Git Writes=NONE。下面为前置阶段历史恢复材料，其中旧 Gate、无认证限制、数量与测试数字仅适用于对应历史阶段；当前状态以上方和 CURRENT_CONTEXT 最新章节为准。
+
+## 月度数据及 v1.0 历史恢复材料
+
 2026-09-11：**MONTHLY-SYNTHETIC-DATA-1 COMPLETED**；Gate **READY FOR AUTH-ROLE-1**，只是建议，不自动实施。先读[月级数据说明](../MONTHLY-SYNTHETIC-DATA-1.md)与[实施计划](../MONTHLY-SYNTHETIC-DATA-1-plan.md)。新SQL真实16/2/6/46,080、240时次、每组240、重复0；固定seed20260901，保留济南十二值。generator10、frontend157、backend324测试全过，前端build与后端完整package通过，四页真实兼容已验收。
 
 四表和19API不变，Trend仍两要素，Workbench/Comparison六要素。仅因真实大表不可用，预报记录增加100条本地分页，GET仍全量约11.25MB；图层面板增加滚动/换行。开发库3306未修改；新隔离实例已停止，数据与失败现场均保留。运行凭据不入Git，旧ZIP不自动升级，v1.1完整包尚未重制。浏览器清理阶段连接中断，旧压力标签可能需手动关闭；详见验收记录。下面v1.0旧状态/数量仅是历史恢复材料，Git writes = NONE。
@@ -154,7 +170,7 @@
 
 最终后端证据已补齐：用户提供本机完整 mvn package 输出，结束于 2026-09-09T13:55:12+08:00，293 tests / 0 failures / 0 errors / 0 skipped，JAR 与 Spring Boot repackage 成功，BUILD SUCCESS（8.388 s）。来源 USER_PROVIDED_LOCAL_MAVEN_OUTPUT，本次未重跑；前轮 Codex 进程缺凭据导致的 20 errors 作为历史环境失败保留在 CURRENT_CONTEXT，不再构成最终 Gate 缺项。仅更新两份上下文并创建 [v1.0-final](../../../versions/v1.0-final/README.md)，可作为课程设计软件 v1.0 交用户检查提交；不代表 Git 已提交、教师正式验收或生产部署。Git writes = NONE，不自动开始新阶段。
 
-## 本地启动与最终复核
+## v1.0 本地启动与最终复核（历史）
 
 前置：现有 MySQL 实例及四表数据已准备，Java 17、Maven 3.9.16 与 Node/npm 已安装。不要对现有数据库重复运行 schema.sql/data.sql；凭据仅由本机环境变量提供，不写入文件。
 

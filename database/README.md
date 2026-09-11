@@ -1,5 +1,9 @@
 # 数据库初始化
 
+## AUTH-ROLE-1 初始化补充
+
+当前为4张气象业务表 + 1张sys_user认证表。仅新空隔离实例依次导入schema.sql → data.sql → auth-data.sql；认证表DDL在schema，演示账户BCrypt在auth-data，不修改天气生成器。禁止为旧库加账户而直接重跑会DROP业务表的schema；旧库迁移不在本轮自动执行。公开DEMO ONLY账户、权限与验证状态见[认证说明](../课程设计/docs/AUTH-ROLE-1.md)。后文四表/原schema不改为月级阶段历史，不用于否定本轮新增认证表。
+
 ## 当前月级合成数据
 
 MONTHLY-SYNTHETIC-DATA-1 新数据由 `node tools/data/generate-monthly-weather-data.mjs` 在仓库根目录生成 `database/data.sql`。固定seed=20260901，保留原16市字典，模型场景ECMWF/NOAA，六要素，2026-09-01～30每日02/05/08/11/14/17/20/23。理论46,080条/240时次，真实生成与隔离MySQL验收记录见 [月级数据说明](../课程设计/docs/MONTHLY-SYNTHETIC-DATA-1.md)。

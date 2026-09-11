@@ -1,6 +1,7 @@
 ﻿param([switch]$Offline, [switch]$PackageOnly)
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+. (Join-Path $PSScriptRoot 'runtime/Portable.Common.ps1')
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $cache = Join-Path $repo '.portable-build/downloads'
 $build = Join-Path $repo ('.portable-build/releases/' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [guid]::NewGuid().ToString('N').Substring(0,8))
@@ -53,7 +54,7 @@ foreach ($name in @('java','mysql')) {
     Move-Item -LiteralPath $roots[0].FullName -Destination (Join-Path $stage "runtime/$name")
 }
 Copy-Item -LiteralPath (Join-Path $repo 'backend/target/weather-backend-0.3.0-SNAPSHOT.jar') -Destination (Join-Path $stage 'app/weather-demo.jar')
-foreach ($sql in @('schema.sql','data.sql')) {
+foreach ($sql in (Get-InitializationFiles)) {
     Copy-Item -LiteralPath (Join-Path $repo "database/$sql") -Destination (Join-Path $stage "database/$sql")
 }
 Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'runtime') -File | Copy-Item -Destination (Join-Path $stage 'runtime/scripts')

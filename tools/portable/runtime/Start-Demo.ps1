@@ -64,8 +64,7 @@ try {
         }
     }
     if ($phase -eq 'Fresh') {
-        Invoke-PrivateClient $root @('--batch') ([IO.File]::ReadAllText((Join-Path $root 'database/schema.sql'),[Text.Encoding]::UTF8))
-        Invoke-PrivateClient $root @('--batch') ([IO.File]::ReadAllText((Join-Path $root 'database/data.sql'),[Text.Encoding]::UTF8))
+        Import-DemoDatabase $root
         Write-Utf8 (Join-Path $root 'var/initialized') 'complete'
         # Remove only the transient generated credential SQL, never data or diagnostics.
         Remove-Item -LiteralPath $bootstrap -Force
@@ -92,22 +91,15 @@ try {
         try {
             if (!(Assert-OwnedProcess $root $state.App App)) { throw 'Application exited.' }
             Assert-OwnedListener 18080 $state.App.Id
-            $request = [Net.HttpWebRequest]::Create('http://127.0.0.1:18080/api/cities')
-            $request.Proxy = $null; $request.Timeout = 2000; $request.ReadWriteTimeout = 2000; $request.AllowAutoRedirect = $false
-            $response = $request.GetResponse()
-            try {
-                $reader = New-Object IO.StreamReader($response.GetResponseStream(),[Text.Encoding]::UTF8)
-                try { $ready = ([int]$response.StatusCode -eq 200) -and (Test-DictionaryResponse $reader.ReadToEnd()) }
-                finally { $reader.Dispose() }
-            } finally { $response.Dispose() }
+            $ready = Test-AuthenticatedDictionary
         } catch { $ready = $false }
         if ($ready) { Assert-OwnedListener 18080 $state.App.Id; break }
         if ([DateTime]::UtcNow -gt $deadline) { throw 'Real dictionary GET did not succeed before the startup deadline. Browser was not opened.' }
         Start-Sleep -Milliseconds 500
     }
-    Write-Host 'Demo ready: http://127.0.0.1:18080/management'
+    Write-Host 'Demo ready: http://127.0.0.1:18080/login'
     Write-Host 'Keep this supervisor open. Use Stop-Demo.ps1 or the package stop command to exit gracefully.'
-    if (!$NoBrowser) { Start-Process 'http://127.0.0.1:18080/management' }
+    if (!$NoBrowser) { Start-Process 'http://127.0.0.1:18080/login' }
     $startupGuard.Dispose(); $startupGuard = $null
     while (!$appChild.Process.HasExited -and !$dbChild.Process.HasExited) { Start-Sleep -Milliseconds 500 }
 } catch {

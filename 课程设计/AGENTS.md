@@ -8,6 +8,8 @@
 
 ## 2. 冻结方案
 
+AUTH-ROLE-1 用户已正式批准：Spring Security Session + BCrypt + CSRF，USER/ADMIN 两入口；四张气象业务表之外增加 sys_user，19 个气象业务 API 外单独统计4个认证接口与health。普通用户可读三字典/三展示查询，ADMIN 才可管理。只有本阶段认证范围获得扩展授权，JWT/Redis/复杂RBAC仍禁止。详见 [认证说明](docs/AUTH-ROLE-1.md)，实现和验收状态以 CURRENT_CONTEXT 为准。
+
 MONTHLY-SYNTHETIC-DATA-1 用户已批准扩展：当前目标为16城市、2模型、6要素（T2M、PRECIP、TCC、WIND_SPEED_100M、WIND_DIR_100M、RH），2026-09-01～30每日02/05/08/11/14/17/20/23，46,080条合成记录。四表/Schema不变，Workbench与Comparison支持六要素，Trend仍为T2M/PRECIP。下列192条/两要素为v1.0历史基线；当前实际验证状态和新数据口径见 [月级数据说明](docs/MONTHLY-SYNTHETIC-DATA-1.md)，不得把目标数字冒充已验收。
 
 - 技术栈：Vue 3、Vite、JavaScript、Element Plus、ECharts、Axios、Vue Router；Java 17、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven 3.9.16；MySQL 8.0.16+。

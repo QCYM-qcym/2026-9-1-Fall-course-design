@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest
+@BusinessSecurityTest
+@org.springframework.security.test.context.support.WithMockUser(roles = "USER")
 class PortableWebTests {
     @Autowired MockMvc mvc;
     @org.springframework.boot.test.mock.mockito.MockBean com.shandong.weather.service.CityService cities;
@@ -19,7 +21,7 @@ class PortableWebTests {
     @org.springframework.boot.test.mock.mockito.MockBean com.shandong.weather.service.WeatherQueryService weather;
 
     @ParameterizedTest
-    @ValueSource(strings = {"/weather", "/analysis", "/comparison", "/management"})
+    @ValueSource(strings = {"/login", "/weather", "/analysis", "/comparison", "/management"})
     void onlyKnownPageRoutesForwardToBundledIndex(String path) throws Exception {
         mvc.perform(get(path)).andExpect(status().isOk()).andExpect(forwardedUrl("/index.html"));
     }
@@ -27,6 +29,6 @@ class PortableWebTests {
     @ParameterizedTest
     @ValueSource(strings = {"/api/not-found", "/assets/missing.js", "/missing.css", "/weather/missing", "/unknown"})
     void missingApiAndAssetsNeverBecomeTheSpa(String path) throws Exception {
-        mvc.perform(get(path)).andExpect(status().isNotFound()).andExpect(forwardedUrl(null));
+        mvc.perform(get(path)).andExpect(status().is(path.startsWith("/assets/") ? 404 : 403)).andExpect(forwardedUrl(null));
     }
 }

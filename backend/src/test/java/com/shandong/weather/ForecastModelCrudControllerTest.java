@@ -18,6 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ForecastModelController.class)
 @Import(ForecastModelService.class)
+@BusinessSecurityTest
+@org.springframework.security.test.context.support.WithMockUser(roles = "ADMIN")
 class ForecastModelCrudControllerTest {
     @Test void rejectsOverlongFields() throws Exception {
         for (String body : new String[]{BODY.replace("TEMP_MODEL","X".repeat(33)), BODY.replace("Test model","X".repeat(51)),

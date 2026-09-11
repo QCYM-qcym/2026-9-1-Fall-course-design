@@ -22,6 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @Rollback
+@BusinessSecurityTest
+@org.springframework.security.test.context.support.WithMockUser(roles = "ADMIN")
 class ManagementCrudIntegrationTests {
     @Autowired MockMvc mvc;
     @Autowired ObjectMapper json;

@@ -1,6 +1,25 @@
 # 当前项目上下文
 
-## MONTHLY-SYNTHETIC-DATA-1 当前工作
+## AUTH-ROLE-1 当前状态（2026-09-11 收口）
+
+**AUTH-ROLE-1 COMPLETED**。Gate：**READY FOR WEATHER-UI-REFINE-1**；仅记录下一阶段就绪，本轮未开始 UI 优化。认证详情见 [AUTH-ROLE-1](../AUTH-ROLE-1.md)，阶段归档见 [v1.1-auth-role](../../../versions/v1.1-auth-role/README.md)。
+
+- 认证方案：Spring Security + HttpSession（Session）+ BCrypt + CSRF；USER / ADMIN 双入口已实现，实际权限只取数据库 `sys_user.role`，`loginType` 不授予角色。
+- USER 可访问 `/weather`、`/analysis`、`/comparison` 及对应只读业务 API；不可访问 `/management`、管理记录列表和管理类写 API。ADMIN 可访问全部业务页面及管理 CRUD，写请求仍须 CSRF。
+- API 分开计数：原 19 个天气业务 API（16 CRUD + 3 展示查询）保持；另计 4 个 auth API：GET `/api/auth/csrf`、POST `/api/auth/login`、GET `/api/auth/me`、POST `/api/auth/logout`。GET `/api/health` 为独立辅助接口。
+- 当前开发数据库 `shandong_weather`：city=16、forecast_model=2、weather_element=6、forecast_record=46080、distinct forecast_time=240、sys_user=2（demo_user / USER、demo_admin / ADMIN，均启用，BCrypt 哈希长度 60）。月度数据已同步到开发库：192 个 city/model/element 组合各 240 条，重复业务键 0，济南/青岛/烟台抽查及 12 个旧兼容样例通过。
+- 历史自动测试与构建证据：frontend **178 PASS**、backend **365 PASS**，frontend build PASS、backend package/repackage PASS。由本阶段既有验收及用户本次确认记录；AUTH-ROLE-1-CLOSEOUT 仅更新文档，未重新执行测试或构建。
+- Portable 已取得 Windows PowerShell **5.1 认证运行验证 PASS**；PowerShell 7 的失败证据保留，不将 PowerShell 7 描述为已支持或已通过。旧 portable 目录不自动升级，未重制完整发布 ZIP。
+- 前置恢复阶段真实 HTTP：匿名 `/api/auth/me`=401；demo_user + USER 登录=200，`/me`=demo_user / USER；demo_admin + ADMIN 登录=200，`/me`=demo_admin / ADMIN；USER → ADMIN 入口=403、ADMIN → USER 入口=403、错误密码=401。每组使用独立 Cookie/Session 并重新获取 CSRF。
+- 最终浏览器人工验收 **USER_MANUAL_CONFIRMED / PASS**：USER 登录、`/analysis`、logout 正常；退出后手动再次访问 `/analysis` 自动回到 `/login`，不显示旧趋势图或旧统计内容。来源为用户本次提供的人工验收，本收口轮未重跑浏览器验证。
+
+前置数据库与运行环境恢复已经完成：LOCAL-DB-MONTHLY-SYNC 同步月度天气数据，AUTH-LOCAL-DB-FIX 补齐认证表和种子；旧 8080 Maven 子进程缺少全部 DB_*，回退默认数据源而登录 500。AUTH-RUNTIME-500-ROOT-CAUSE 通过进程环境比对和正确环境下的隔离实例确认根因，AUTH-RUNTIME-ENV-RECOVERY 仅重启开发后端使其继承 DB_*，上述真实认证重新验收通过。恢复后只读数量仍为 16 / 2 / 6 / 46080 / 240 / 2 users；没有为解决 500 修改认证代码或哈希。环境只在启动时继承，不能把当前终端的可用凭据等同于旧 Java 进程的环境；私有凭据不写入仓库。
+
+本收口轮只更新 CURRENT_CONTEXT、RESUME、AUTH-ROLE-1 和新增 v1.1-auth-role/README；不修改业务代码、SQL、配置、portable 脚本或数据库，不重跑完整测试，不执行 Git 写操作。工作区原有认证代码改动属于前置阶段，保留原状；`versions/v1.0-final` 历史归档不覆盖。本阶段仍为本地合成课程演示，不宣称生产部署就绪。
+
+## MONTHLY-SYNTHETIC-DATA-1 历史验收
+
+以下月度阶段及 v1.0 记录保留当时事实；其中旧数量、测试数、“未迁移开发库”“无认证”及旧 Gate 不代表上方的当前认证阶段状态。
 
 2026-09-11：**MONTHLY-SYNTHETIC-DATA-1 COMPLETED**。完整证据见[月级数据说明](../MONTHLY-SYNTHETIC-DATA-1.md)，步骤见[实施计划](../MONTHLY-SYNTHETIC-DATA-1-plan.md)。固定seed20260901，2026-09-01～30每日8时次；实际SQL与隔离MySQL均为16/2/6/46,080、240时次、192组各240条、重复0。T2M/PRECIP/TCC由共享合成天气过程构造，u/v推导风速风向，T2M/内部露点推导RH；ECMWF/NOAA是模型场景，不是真实气象源。
 

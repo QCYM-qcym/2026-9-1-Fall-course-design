@@ -20,6 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest(com.shandong.weather.controller.ForecastRecordController.class)
 @org.springframework.context.annotation.Import(com.shandong.weather.service.ForecastRecordService.class)
+@BusinessSecurityTest
+@org.springframework.security.test.context.support.WithMockUser(roles = "ADMIN")
 class ForecastRecordCrudControllerTest {
     @Autowired MockMvc mvc;
     @Autowired com.shandong.weather.service.ForecastRecordService service;

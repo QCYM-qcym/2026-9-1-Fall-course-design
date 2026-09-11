@@ -155,6 +155,52 @@ function Test-DictionaryResponse([string]$Body) {
         $r.code -eq 200 -and @($r.data).Count -gt 0 -and $null -ne $r.data[0].id -and ![string]::IsNullOrWhiteSpace($r.data[0].cityCode)
     } catch { $false }
 }
+function Get-InitializationFiles { @('schema.sql','data.sql','auth-data.sql') }
+function Import-DemoDatabase([string]$Root) {
+    foreach ($sql in (Get-InitializationFiles)) {
+        Invoke-PrivateClient $Root @('--batch') ([IO.File]::ReadAllText((Join-Path $Root "database/$sql"),[Text.Encoding]::UTF8))
+    }
+}
+function Invoke-DemoJson([string]$Path, [Net.CookieContainer]$Cookies, [string]$Method = 'GET', $Body = $null, [string]$Token = '') {
+    if ($Path -notin @('/api/auth/csrf','/api/auth/login','/api/auth/logout','/api/cities')) { throw 'Unexpected startup probe path.' }
+    $request = [Net.HttpWebRequest]::Create('http://127.0.0.1:18080' + $Path)
+    $request.Proxy = $null; $request.Timeout = 3000; $request.ReadWriteTimeout = 3000; $request.AllowAutoRedirect = $false
+    $request.CookieContainer = $Cookies; $request.Method = $Method
+    if ($Token) { $request.Headers['X-XSRF-TOKEN'] = $Token }
+    if ($null -ne $Body) {
+        $bytes = [Text.Encoding]::UTF8.GetBytes(($Body | ConvertTo-Json -Compress))
+        $request.ContentType = 'application/json'; $request.ContentLength = $bytes.Length
+        $stream = $request.GetRequestStream()
+        try { $stream.Write($bytes,0,$bytes.Length) } finally { $stream.Dispose() }
+    }
+    $response = $request.GetResponse()
+    try {
+        $reader = New-Object IO.StreamReader($response.GetResponseStream(),[Text.Encoding]::UTF8)
+        try { $result = ConvertFrom-Json $reader.ReadToEnd() } finally { $reader.Dispose() }
+        if ([int]$response.StatusCode -ne 200 -or $result.code -ne 200) { throw 'Startup probe was not successful.' }
+        return $result
+    } finally { $response.Dispose() }
+}
+function Test-AuthenticatedDictionary([scriptblock]$Transport = ${function:Invoke-DemoJson}) {
+    # Public DEMO ONLY credentials, unrelated to the random MySQL connection secret.
+    # The cookie jar stays in memory and is never handed to the browser or written.
+    $cookies = New-Object Net.CookieContainer
+    $loggedIn = $false
+    try {
+        $csrf = & $Transport '/api/auth/csrf' $cookies 'GET' $null ''
+        $login = & $Transport '/api/auth/login' $cookies 'POST' @{username='demo_user';password='DemoUser@2026';loginType='USER'} $csrf.data.token
+        $loggedIn = $true
+        if ($login.code -ne 200 -or $login.data.role -ne 'USER') { throw 'Unexpected startup probe identity.' }
+        $dictionary = & $Transport '/api/cities' $cookies 'GET' $null ''
+        return (Test-DictionaryResponse ($dictionary | ConvertTo-Json -Depth 8 -Compress))
+    } finally {
+        if ($loggedIn) {
+            $csrf = & $Transport '/api/auth/csrf' $cookies 'GET' $null ''
+            $logout = & $Transport '/api/auth/logout' $cookies 'POST' @{} $csrf.data.token
+            if ($logout.code -ne 200) { throw 'Startup probe logout failed.' }
+        }
+    }
+}
 function Assert-PortsFree {
     $used = @([Net.NetworkInformation.IPGlobalProperties]::GetIPGlobalProperties().GetActiveTcpListeners() | Where-Object { $_.Port -in @(13306,18080) })
     if ($used.Count) { throw ('Required port already occupied: ' + (($used | ForEach-Object { $_.Port } | Select-Object -Unique) -join ', ') + '. Nothing was stopped.') }
@@ -206,7 +252,7 @@ function Assert-OwnedListener([int]$Port, [int]$ProcessId) {
 }
 function Assert-PortablePrerequisites([string]$Root) {
     if (![Environment]::Is64BitOperatingSystem -or ![Environment]::Is64BitProcess) { throw 'Use Windows x64 and 64-bit Windows PowerShell 5.1.' }
-    foreach ($file in @('app/weather-demo.jar','runtime/java/bin/java.exe','runtime/mysql/bin/mysqld.exe','runtime/mysql/bin/mysql.exe','runtime/mysql/bin/mysqladmin.exe','database/schema.sql','database/data.sql')) {
+    foreach ($file in @('app/weather-demo.jar','runtime/java/bin/java.exe','runtime/mysql/bin/mysqld.exe','runtime/mysql/bin/mysql.exe','runtime/mysql/bin/mysqladmin.exe','database/schema.sql','database/data.sql','database/auth-data.sql')) {
         if (!(Test-Path -LiteralPath (Join-Path $Root $file) -PathType Leaf)) { throw "Package file missing: $file" }
     }
     foreach ($dll in @('vcruntime140.dll','vcruntime140_1.dll','msvcp140.dll')) {

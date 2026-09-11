@@ -81,3 +81,20 @@ CREATE TABLE forecast_record (
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci
   COMMENT='气象预报记录；PRECIP 表示不重叠三小时时段量';
+
+-- AUTH-ROLE-1: independent authentication table; meteorological DDL above is unchanged.
+DROP TABLE IF EXISTS sys_user;
+CREATE TABLE sys_user (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  username VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  password_hash VARCHAR(100) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  role VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  enabled TINYINT NOT NULL DEFAULT 1,
+  PRIMARY KEY (id),
+  CONSTRAINT uq_sys_user_username UNIQUE (username),
+  CONSTRAINT chk_sys_user_role CHECK (role IN ('USER', 'ADMIN')),
+  CONSTRAINT chk_sys_user_enabled CHECK (enabled IN (0, 1))
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci
+  COMMENT='Session authentication users; roles originate only from this table';
