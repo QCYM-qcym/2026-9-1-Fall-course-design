@@ -34,8 +34,10 @@ onBeforeUnmount(workbench.dispose)
     <ShandongWeatherMap :rows="rows" :range="legend" :element-code="element?.elementCode" :unit="element?.unit" :selected-city-id="state.selectedCityId" @select="state.selectedCityId = $event" @error="mapError = true" />
     <WeatherToolbar :model="model" :element="element" :range="state.range" :disabled="!state.dictionariesReady" @range="workbench.load({ range: $event })" />
     <WeatherSwitchers :models="state.models" :elements="state.elements" :model-id="state.modelId" :element-id="state.elementId" :disabled="!state.dictionariesReady" @model="workbench.load({ modelId: $event })" @element="workbench.load({ elementId: $event })" />
-    <CityDetailPanel :city="selectedCity" :cities="state.cities" :model="model" :element="element" :time="state.selectedTime" :ready="state.status === 'success'" @select="state.selectedCityId = $event" @close="state.selectedCityId = null" />
-    <WeatherLegend :range="legend" :element="element" />
+    <div class="weather-inspector">
+      <CityDetailPanel :city="selectedCity" :cities="state.cities" :model="model" :element="element" :time="state.selectedTime" :ready="state.status === 'success'" @select="state.selectedCityId = $event" @close="state.selectedCityId = null" />
+      <WeatherLegend :range="legend" :element="element" />
+    </div>
     <div v-if="state.status === 'loading' || state.status === 'idle'" class="query-state floating-panel" role="status"><span class="loading-dot" /><h2>正在加载预报数据</h2><p>读取字典与当前查询范围，请稍候。</p></div>
     <div v-else-if="mapError || state.status === 'error'" class="query-state floating-panel" role="alert"><span class="state-symbol">!</span><h2>{{ mapError ? '地图暂时无法显示' : '暂时无法加载' }}</h2><p>{{ mapError ? '请刷新页面重试，或检查浏览器绘图支持。' : state.error }}</p><button v-if="!mapError" @click="retry">重新加载</button></div>
     <div v-else-if="state.status === 'empty'" class="query-state floating-panel" role="status"><span class="state-symbol">—</span><h2>此范围暂无预报记录</h2><p>{{ model?.modelName }} · {{ element?.elementName }}</p><p>{{ state.range[0] }} — {{ state.range[1] }}</p><button @click="workbench.load({ range: [...DEMO_RANGE] })">返回课程演示范围</button></div>
@@ -54,6 +56,7 @@ onBeforeUnmount(workbench.dispose)
   --el-border-color: #47616d; --el-disabled-bg-color: #213746; --el-disabled-text-color: #90a6b1;
 }
 .weather-workspace::before { content: ''; position: absolute; inset: 0; opacity: .15; pointer-events: none; background-image: linear-gradient(#557d8d33 1px, transparent 1px), linear-gradient(90deg, #557d8d33 1px, transparent 1px); background-size: 68px 68px; }
+.weather-inspector { position: absolute; top: 152px; bottom: 145px; right: 24px; width: 230px; display: flex; flex-direction: column; gap: 12px; }
 .weather-workspace .floating-panel { z-index: 2; background: #122735ed; border: 1px solid #365361; border-radius: 10px; box-shadow: 0 8px 30px #050f1826; backdrop-filter: blur(12px); }
 .weather-workspace .micro-label { margin: 0; color: #93b1c1; font-size: 10px; letter-spacing: .13em; font-weight: 500; }
 .weather-workspace .muted { font-size: 12px; color: #99b3bf; }
@@ -72,10 +75,11 @@ onBeforeUnmount(workbench.dispose)
 .loading-dot { display: inline-block; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #4d7080; border-top-color: #c3d6aa; animation: weather-spin 1s linear infinite; }
 @keyframes weather-spin { to { transform: rotate(360deg); } }
 @media(prefers-reduced-motion: reduce) { .loading-dot { animation: none; } }
-.map-status { position: absolute; left: 195px; bottom: 146px; display: flex; align-items: center; gap: 9px; font-size: 10px; color: #bdcdd4; }
+.map-status { position: absolute; left: 220px; bottom: 146px; display: flex; align-items: center; gap: 9px; font-size: 11px; color: #bdcdd4; }
 .map-status > span:not(.status-dot) { border-left: 1px solid #5f7d8b; padding-left: 9px; color: #92adba; }
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #a79b7d; }.status-dot.ready { background: #b8d794; }
 .map-attribution { position: absolute; right: 25px; bottom: 4px; margin: 0; font-size: 9px; color: #8ca8b5; }
 .data-warning { position: absolute; left: 195px; top: 126px; color: #e5cf94; font-size: 12px; }
 @media(max-width: 1000px) { .weather-workspace { min-height: 840px; }.map-status { left: 18px; bottom: 334px; }.query-state { left: 44%; top: 40%; } }
+@media(max-width: 1000px) { .weather-inspector { right: 12px; width: 205px; top: 152px; bottom: 165px; } }
 </style>

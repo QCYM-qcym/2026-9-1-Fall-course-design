@@ -5,7 +5,7 @@ import * as weather from '../api/weather.js'
 import http from '../api/http.js'
 import { init, use } from 'echarts/core'
 import { LineChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
+import { DataZoomComponent, GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import { SVGRenderer } from 'echarts/renderers'
 
 const required = name => { assert.equal(typeof comparison[name], 'function', `${name} must be implemented`); return comparison[name] }
@@ -134,7 +134,7 @@ test('comparison tooltip shows both models and missing marker even if ECharts om
 
 test('comparison real ECharts renders both lines, changes unit, clears empty, resizes and disposes', () => {
   const build = required('buildComparisonOption')
-  use([LineChart, GridComponent, TooltipComponent, LegendComponent, SVGRenderer])
+  use([LineChart, DataZoomComponent, GridComponent, TooltipComponent, LegendComponent, SVGRenderer])
   const warnings = [], previous = { log: console.log, warn: console.warn }
   console.log = console.warn = (...args) => warnings.push(args.join(' '))
   const chart = init(null, null, { renderer: 'svg', ssr: true, width: 1000, height: 380 })

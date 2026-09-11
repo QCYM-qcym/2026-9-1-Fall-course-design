@@ -1,7 +1,7 @@
-import { TEMPERATURE_COLORS, PRECIPITATION_COLORS } from './weatherWorkbench.js'
+import { WEATHER_ELEMENTS, formatElementNumber, formatElementValue, windDirection } from './weatherElements.js'
 
-export function formatWeatherValue(value) {
-  return Number.isFinite(value) ? value.toFixed(2) : '暂无数据'
+export function formatWeatherValue(value, code) {
+  return Number.isFinite(value) ? formatElementNumber(value, code) : '暂无数据'
 }
 
 export function createMapOption(rows, range, elementCode, unit, selectedCityId) {
@@ -9,12 +9,12 @@ export function createMapOption(rows, range, elementCode, unit, selectedCityId) 
   return {
     animationDurationUpdate: 220,
     tooltip: {
-      trigger: 'item', renderMode: 'richText', backgroundColor: '#172b3c', borderColor: '#466073', textStyle: { color: '#edf3f6' },
-      formatter: params => `${params.name}\n${formatWeatherValue(byName.get(params.name)?.value)}${Number.isFinite(byName.get(params.name)?.value) ? ` ${unit}` : ''}`
+      trigger: 'item', renderMode: 'richText', confine: true, backgroundColor: '#172b3c', borderColor: '#466073', textStyle: { color: '#edf3f6' },
+      formatter: params => `${params.name}\n${formatElementValue(byName.get(params.name)?.value, elementCode, '暂无数据')}`
     },
     visualMap: {
       show: false, min: range.min, max: range.max, seriesIndex: 0,
-      inRange: { color: elementCode === 'PRECIP' ? PRECIPITATION_COLORS : TEMPERATURE_COLORS },
+      inRange: { color: (WEATHER_ELEMENTS[elementCode] ?? WEATHER_ELEMENTS.T2M).colors },
       outOfRange: { color: '#314655' }
     },
     series: [{
@@ -25,7 +25,7 @@ export function createMapOption(rows, range, elementCode, unit, selectedCityId) 
         show: true, color: '#fff', fontSize: 11, lineHeight: 16, textBorderColor: '#173344', textBorderWidth: 2,
         formatter: params => {
           const row = byName.get(params.name)
-          return `${row?.cityName ?? params.name}\n${formatWeatherValue(row?.value)}`
+          return `${row?.cityName ?? params.name}\n${elementCode === 'WIND_DIR_100M' && Number.isFinite(row?.value) ? `${windDirection(row.value)}风` : formatWeatherValue(row?.value, elementCode)}`
         }
       },
       emphasis: { label: { color: '#fff' }, itemStyle: { borderColor: '#ffffff', borderWidth: 2, areaColor: undefined } },

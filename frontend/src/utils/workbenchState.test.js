@@ -37,7 +37,7 @@ test('initializes dictionaries, resolves defaults by code, sends all four parame
   const app = setup()
   await app.initialize()
   assert.equal(app.state.status, 'success')
-  assert.deepEqual(app.requests, [{ modelId: 42, elementId: 17, startTime: '2026-09-07 08:00:00', endTime: '2026-09-07 14:00:00' }])
+  assert.deepEqual(app.requests, [{ modelId: 42, elementId: 17, startTime: '2026-09-01 02:00:00', endTime: '2026-09-30 23:00:00' }])
   assert.equal(app.state.selectedTime, times[0])
   assert.equal(app.state.response.records.length, 48)
   assert.equal(app.state.matched, 16)
@@ -47,6 +47,46 @@ test('timeline is local, valid selections persist and unknown time is ignored', 
   app.selectTime(times[1]); assert.equal(app.state.selectedTime, times[1])
   app.selectTime('invalid'); assert.equal(app.state.selectedTime, times[1])
   app.selectTime(times[2]); assert.equal(app.requests.length, 1)
+})
+
+test('changing model or element retains a valid selected forecast time', async () => {
+  const app = setup(); await app.initialize()
+  app.selectTime(times[2])
+  await app.load({ modelId: 9 })
+  assert.equal(app.state.selectedTime, times[2])
+  await app.load({ elementId: 5 })
+  assert.equal(app.state.selectedTime, times[2])
+  await app.load({ modelId: 42, elementId: 17 })
+  assert.equal(app.state.selectedTime, times[2])
+})
+
+test('rapid layer changes preserve the selected time even while the prior response is cleared', async () => {
+  const pending = deferred()
+  const app = setup(params => params.modelId === 9 ? pending.promise : payload(params))
+  await app.initialize(); app.selectTime(times[2])
+  const older = app.load({ modelId: 9 })
+  await app.load({ modelId: 42, elementId: 5 })
+  assert.equal(app.state.selectedTime, times[2])
+  pending.resolve(payload({ modelId: 9, elementId: 17 })); await older
+  assert.equal(app.state.selectedTime, times[2])
+})
+
+test('retry keeps a chosen time, but a changed range falls back to a real available time', async () => {
+  let fail = false
+  let availableTimes = times
+  const app = setup(params => {
+    if (fail) throw new Error('network')
+    return { ...payload(params), times: availableTimes }
+  })
+  await app.initialize(); app.selectTime(times[2])
+  fail = true; await app.load({ modelId: 9 })
+  assert.equal(app.state.status, 'error')
+  assert.equal(app.state.selectedTime, '')
+  fail = false; await app.load()
+  assert.equal(app.state.selectedTime, times[2])
+  availableTimes = ['2026-09-08 05:00:00']
+  await app.load({ range: ['2026-09-08 02:00:00', '2026-09-08 23:00:00'] })
+  assert.equal(app.state.selectedTime, availableTimes[0])
 })
 
 for (const resource of ['city', 'model', 'element']) {

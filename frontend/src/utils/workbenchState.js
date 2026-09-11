@@ -1,14 +1,16 @@
 import { reactive } from 'vue'
 import { isDisplayElement } from './weatherElements.js'
-import { DEMO_RANGE, buildWorkbenchCacheKey, createWorkbenchCache, selectDefault, validateCityMapping, resolveGeoName } from './weatherWorkbench.js'
+import { MONTHLY_RANGE, buildWorkbenchCacheKey, createWorkbenchCache, selectDefault, validateCityMapping, resolveGeoName } from './weatherWorkbench.js'
 
 // Dependencies are the real API module in the page; tests substitute only the network boundary.
 export function createWorkbenchState(api, geo) {
   const cache = createWorkbenchCache()
   let requestVersion = 0
   let disposed = false
+  // Keep the user's choice across loading/error states without displaying stale data.
+  let preferredTime = ''
   const state = reactive({
-    cities: [], models: [], elements: [], modelId: null, elementId: null, range: [...DEMO_RANGE],
+    cities: [], models: [], elements: [], modelId: null, elementId: null, range: [...MONTHLY_RANGE],
     response: null, selectedTime: '', selectedCityId: null, status: 'idle', error: '', warning: '',
     dictionariesReady: false, matched: 0, source: ''
   })
@@ -64,7 +66,8 @@ export function createWorkbenchState(api, geo) {
           data.model.id !== params.modelId || data.element.id !== params.elementId) throw new Error('Invalid response')
       cache.set(key, data)
       state.response = data
-      state.selectedTime = data.times[0] ?? ''
+      state.selectedTime = data.times.includes(preferredTime) ? preferredTime : [...data.times].sort()[0] ?? ''
+      if (state.selectedTime) preferredTime = state.selectedTime
       state.source = cached ? 'cache' : 'network'
       state.status = data.times.length && data.records.length ? 'success' : 'empty'
     } catch {
@@ -76,13 +79,17 @@ export function createWorkbenchState(api, geo) {
   }
 
   function selectTime(time) {
-    if (state.status === 'success' && state.response.times.includes(time)) state.selectedTime = time
+    if (state.status === 'success' && state.response.times.includes(time)) {
+      state.selectedTime = time
+      preferredTime = time
+    }
   }
 
   function dispose() {
     disposed = true
     requestVersion++
     cache.clear()
+    preferredTime = ''
   }
 
   return { state, initialize, load, selectTime, dispose }

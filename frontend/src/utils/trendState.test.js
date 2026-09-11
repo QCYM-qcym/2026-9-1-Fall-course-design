@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import * as implementation from './trendState.js'
 const cities = [{ id: 102, cityCode: 'QINGDAO', cityName: '青岛' }, { id: 101, cityCode: 'JINAN', cityName: '济南' }]
 const models = [{ id: 9, modelCode: 'NOAA', modelName: 'NOAA' }, { id: 42, modelCode: 'ECMWF', modelName: 'ECMWF' }]
-const range = ['2026-09-07 08:00:00', '2026-09-07 14:00:00']
+const range = ['2026-09-01 02:00:00', '2026-09-30 23:00:00']
 const payload = params => ({ cityId: params.cityId, cityName: cities.find(c => c.id === params.cityId)?.cityName,
   modelId: params.modelId, modelName: models.find(m => m.id === params.modelId)?.modelName,
   temperature: [{ forecastTime: range[0], value: 19 }], precipitation: [{ forecastTime: range[0], value: 0 }],

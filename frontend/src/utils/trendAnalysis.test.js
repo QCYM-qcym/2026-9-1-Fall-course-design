@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { init, use } from 'echarts/core'
 import { LineChart, BarChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent } from 'echarts/components'
+import { DataZoomComponent, GridComponent, TooltipComponent } from 'echarts/components'
 import { SVGRenderer } from 'echarts/renderers'
 import http from '../api/http.js'
 import * as weather from '../api/weather.js'
@@ -101,7 +101,7 @@ test('mismatched series retain their own timestamps and empty options contain no
 
 test('real ECharts renders both trend options, replaces data, resizes and disposes', () => {
   const buildTemp = required('buildTemperatureOption'), buildRain = required('buildPrecipitationOption')
-  use([LineChart, BarChart, GridComponent, TooltipComponent, SVGRenderer])
+  use([LineChart, BarChart, DataZoomComponent, GridComponent, TooltipComponent, SVGRenderer])
   const warnings = []
   const previousWarn = console.warn
   const previousLog = console.log

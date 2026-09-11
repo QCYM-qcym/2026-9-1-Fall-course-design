@@ -1,11 +1,11 @@
 import { reactive } from 'vue'
-import { DEMO_RANGE, selectDefault, resolveGeoName } from './weatherWorkbench.js'
+import { MONTHLY_RANGE, selectDefault, resolveGeoName } from './weatherWorkbench.js'
 import { buildTrendQuery, isTrendResponse } from './trendAnalysis.js'
 
 export function createTrendState(api) {
   let requestVersion = 0
   let disposed = false
-  const state = reactive({ cities: [], models: [], cityId: null, modelId: null, range: [...DEMO_RANGE],
+  const state = reactive({ cities: [], models: [], cityId: null, modelId: null, range: [...MONTHLY_RANGE],
     dictionariesReady: false, status: 'idle', error: '', warning: '', response: null, appliedQuery: null })
 
   async function initialize() {

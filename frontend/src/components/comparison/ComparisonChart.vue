@@ -2,11 +2,11 @@
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { init, use } from 'echarts/core'
 import { LineChart } from 'echarts/charts'
-import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
+import { DataZoomComponent, GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import { buildComparisonOption, isComparisonEmpty } from '../../utils/comparisonAnalysis.js'
 
-use([LineChart, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer])
+use([LineChart, DataZoomComponent, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer])
 const props = defineProps({ data: { type: Object, default: null }, status: String })
 const container = ref(null)
 const failed = ref(false)
@@ -48,10 +48,13 @@ onBeforeUnmount(release)
       <div v-if="failed" class="overlay" role="alert"><p>图表暂时无法显示</p><button @click="mountChart">重新绘制图表</button></div>
       <div v-else-if="!data || isComparisonEmpty(data)" class="overlay" role="status">{{ status === 'loading' || status === 'idle' ? '正在加载模型预报…' : status === 'error' ? '等待重新查询' : '当前条件暂无对比数据' }}</div>
     </div>
+    <p class="zoom-hint">拖动底部滑块调整范围 · Ctrl + 滚轮缩放 · 图内拖动平移</p>
+    <p v-if="data?.element.elementCode === 'WIND_DIR_100M'" class="zoom-hint">风向为环形角度：0° / 360° 北，90° 东，180° 南，270° 西；跨越北向的折线跳变不代表风力变化。</p>
   </section>
 </template>
 
 <style scoped>
-.comparison-chart { min-width: 0; padding: 16px 20px 8px; border: 1px solid #36515f; border-radius: 10px; background: #132b3a; }header { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }h2 { margin: 0; font-size: 14px; font-weight: 500; color: #e2edf1; }header span { font-size: 10px; color: #94afbd; }.chart-body { position: relative; }.canvas { width: 100%; height: clamp(300px, 43vh, 490px); }.overlay { position: absolute; inset: 45px 0 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; background: #132b3ae6; color: #9eb9c8; font-size: 13px; }.overlay button { cursor: pointer; border: 1px solid #52778a; border-radius: 5px; padding: 7px 14px; background: #254556; color: #e2edf1; }
+.zoom-hint { margin: 2px 0 7px; color: #a1bbc8; font-size: 11px; line-height: 1.7; }
+.comparison-chart { min-width: 0; padding: 16px 20px 8px; border: 1px solid #36515f; border-radius: 10px; background: #132b3a; }header { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }h2 { margin: 0; font-size: 14px; font-weight: 500; color: #e2edf1; }header span { font-size: 10px; color: #94afbd; }.chart-body { position: relative; }.canvas { width: 100%; height: clamp(360px, 45vh, 520px); }.overlay { position: absolute; inset: 45px 0 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; background: #132b3ae6; color: #9eb9c8; font-size: 13px; }.overlay button { cursor: pointer; border: 1px solid #52778a; border-radius: 5px; padding: 7px 14px; background: #254556; color: #e2edf1; }
 @media(max-width: 650px) { .comparison-chart { padding: 14px 8px 4px; } }
 </style>

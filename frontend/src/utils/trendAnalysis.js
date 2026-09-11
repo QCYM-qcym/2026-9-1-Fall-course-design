@@ -1,3 +1,6 @@
+import { buildTimeZoom } from './chartZoom.js'
+import { formatElementValue } from './weatherElements.js'
+
 const STATISTICS = Object.freeze([
   ['temperatureMax', '最高温度', 'MAX TEMPERATURE', '℃'],
   ['temperatureMin', '最低温度', 'MIN TEMPERATURE', '℃'],
@@ -48,13 +51,14 @@ function buildOption(points, type, unit, color, name) {
     animation: false,
     backgroundColor: 'transparent',
     textStyle: { fontFamily: 'Inter, Microsoft YaHei, sans-serif', color: '#a9c2cf' },
-    grid: { top: 28, right: 30, bottom: 42, left: 62 },
+    grid: { top: 28, right: 30, bottom: 78, left: 62 },
+    dataZoom: buildTimeZoom(),
     tooltip: {
       trigger: 'axis', renderMode: 'richText', backgroundColor: '#172e3d', borderColor: '#4b6d7a',
       textStyle: { color: '#e6f0f3' }, confine: true,
       formatter: items => {
         const point = Array.isArray(items) ? items[0] : items
-        return `${point?.axisValue ?? ''}\n${name}  ${formatMetricValue(point?.value)} ${unit}`
+        return `${point?.axisValue ?? ''}\n${name}  ${formatElementValue(point?.value, type === 'line' ? 'T2M' : 'PRECIP')}`
       }
     },
     xAxis: { type: 'category', boundaryGap: type === 'bar', data: points.map(point => point.forecastTime),
@@ -65,10 +69,10 @@ function buildOption(points, type, unit, color, name) {
       axisLabel: { color: '#9eb8c6' }, splitLine: { lineStyle: { color: '#2a4556', type: 'dashed' } } },
     series: [{ id: type === 'line' ? 'trend-temperature' : 'trend-precipitation', name, type,
       data: points.map(point => point.value), itemStyle: { color },
-      ...(type === 'line' ? { showSymbol: true, symbolSize: 8, connectNulls: false, smooth: false,
+      ...(type === 'line' ? { showSymbol: points.length <= 32, symbolSize: 7, connectNulls: false, smooth: false,
         lineStyle: { width: 3, color }, areaStyle: { color, opacity: 0.08 } }
         : { barMaxWidth: 48, itemStyle: { color, borderRadius: [5, 5, 0, 0] },
-          label: { show: true, position: 'top', color: '#b6d8e4', formatter: params => formatMetricValue(params.value) } })
+          label: { show: points.length <= 16, position: 'top', color: '#b6d8e4', formatter: params => formatMetricValue(params.value) } })
     }]
   }
 }

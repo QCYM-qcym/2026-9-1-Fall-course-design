@@ -41,7 +41,8 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 20px 32px;
+  min-height: 92px;
+  padding: 14px 25px;
   border-bottom: 1px solid #22334a;
   background: #111f33;
 }
@@ -60,30 +61,39 @@ a {
   font-weight: 600;
 }
 
-nav {
+nav[aria-label="主导航"] {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-nav a {
+nav[aria-label="主导航"] a {
   padding: 8px 12px;
   border-radius: 6px;
   color: #9fb2c8;
   font-size: 14px;
 }
 
-nav a:hover,
-nav a.router-link-active {
+nav[aria-label="主导航"] a:hover,
+nav[aria-label="主导航"] a.router-link-active {
   color: #f5f9ff;
   background: #1e3b5b;
 }
 
 .app-main {
-  width: min(1120px, calc(100% - 48px));
+  width: min(1440px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 48px 0;
+  padding: 28px 0;
 }
+
+nav[aria-label="主导航"] a:focus-visible, .auth-identity button:focus-visible {
+  outline: 2px solid #e4daa3;
+  outline-offset: 3px;
+}
+
+.auth-identity { flex-shrink: 0; }
+.auth-identity button:hover:not(:disabled) { background: #2b4b69; }
+input, select, button { font-variant-numeric: tabular-nums; }
 
 .page-card {
   padding: 32px;

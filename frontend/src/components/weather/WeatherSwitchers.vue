@@ -18,11 +18,13 @@ defineEmits(['model', 'element'])
   </aside>
 </template>
 <style scoped>
-.weather-switchers { position: absolute; top: 152px; left: 24px; width: 145px; padding: 17px 13px; max-height: calc(100% - 310px); overflow-y: auto; }
-.switch-group { display: grid; gap: 7px; margin-top: 10px; }
-.switch-group button { min-width: 0; text-align: left; padding: 6px 8px; overflow-wrap: anywhere; }
-.switch-group small { display: block; font-size: 11px; margin-top: 5px; opacity: .8; }
-.switch-divider { height: 1px; background: #34505d; margin: 20px 0; }
+.weather-switchers { position: absolute; top: 152px; left: 24px; width: 176px; padding: 12px; max-height: calc(100% - 310px); overflow-y: auto; }
+.switch-group { display: grid; gap: 5px; margin-top: 7px; }
+.switch-group[aria-label="预报模型"] { grid-template-columns: 1fr 1fr; }
+.switch-group button { min-width: 0; text-align: left; padding: 5px 8px; overflow-wrap: anywhere; }
+.switch-group button span { font-size: 10px; color: #9fbac7; }
+.switch-group small { display: block; font-size: 12px; margin-top: 2px; }
+.switch-divider { height: 1px; background: #34505d; margin: 10px 0; }
 @media(max-width: 1000px) { .weather-switchers { top: auto; bottom: 146px; left: 12px; width: 240px; padding: 12px; } .switch-group { grid-template-columns: repeat(2, minmax(0, 1fr)); } .switch-divider { margin: 8px 0; } .switch-group button { padding: 5px 10px; } }
 @media(max-width: 600px) { .weather-switchers { bottom: 290px; max-height: calc(100% - 454px); width: min(240px, calc(100% - 24px)); } }
 </style>

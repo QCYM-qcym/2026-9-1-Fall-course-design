@@ -1,3 +1,4 @@
+import { WEATHER_ELEMENTS } from './weatherElements.js'
 // Codes are the database dictionary contract; feature names are the map adapter.
 const GEO_NAMES = Object.freeze({
   JINAN: '济南市', QINGDAO: '青岛市', ZIBO: '淄博市', ZAOZHUANG: '枣庄市',
@@ -7,8 +8,24 @@ const GEO_NAMES = Object.freeze({
 })
 
 export const DEMO_RANGE = Object.freeze(['2026-09-07 08:00:00', '2026-09-07 14:00:00'])
-export const TEMPERATURE_COLORS = ['#426ba3', '#54a5ad', '#bccf9a', '#e6b478', '#d77962']
-export const PRECIPITATION_COLORS = ['#223e58', '#3267a0', '#6275bd', '#9a79c6', '#dab5dc']
+export const MONTHLY_RANGE = Object.freeze(['2026-09-01 02:00:00', '2026-09-30 23:00:00'])
+export const TEMPERATURE_COLORS = WEATHER_ELEMENTS.T2M.colors
+export const PRECIPITATION_COLORS = WEATHER_ELEMENTS.PRECIP.colors
+
+export function groupForecastTimes(times) {
+  const days = new Map()
+  for (const time of [...new Set(times)].sort()) {
+    const date = time.slice(0, 10)
+    if (!days.has(date)) days.set(date, [])
+    days.get(date).push(time)
+  }
+  return [...days].map(([date, times]) => ({ date, times }))
+}
+
+export function selectDateTime(times, date, selectedTime) {
+  const slots = groupForecastTimes(times).find(day => day.date === date)?.times ?? []
+  return slots.find(time => time.slice(11) === selectedTime?.slice(11)) ?? slots[0] ?? selectedTime
+}
 
 export function resolveGeoName(code) {
   return Object.hasOwn(GEO_NAMES, code) ? GEO_NAMES[code] : null
@@ -42,9 +59,11 @@ export function joinCityWeatherData(cities, records, time) {
 }
 
 export function calculateLegendRange(values, elementCode) {
-  const finite = values.filter(value => Number.isFinite(value) && (elementCode !== 'PRECIP' || value >= 0))
+  const meta = WEATHER_ELEMENTS[elementCode]
+  const finite = values.filter(value => Number.isFinite(value) && (meta?.min === undefined || value >= meta.min))
+  if (meta?.max !== undefined) return { min: meta.min, max: meta.max, empty: !finite.length }
   if (!finite.length) return { min: 0, max: 1, empty: true }
-  if (elementCode === 'PRECIP') return { min: 0, max: Math.max(...finite) || 1, empty: false }
+  if (meta?.min === 0) return { min: 0, max: Math.max(...finite) || 1, empty: false }
   const min = Math.min(...finite)
   const max = Math.max(...finite)
   return { min: min === max ? min - 1 : min, max: min === max ? max + 1 : max, empty: false }

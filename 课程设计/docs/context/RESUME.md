@@ -2,6 +2,23 @@
 
 ## 当前续作
 
+2026-09-11：**WEATHER-UI-REFINE-1 COMPLETED**；Gate：**READY FOR FINAL-ACCEPTANCE**。当前分支 `feat/weather-ui-refine`。先读 [CURRENT_CONTEXT](CURRENT_CONTEXT.md) 和 [v1.2-weather-ui-refine 归档](../../../versions/v1.2-weather-ui-refine/README.md)。本轮仅文档收口，未开始 FINAL-ACCEPTANCE。
+
+- `/weather`：日期 + 当天实际时次、六要素、角度 + 中文八方位风向、地图/图例/城市详情联动和布局均已验收；默认月度范围，旧兼容样例快捷入口保留。
+- `/analysis`：30 天长序列、slider + inside dataZoom、完整时间与单位 tooltip 正常，原两要素四统计含义不变。
+- `/comparison`：ECMWF / NOAA 六要素对比、dataZoom、双模型 tooltip 正常，null 与 0 区分正确。
+- 最终前端证据：**frontend = 193 PASS，0 failures；frontend build = PASS；git diff --check = PASS**。属于前阶段已取得证据，本收口轮未重新运行测试或构建。
+- 用户本次确认的人工浏览器验收：**USER PASS、ADMIN PASS、1920×1080 PASS、1366×768 PASS**，无阻塞性布局问题；已补齐此前浏览器工具不可用所留下的待验收项。
+- 认证保护：USER 仅三业务导航、无数据管理；ADMIN 保留数据管理入口；logout 后再次访问受保护页面返回 `/login`。Session + BCrypt + CSRF 与路由权限规则未改，19 个天气业务 API 与 4 个 auth API 继续分开计数。
+- **Backend Modified = NO；Database Modified = NO**；沿用已确认的 16 / 2 / 6 / 46080 / 240 / 2 users 数据基线，本轮不查库、不改库。backend 365 PASS 为 AUTH 阶段历史证据，本轮未重跑。
+- Known Issue：**>500 kB chunk warning**，不影响当前运行与课程设计验收，本阶段不处理。
+
+本轮仅更新两份上下文并新增 v1.2 README；原有前端改动保留，业务代码、SQL、authentication、portable、package 配置不改。v1.0-final / v1.1-auth-role 历史归档不覆盖；Tests Re-run=NO，Git Writes=NONE。等待用户单独下达下一阶段任务，不自动执行 FINAL-ACCEPTANCE。
+
+## AUTH-ROLE-1 历史恢复材料
+
+以下旧 Gate、测试数字和“本轮”描述保留认证阶段当时事实；当前状态以上方为准。
+
 2026-09-11：**AUTH-ROLE-1 COMPLETED**；Gate：**READY FOR WEATHER-UI-REFINE-1**。本轮只做文档收口，不自动开始下一阶段。先读 [CURRENT_CONTEXT](CURRENT_CONTEXT.md)、[认证说明](../AUTH-ROLE-1.md)和 [v1.1-auth-role 归档](../../../versions/v1.1-auth-role/README.md)。
 
 - 已实现 Spring Security + HttpSession（Session）+ BCrypt + CSRF，以及 USER / ADMIN 双入口；角色只来自数据库 `sys_user.role`。

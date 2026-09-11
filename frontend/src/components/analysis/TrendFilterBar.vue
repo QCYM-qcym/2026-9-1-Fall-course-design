@@ -1,4 +1,5 @@
 <script setup>
+import ForecastRangePresets from '../weather/ForecastRangePresets.vue'
 defineProps({ cities: Array, models: Array, cityId: Number, modelId: Number, range: Array, ready: Boolean, loading: Boolean })
 defineEmits(['city', 'model', 'range', 'query'])
 </script>
@@ -23,12 +24,14 @@ defineEmits(['city', 'model', 'range', 'query'])
         aria-labelledby="trend-range-label" @update:model-value="$emit('range', $event)" />
     </div>
     <button type="submit" :disabled="!ready">{{ loading && ready ? '重新查询' : '查询趋势' }} <span aria-hidden="true">↗</span></button>
+    <ForecastRangePresets class="presets" :range="range" :disabled="!ready" @select="$emit('range', $event)" />
   </form>
 </template>
 
 <style scoped>
 .trend-filter-bar { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(150px, 1fr) minmax(370px, 2.7fr) auto; align-items: end; gap: 18px; }
 .trend-field { display: grid; gap: 9px; min-width: 0; }
+.presets { grid-column: 1 / -1; }
 .trend-field > span { font-size: 10px; letter-spacing: .07em; color: #9db5c3; }
 select { width: 100%; min-width: 0; height: 38px; padding: 0 12px; border: 1px solid #466170; border-radius: 6px; background: #203846; color: #e3edf0; font: inherit; font-size: 13px; }
 .trend-range :deep(.el-date-editor) { width: 100%; height: 38px; box-sizing: border-box; }

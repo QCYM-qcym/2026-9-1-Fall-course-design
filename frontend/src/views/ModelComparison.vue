@@ -6,6 +6,7 @@ import { fetchComparison } from '../api/weather.js'
 import { createComparisonState } from '../utils/comparisonState.js'
 import { COMPARISON_MODELS } from '../utils/comparisonAnalysis.js'
 import ComparisonChart from '../components/comparison/ComparisonChart.vue'
+import ForecastRangePresets from '../components/weather/ForecastRangePresets.vue'
 
 const comparison = createComparisonState({ fetchCities, fetchWeatherElements, fetchComparison })
 const { state } = comparison
@@ -25,8 +26,9 @@ onBeforeUnmount(comparison.dispose)
       <label><span>气象要素 / ELEMENT</span><select v-model.number="state.elementId" aria-label="对比要素" :disabled="!state.dictionariesReady"><option v-if="!state.elements.length" :value="null" disabled>等待要素字典</option><option v-for="element in state.elements" :key="element.id" :value="element.id">{{ element.elementCode }} · {{ element.elementName }}</option></select></label>
       <div class="range"><span id="comparison-range-label">时间范围 / 本地业务时间</span><el-date-picker v-model="state.range" type="datetimerange" value-format="YYYY-MM-DD HH:mm:ss" format="YYYY-MM-DD HH:mm" start-placeholder="开始时间" end-placeholder="结束时间" range-separator="—" :clearable="false" :disabled="!state.dictionariesReady" aria-labelledby="comparison-range-label" /></div>
       <button type="submit" :disabled="!state.dictionariesReady">{{ state.status === 'loading' && state.dictionariesReady ? '重新查询' : '查询对比' }} ↗</button>
+      <ForecastRangePresets class="presets" :range="state.range" :disabled="!state.dictionariesReady" @select="state.range = $event" />
     </form>
-    <div class="result-heading" role="status"><span v-if="state.response"><strong>{{ state.response.cityName }}</strong> / {{ state.response.element.elementCode }} · {{ state.response.element.unit }}<span class="result-range">{{ state.appliedQuery.startTime }} — {{ state.appliedQuery.endTime }}</span></span><span v-else>{{ state.status === 'loading' ? '正在加载模型对比…' : '选择条件，查看模型预报' }}</span><span v-if="changed" class="warning">筛选已修改 · 点击查询后更新</span></div>
+    <div class="result-heading" role="status"><span v-if="state.response"><strong>{{ state.response.cityName }}</strong> / {{ state.response.element.elementName }} · {{ state.response.element.unit }}<span class="result-range">{{ state.appliedQuery.startTime }} — {{ state.appliedQuery.endTime }}</span></span><span v-else>{{ state.status === 'loading' ? '正在加载模型对比…' : '选择条件，查看模型预报' }}</span><span v-if="changed" class="warning">筛选已修改 · 点击查询后更新</span></div>
     <p v-if="state.warning" class="warning" role="status">{{ state.warning }}</p>
     <div v-if="state.status === 'error'" class="notice error" role="alert"><div><strong>暂时无法加载模型对比</strong><p>{{ state.error }}</p></div><button @click="comparison.retry">重试</button></div>
     <div v-else-if="state.status === 'empty'" class="notice" role="status">当前条件暂无对比数据，请调整城市、要素或时间范围。</div>
@@ -37,6 +39,7 @@ onBeforeUnmount(comparison.dispose)
 </template>
 
 <style scoped>
+.presets { grid-column: 1 / -1; }
 .comparison-workspace { color: #e3edf0; --el-fill-color-blank: #203846; --el-text-color-regular: #d2e0e8; --el-text-color-primary: #e3edf0; --el-text-color-placeholder: #91a9b7; --el-border-color: #466170; --el-disabled-bg-color: #203543; --el-disabled-text-color: #94abb8; }
 .heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }.eyebrow { color: #8fb2c5; letter-spacing: .16em; font-size: 10px; margin: 0 0 8px; }h1 { margin: 0; font-size: 28px; font-weight: 500; }.subtitle { font-size: 12px; color: #9db6c4; margin: 8px 0 0; }.demo { border: 1px solid #615f44; border-radius: 5px; padding: 6px 9px; font-size: 10px; color: #cfcca9; white-space: nowrap; }
 .filters { display: grid; grid-template-columns: minmax(120px, 1fr) minmax(160px, 1.2fr) minmax(350px, 2.8fr) auto; gap: 16px; align-items: end; padding: 18px 20px; background: #172f3e; border: 1px solid #385564; border-radius: 10px; }.filters label, .range { display: grid; gap: 9px; min-width: 0; }.filters label > span, .range > span { font-size: 10px; color: #9db5c3; letter-spacing: .06em; }select { width: 100%; min-width: 0; height: 38px; padding: 0 10px; background: #203846; color: #e3edf0; border: 1px solid #466170; border-radius: 6px; font: inherit; font-size: 13px; }.range :deep(.el-date-editor) { width: 100%; height: 38px; box-sizing: border-box; }.range :deep(.el-range-input) { min-width: 0; font-size: 12px; }

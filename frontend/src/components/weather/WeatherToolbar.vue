@@ -1,4 +1,5 @@
 <script setup>
+import ForecastRangePresets from './ForecastRangePresets.vue'
 defineProps({ model: Object, element: Object, range: Array, disabled: Boolean })
 defineEmits(['range'])
 </script>
@@ -12,6 +13,7 @@ defineEmits(['range'])
     <div class="range-control">
       <span class="micro-label">查询范围 · 本地业务时间</span>
       <el-date-picker :model-value="range" type="datetimerange" value-format="YYYY-MM-DD HH:mm:ss" format="MM-DD HH:mm" start-placeholder="开始时间" end-placeholder="结束时间" range-separator="—" :clearable="false" :disabled="disabled" @update:model-value="$emit('range', $event)" />
+      <ForecastRangePresets :range="range" :disabled="disabled" @select="$emit('range', $event)" />
     </div>
   </header>
 </template>
@@ -21,8 +23,8 @@ h1 { margin: 6px 0; font-size: 22px; font-weight: 600; letter-spacing: .04em; }
 .toolbar-subtitle { margin: 0; color: #b0c4ce; font-size: 12px; }
 .toolbar-subtitle span { color: #658190; padding: 0 8px; }
 .demo-badge { font-size: 10px; color: #d4cba7; border: 1px solid #6b6240; padding: 3px 6px; border-radius: 4px; margin-left: 12px; letter-spacing: 0; }
-.range-control { display: grid; gap: 8px; }
-.range-control :deep(.el-date-editor) { width: 370px; }
+.range-control { display: grid; gap: 6px; }
+.range-control :deep(.el-date-editor) { width: 390px; height: 34px; }
 @media(max-width: 1000px) { .weather-toolbar { gap: 10px; padding: 12px; left: 12px; right: 12px; } h1 { font-size: 18px; } .demo-badge { display: block; width: fit-content; margin: 5px 0 0; } .range-control :deep(.el-date-editor) { width: 280px; } }
 @media(max-width: 650px) { .weather-toolbar { flex-wrap: wrap; } }
 </style>

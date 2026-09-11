@@ -1,6 +1,24 @@
 # 当前项目上下文
 
-## AUTH-ROLE-1 当前状态（2026-09-11 收口）
+## WEATHER-UI-REFINE-1 当前状态（2026-09-11 收口）
+
+**WEATHER-UI-REFINE-1 COMPLETED**。Gate：**READY FOR FINAL-ACCEPTANCE**。当前分支 `feat/weather-ui-refine`；仅记录下一阶段就绪，本轮不开始 FINAL-ACCEPTANCE。阶段详情与证据见 [v1.2-weather-ui-refine](../../../versions/v1.2-weather-ui-refine/README.md)。
+
+- `/weather`：日期 + 当日实际时次选择、六要素切换、地图/图例/城市详情联动与页面布局正常；默认 30 天月度范围，保留旧兼容样例快捷入口。切日优先保留钟点，图层切换及失败重试保留有效时次；只使用接口返回的真实时次。
+- 六要素统一名称、单位、精度与图例：T2M、PRECIP、TCC、WIND_SPEED_100M、WIND_DIR_100M、RH；风向显示角度 + 中文八方位，图例明确环形方位；TCC/RH 使用 0–100% 语义，null 不补零。
+- `/analysis`：30 天长序列、slider + inside dataZoom、完整日期时间与单位 tooltip 正常；仍为 T2M/PRECIP 两图及原四项统计，未改变后端统计含义。
+- `/comparison`：ECMWF / NOAA、六要素、dataZoom、双模型 tooltip 正常，null 与 0 正确区分。
+- 认证回归：USER 导航仅显示气象工作台、趋势分析、模型对比，不显示数据管理；ADMIN 保留数据管理入口；logout 后再次访问受保护页面返回 `/login`。Session + BCrypt + CSRF、权限规则、19 个天气业务 API 与另计的 4 个 auth API 均未修改。
+- 前阶段实际自动化证据：frontend `npm test` = **193 PASS，0 failures**（Node 120 + Vitest 73）；frontend `npm run build` = **PASS**；`git diff --check` = **PASS**。本次文档收口不重新运行测试或构建。
+- 人工浏览器验收：**USER PASS、ADMIN PASS、1920×1080 PASS、1366×768 PASS**，无阻塞性布局问题。来源为用户本次明确提供的人工验收结果；此前因浏览器工具不可用而保留的 `RUNTIME_VALIDATION_PENDING` 已由人工验收补齐，不冒充 Codex 新执行的浏览器测试。
+- **Backend Modified = NO；Database Modified = NO**。数据库沿用已确认基线：city=16、forecast_model=2、weather_element=6、forecast_record=46080、distinct forecast_time=240、sys_user=2；本轮未查询或修改数据库。管理页 100 条本地分页策略保留。
+- Known Issue：构建存在 **>500 kB chunk warning**，当前不影响运行与课程设计验收，本阶段不处理。
+
+本轮仅更新 CURRENT_CONTEXT、RESUME 并新增 v1.2 README；保留上一阶段已有前端改动，不修改业务代码、backend、SQL、authentication、portable 或 package 配置。`versions/v1.0-final`、`versions/v1.1-auth-role` 历史归档保持原文；Git Writes=NONE，不提交或创建 tag。
+
+以下 AUTH-ROLE-1 及更早章节保留各阶段当时事实；旧 Gate、测试数量及“本轮”描述仅适用于对应历史阶段，当前状态以上方为准。
+
+## AUTH-ROLE-1 历史验收（2026-09-11 收口）
 
 **AUTH-ROLE-1 COMPLETED**。Gate：**READY FOR WEATHER-UI-REFINE-1**；仅记录下一阶段就绪，本轮未开始 UI 优化。认证详情见 [AUTH-ROLE-1](../AUTH-ROLE-1.md)，阶段归档见 [v1.1-auth-role](../../../versions/v1.1-auth-role/README.md)。
 

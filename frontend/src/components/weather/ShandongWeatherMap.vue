@@ -39,7 +39,7 @@ onBeforeUnmount(() => { observer?.disconnect(); chart?.dispose(); chart = null }
 </template>
 
 <style scoped>
-.shandong-map { position: absolute; inset: 112px 272px 145px 178px; }
-@media (min-width: 1600px) { .shandong-map { inset: 125px 290px 150px 190px; } }
+.shandong-map { position: absolute; inset: 148px 272px 170px 212px; }
+@media (min-width: 1600px) { .shandong-map { inset: 148px 290px 170px 220px; } }
 @media (max-width: 1000px) { .shandong-map { inset: 135px 12px 320px; } }
 </style>

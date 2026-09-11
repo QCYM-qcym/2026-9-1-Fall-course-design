@@ -1,12 +1,12 @@
 import { reactive } from 'vue'
 import { isDisplayElement } from './weatherElements.js'
-import { DEMO_RANGE, selectDefault, resolveGeoName } from './weatherWorkbench.js'
+import { MONTHLY_RANGE, selectDefault, resolveGeoName } from './weatherWorkbench.js'
 import { buildComparisonQuery, isComparisonResponse, isComparisonEmpty } from './comparisonAnalysis.js'
 
 export function createComparisonState(api) {
   let requestVersion = 0
   let disposed = false
-  const state = reactive({ cities: [], elements: [], cityId: null, elementId: null, range: [...DEMO_RANGE],
+  const state = reactive({ cities: [], elements: [], cityId: null, elementId: null, range: [...MONTHLY_RANGE],
     dictionariesReady: false, status: 'idle', error: '', warning: '', response: null, appliedQuery: null })
 
   async function initialize() {

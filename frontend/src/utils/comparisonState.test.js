@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import * as comparison from './comparisonState.js'
 
-const range = ['2026-09-07 08:00:00', '2026-09-07 14:00:00']
+const range = ['2026-09-01 02:00:00', '2026-09-30 23:00:00']
 const cities = [{ id: 9, cityCode: 'QINGDAO', cityName: '青岛' }, { id: 8, cityCode: 'JINAN', cityName: '济南' }]
 const elements = [{ id: 83, elementCode: 'PRECIP', elementName: '降水量', unit: 'mm' }, { id: 71, elementCode: 'T2M', elementName: '2 米气温', unit: '℃' }]
 const response = (cityId = 8, elementId = 71) => ({ cityId, cityName: cities.find(c => c.id === cityId).cityName,
