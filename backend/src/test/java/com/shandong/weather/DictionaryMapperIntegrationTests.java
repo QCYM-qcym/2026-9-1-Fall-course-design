@@ -40,8 +40,8 @@ class DictionaryMapperIntegrationTests {
     void seedCountsRemainUnchanged() {
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM city", Long.class)).isEqualTo(16L);
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_model", Long.class)).isEqualTo(2L);
-        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM weather_element", Long.class)).isEqualTo(2L);
-        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_record", Long.class)).isEqualTo(192L);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM weather_element", Long.class)).isEqualTo(6L);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_record", Long.class)).isEqualTo(46080L);
     }
 
     @Test
@@ -82,11 +82,11 @@ class DictionaryMapperIntegrationTests {
     @Test
     void elementsMapUniqueCodesNamesAndCorrectUnitsInIdOrder() {
         var result = elements.listAll();
-        assertThat(result).hasSize(2).isSortedAccordingTo(Comparator.comparing(WeatherElement::getId));
+        assertThat(result).hasSize(6).isSortedAccordingTo(Comparator.comparing(WeatherElement::getId));
         assertThat(result).extracting(WeatherElement::getId).doesNotHaveDuplicates().doesNotContainNull();
         assertThat(result).extracting(WeatherElement::getElementCode).doesNotHaveDuplicates()
-                .containsExactly("T2M", "PRECIP");
-        assertThat(result).extracting(WeatherElement::getElementName).containsExactly("2 米气温", "降水量");
-        assertThat(result).extracting(WeatherElement::getUnit).containsExactly("℃", "mm");
+                .containsExactly("T2M", "PRECIP", "TCC", "WIND_SPEED_100M", "WIND_DIR_100M", "RH");
+        assertThat(result).extracting(WeatherElement::getElementName).containsExactly("2 米气温", "降水量", "总云量", "100米风速", "100米风向", "相对湿度");
+        assertThat(result).extracting(WeatherElement::getUnit).containsExactly("℃", "mm", "%", "m/s", "°", "%");
     }
 }

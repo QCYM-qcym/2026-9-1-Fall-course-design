@@ -1,5 +1,15 @@
 # 当前项目上下文
 
+## MONTHLY-SYNTHETIC-DATA-1 当前工作
+
+2026-09-11：**MONTHLY-SYNTHETIC-DATA-1 COMPLETED**。完整证据见[月级数据说明](../MONTHLY-SYNTHETIC-DATA-1.md)，步骤见[实施计划](../MONTHLY-SYNTHETIC-DATA-1-plan.md)。固定seed20260901，2026-09-01～30每日8时次；实际SQL与隔离MySQL均为16/2/6/46,080、240时次、192组各240条、重复0。T2M/PRECIP/TCC由共享合成天气过程构造，u/v推导风速风向，T2M/内部露点推导RH；ECMWF/NOAA是模型场景，不是真实气象源。
+
+最终本轮实际验证：generator10 PASS；frontend157 PASS（Node98+Vitest59）、build PASS；backend完整package324/0/0/0，含真实DB测试，JAR/repackage PASS。四表Schema、19个业务API、Trend两要素四统计不变，Workbench/Comparison六要素真实查询与页面显示通过；济南十二个旧样例保持。大表实测34.6秒并交互超时，按用户明确例外仅记录表加100条本地分页；GET仍全量ID升序。六图层面板遮挡以局部滚动/换行最小修复，未整体美化。
+
+隔离目录`.portable-build/monthly-20260911-verified`导入新SQL并重启保持数据，最终已正常停止；不使用开发库3306，首次失败目录和既有失败现场保留。旧大表压力标签关闭时浏览器连接中断，关闭及视口复原未确认，可能需用户手动关闭。全量接口约11.25MB和chunk>500kB仍为限制；旧v1.0 ZIP不自动更新，本轮未重制910MB包。历史v1.0与中期报告未改，私有运行文件不入Git。Gate：**READY FOR AUTH-ROLE-1**，未开始下一阶段，Git writes = NONE。
+
+以下保留 v1.0 收口及其历史证据。
+
 > 更新日期：2026-09-09
 
 ## 1. 当前阶段与真实状态

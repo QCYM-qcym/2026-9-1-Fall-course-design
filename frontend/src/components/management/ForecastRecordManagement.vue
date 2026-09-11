@@ -23,6 +23,10 @@ watch(()=>[props.revisions.cities,props.revisions.models,props.revisions.element
 watch(()=>props.active,active=>{if(active)ensure()})
 const list=createManagementList(fetchForecastRecords)
 const {state}=list
+const pageSize=100, page=ref(1)
+const pageCount=computed(()=>Math.max(1,Math.ceil(state.rows.length/pageSize)))
+const pageRows=computed(()=>state.rows.slice((page.value-1)*pageSize,page.value*pageSize))
+watch(pageCount,count=>{page.value=Math.min(page.value,count)},{flush:'sync'})
 const dialog=ref(false), draft=ref({}), editingId=ref(null), deletingId=ref(null), operationError=ref(''), notice=ref('')
 let alive=true
 function open(row=null) {
@@ -73,7 +77,7 @@ onBeforeUnmount(()=>{alive=false;list.dispose();Object.values(dictionaries).forE
     <div v-if="dictionaryError" role="alert" class="management-error">预报记录依赖字典加载失败 <el-button data-test="retry-dictionaries" @click="retryDictionaries">重试字典</el-button></div>
     <p v-if="dictionaryLoading" role="status">正在加载城市、模型和要素选项…</p>
     <p v-if="ready && (!cities.state.rows.length || !models.state.rows.length || !elements.state.rows.length)" class="management-notice">字典暂无可选项，请先维护对应字典。</p>
-    <el-table :data="state.rows" row-key="id" max-height="480" empty-text="暂无预报记录数据" class="management-table">
+    <el-table :data="pageRows" row-key="id" max-height="480" empty-text="暂无预报记录数据" class="management-table">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column label="城市" min-width="150"><template #default="{row}">{{ row.cityName }}<small class="management-code">{{ row.cityCode }}</small></template></el-table-column>
       <el-table-column label="模型" min-width="145"><template #default="{row}">{{ row.modelName }}<small class="management-code">{{ row.modelCode }}</small></template></el-table-column>
@@ -83,6 +87,11 @@ onBeforeUnmount(()=>{alive=false;list.dispose();Object.values(dictionaries).forE
       <el-table-column prop="unit" label="单位" width="75" />
       <el-table-column label="操作" width="155" fixed="right"><template #default="{row}"><el-button data-test="edit" link type="primary" :disabled="state.busy || deletingId!==null || !ready" @click="open(row)">编辑</el-button><el-button data-test="delete" link type="danger" :disabled="state.busy || deletingId!==null" @click="remove(row)">删除</el-button></template></el-table-column>
     </el-table>
+    <nav class="management-actions" aria-label="预报记录分页">
+      <el-button data-test="page-prev" :disabled="page===1 || state.busy || state.status==='loading' || deletingId!==null" @click="page=Math.max(1,page-1)">上一页</el-button>
+      <span data-test="page-status" role="status">{{ page }} / {{ pageCount }} 页 · 共 {{ state.rows.length }} 条 · 每页 {{ pageSize }} 条</span>
+      <el-button data-test="page-next" :disabled="page===pageCount || state.busy || state.status==='loading' || deletingId!==null" @click="page=Math.min(pageCount,page+1)">下一页</el-button>
+    </nav>
     <el-dialog v-model="dialog" :title="editingId===null?'新增预报记录':'编辑预报记录'" class="management-dialog" width="560px" destroy-on-close :close-on-click-modal="false" :close-on-press-escape="!state.busy" :show-close="!state.busy">
       <form v-if="dialog" class="management-form" @submit.prevent="save">
         <label>城市<el-select v-model="draft.cityId" aria-label="记录城市" :disabled="state.busy || !ready" popper-class="management-popper"><el-option v-for="city in cities.state.rows" :key="city.id" :label="city.cityName+' · '+city.cityCode" :value="city.id" /></el-select></label>

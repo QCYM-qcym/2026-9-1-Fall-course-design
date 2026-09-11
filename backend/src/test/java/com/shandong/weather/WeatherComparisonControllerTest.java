@@ -49,6 +49,18 @@ class WeatherComparisonControllerTest {
                 .param("startTime", "2026-09-07 08:00:00").param("endTime", "2026-09-07 14:00:00");
     }
 
+    @ParameterizedTest
+    @org.junit.jupiter.params.provider.CsvSource({"TCC,%", "WIND_SPEED_100M,m/s", "WIND_DIR_100M,°", "RH,%"})
+    void monthlyElementsCompareBothModelsWithDictionaryUnits(String code, String unit) throws Exception {
+        var element = DictionaryTestData.elements().get(0);
+        element.setElementCode(code); element.setElementName(code); element.setUnit(unit);
+        when(elements.selectById(71L)).thenReturn(element);
+        mvc.perform(request()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.element.elementCode").value(code))
+                .andExpect(jsonPath("$.data.element.unit").value(unit))
+                .andExpect(jsonPath("$.data.series", org.hamcrest.Matchers.hasSize(2)));
+    }
+
     private void error(org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder request, int code)
             throws Exception {
         mvc.perform(request).andExpect(status().is(code)).andExpect(jsonPath("$.code").value(code))

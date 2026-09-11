@@ -15,6 +15,15 @@ const payload = () => ({ cityId: 8, cityName: '济南', element: { id: 71, eleme
   series: [{ modelId: 41, modelCode: 'ECMWF', modelName: 'ECMWF', values: points([19, 20.2, 21.1]) },
     { modelId: 59, modelCode: 'NOAA', modelName: 'NOAA', values: points([18.4, 19.6, 20.5]) }] })
 
+for(const [elementCode,unit] of [['TCC','%'],['WIND_SPEED_100M','m/s'],['WIND_DIR_100M','°'],['RH','%']]) test(`comparison accepts ${elementCode} and preserves its unit in axis and tooltip`,()=>{
+  const p=payload(); p.element={id:100,elementCode,elementName:elementCode,unit}
+  assert.equal(comparison.isComparisonResponse(p),true)
+  const option=comparison.buildComparisonOption(p)
+  assert.equal(option.yAxis.name,unit); assert.ok(option.tooltip.formatter([{axisValue:times[0]}]).includes(` ${unit}`))
+  assert.ok(option.series.every(s=>s.type==='line'))
+  p.element.unit='mm'; assert.equal(comparison.isComparisonResponse(p),false)
+})
+
 test('comparison client sends GET and exactly four parameters via existing Axios', async () => {
   assert.equal(typeof weather.fetchComparison, 'function')
   const previous = http.defaults.adapter

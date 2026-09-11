@@ -31,7 +31,7 @@ class ManagementCrudIntegrationTests {
     @AfterTransaction
     void baselineOutsideTransaction() {
         assertThat(jdbc.queryForObject("SELECT DATABASE()", String.class)).isEqualTo("shandong_weather");
-        for (var entry : java.util.Map.of("city",16L,"forecast_model",2L,"weather_element",2L,"forecast_record",192L).entrySet())
+        for (var entry : java.util.Map.of("city",16L,"forecast_model",2L,"weather_element",6L,"forecast_record",46080L).entrySet())
             assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM " + entry.getKey(), Long.class)).isEqualTo(entry.getValue());
     }
 
@@ -77,7 +77,7 @@ class ManagementCrudIntegrationTests {
         update("/api/forecast-records",record,recordBody.replace("0.00","1.25"));
         assertThat(jdbc.queryForObject("SELECT value FROM forecast_record WHERE id=?",java.math.BigDecimal.class,record)).isEqualByComparingTo("1.25");
         JsonNode list = json.readTree(mvc.perform(get("/api/forecast-records")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString()).get("data");
-        assertThat(list.size()).isEqualTo(193);
+        assertThat(list.size()).isEqualTo(46081); // 46080 seed records + the one record created above.
         long previous = 0;
         for (JsonNode item : list) { assertThat(item.get("id").asLong()).isGreaterThan(previous); previous=item.get("id").asLong(); }
         remove("/api/forecast-records",record);

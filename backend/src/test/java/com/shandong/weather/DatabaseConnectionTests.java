@@ -52,8 +52,8 @@ class DatabaseConnectionTests {
                  ResultSet result = statement.executeQuery()) {
                 assertTrue(result.next());
                 assertEquals(2L, result.getLong("model_count"));
-                assertEquals(2L, result.getLong("element_count"));
-                assertEquals(192L, result.getLong("record_count"));
+                assertEquals(6L, result.getLong("element_count"));
+                assertEquals(46080L, result.getLong("record_count"));
                 assertFalse(result.next());
             }
         }

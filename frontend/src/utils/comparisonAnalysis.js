@@ -1,4 +1,5 @@
 import { validLocalTime, formatMetricValue, formatTrendTime } from './trendAnalysis.js'
+import { ELEMENT_UNITS, isDisplayElement } from './weatherElements.js'
 
 export const COMPARISON_MODELS = Object.freeze(['ECMWF', 'NOAA'])
 const COLORS = ['#d5dba3', '#70b1cf']
@@ -15,8 +16,8 @@ export function buildComparisonQuery({ cityId, elementId, range }) {
 export function isComparisonResponse(data) {
   if (!data || !safeId(data.cityId) || typeof data.cityName !== 'string' || !data.element ||
     !safeId(data.element.id) || typeof data.element.elementName !== 'string' ||
-    !['T2M', 'PRECIP'].includes(data.element.elementCode) ||
-    data.element.unit !== (data.element.elementCode === 'T2M' ? '℃' : 'mm') ||
+    !isDisplayElement(data.element.elementCode) ||
+    data.element.unit !== ELEMENT_UNITS[data.element.elementCode] ||
     !Array.isArray(data.series) || data.series.length !== 2) return false
   if (new Set(data.series.map(s => s?.modelId)).size !== 2) return false
   return COMPARISON_MODELS.every(code => {

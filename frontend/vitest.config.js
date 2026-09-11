@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [vue()],
   test: {
     environment: 'jsdom',
-    include: ['src/components/management/**/*.spec.js'],
+    include: ['src/components/management/**/*.spec.js', 'src/components/weather/**/*.spec.js'],
     setupFiles: ['src/components/management/testSetup.js'],
     maxWorkers: 2
   }

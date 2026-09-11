@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { isDisplayElement } from './weatherElements.js'
 import { DEMO_RANGE, buildWorkbenchCacheKey, createWorkbenchCache, selectDefault, validateCityMapping, resolveGeoName } from './weatherWorkbench.js'
 
 // Dependencies are the real API module in the page; tests substitute only the network boundary.
@@ -21,7 +22,7 @@ export function createWorkbenchState(api, geo) {
       if (disposed || version !== requestVersion) return
       const cities = allCities.filter(city => resolveGeoName(city.cityCode))
       const models = allModels.filter(model => ['ECMWF', 'NOAA'].includes(model.modelCode))
-      const elements = allElements.filter(element => ['T2M', 'PRECIP'].includes(element.elementCode))
+      const elements = allElements.filter(element => isDisplayElement(element.elementCode))
       const mapping = validateCityMapping(cities, geo)
       const model = selectDefault(models, 'modelCode', 'ECMWF')
       const element = selectDefault(elements, 'elementCode', 'T2M')

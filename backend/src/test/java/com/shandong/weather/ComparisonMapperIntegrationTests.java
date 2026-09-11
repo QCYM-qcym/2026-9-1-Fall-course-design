@@ -46,8 +46,8 @@ class ComparisonMapperIntegrationTests {
     void countsUnchanged() {
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM city", Long.class)).isEqualTo(16L);
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_model", Long.class)).isEqualTo(2L);
-        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM weather_element", Long.class)).isEqualTo(2L);
-        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_record", Long.class)).isEqualTo(192L);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM weather_element", Long.class)).isEqualTo(6L);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_record", Long.class)).isEqualTo(46080L);
     }
 
     private void metadata(ComparisonVO result, long elementId, String code, String unit) {
@@ -68,6 +68,25 @@ class ComparisonMapperIntegrationTests {
         for (int index = 0; index < expected.length; index++) {
             assertThat(points.get(index).value()).isEqualByComparingTo(new BigDecimal(expected[index]));
         }
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.CsvSource({"T2M,℃", "PRECIP,mm", "TCC,%", "WIND_SPEED_100M,m/s", "WIND_DIR_100M,°", "RH,%"})
+    void monthlyElementsReturn240PointsPerModel(String code, String unit) {
+        long element = jdbc.queryForObject("SELECT id FROM weather_element WHERE element_code = ?", Long.class, code);
+        var start = java.time.LocalDateTime.of(2026, 9, 1, 2, 0);
+        var end = java.time.LocalDateTime.of(2026, 9, 30, 23, 0);
+        var expectedTimes = java.util.stream.IntStream.range(0, 240).mapToObj(i -> start.plusHours(i * 3L)).toList();
+        var rows = mapper.selectComparisonData(jinan, element, modelIds, start, end);
+        assertThat(rows).hasSize(480);
+        for (String model : List.of("ECMWF", "NOAA"))
+            assertThat(rows.stream().filter(r -> model.equals(r.modelCode())).map(ComparisonRecordRow::forecastTime).sorted().toList())
+                    .containsExactlyElementsOf(expectedTimes);
+        var response = service.comparison(jinan, element, start, end);
+        assertThat(response.element().elementCode()).isEqualTo(code);
+        assertThat(response.element().unit()).isEqualTo(unit);
+        assertThat(response.series()).extracting(ComparisonVO.ModelSeries::modelCode).containsExactly("ECMWF", "NOAA");
+        assertThat(response.series()).allSatisfy(series -> assertThat(series.values()).hasSize(240));
     }
 
     private ComparisonVO fullRange(long elementId) {
@@ -114,8 +133,8 @@ class ComparisonMapperIntegrationTests {
 
     @Test
     void emptyDateRetainsBothModelsAndDictionaryMetadata() {
-        assertThat(mapper.selectComparisonData(jinan, temperature, modelIds, START.plusDays(1), END.plusDays(1))).isEmpty();
-        var result = service.comparison(jinan, temperature, START.plusDays(1), END.plusDays(1));
+        assertThat(mapper.selectComparisonData(jinan, temperature, modelIds, START.plusMonths(1), END.plusMonths(1))).isEmpty();
+        var result = service.comparison(jinan, temperature, START.plusMonths(1), END.plusMonths(1));
         metadata(result, temperature, "T2M", "℃");
         assertThat(result.series()).allSatisfy(s -> assertThat(s.values()).isEmpty());
     }

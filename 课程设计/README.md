@@ -2,7 +2,7 @@
 
 课题名称：《山东省气象预报数据可视化系统的设计与实现》。本课程设计由两名成员在约两周内协作完成，V2 范围为 Weather Workbench、Trend Analysis、Model Comparison、Data Management 四个页面。
 
-四页面、19 个业务 API 与数据库闭环已完成阶段验收，归档至 v0.13；当前执行 SYSTEM-FINALIZE-1，最终结果见 [CURRENT_CONTEXT](docs/context/CURRENT_CONTEXT.md)。系统使用固定合成课程演示数据，不是实时气象服务；本地开发配置不等于生产部署配置。本文 Git 命令仅为规范示例，实际提交由用户通过 GitHub Desktop 完成。
+四页面、19 个业务 API 的软件 v1.0 已归档；当前月级数据扩展见 [CURRENT_CONTEXT](docs/context/CURRENT_CONTEXT.md) 与 [月级数据说明](docs/MONTHLY-SYNTHETIC-DATA-1.md)。16市×2模型×6要素×30天×8时次，真实隔离库46,080条；Workbench/Comparison六要素，Trend仍T2M/PRECIP。系统使用合成课程演示数据，ECMWF/NOAA只是共享天气过程下的模型场景，不是实时气象服务；本地开发配置不等于生产部署配置。本文 Git 命令仅为规范示例，实际提交由用户通过 GitHub Desktop 完成。
 
 ## 文档入口
 

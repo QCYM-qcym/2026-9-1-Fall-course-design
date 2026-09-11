@@ -33,6 +33,13 @@ test('comparison absent defaults fall back to first supported dictionary items',
   await m.initialize(); assert.equal(m.state.cityId, 9); assert.equal(m.state.elementId, 83); assert.ok(m.state.warning)
 })
 
+test('monthly comparison can select and query all four additional elements', async () => {
+  const extra=[['TCC','%'],['WIND_SPEED_100M','m/s'],['WIND_DIR_100M','°'],['RH','%']].map(([elementCode,unit],i)=>({id:100+i,elementCode,unit,elementName:elementCode}))
+  const m=create({fetchWeatherElements:async()=>[...elements,...extra],fetchComparison:async p=>({...response(),element:[...elements,...extra].find(e=>e.id===p.elementId)})})
+  await m.initialize(); assert.equal(m.state.elements.length,6)
+  for(const e of extra) { m.state.elementId=e.id; await m.load(); assert.equal(m.state.status,'success'); assert.equal(m.state.response.element.unit,e.unit) }
+})
+
 test('comparison draft changes do not fetch; explicit queries have no cache', async () => {
   const m = create(); await m.initialize()
   m.state.cityId = 9; m.state.elementId = 83

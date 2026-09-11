@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { isDisplayElement } from './weatherElements.js'
 import { DEMO_RANGE, selectDefault, resolveGeoName } from './weatherWorkbench.js'
 import { buildComparisonQuery, isComparisonResponse, isComparisonEmpty } from './comparisonAnalysis.js'
 
@@ -16,7 +17,7 @@ export function createComparisonState(api) {
       const [allCities, allElements] = await Promise.all([api.fetchCities(), api.fetchWeatherElements()])
       if (disposed || version !== requestVersion) return
       const cities = allCities.filter(c => resolveGeoName(c.cityCode))
-      const elements = allElements.filter(e => ['T2M', 'PRECIP'].includes(e.elementCode))
+      const elements = allElements.filter(e => isDisplayElement(e.elementCode))
       const city = cities.find(c => c.id === state.cityId) ?? selectDefault(cities, 'cityCode', 'JINAN')
       const element = elements.find(e => e.id === state.elementId) ?? selectDefault(elements, 'elementCode', 'T2M')
       if (!city || !element) throw new Error('No supported dictionaries')

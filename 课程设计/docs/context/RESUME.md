@@ -1,5 +1,11 @@
 # Codex 快速恢复入口
 
+## 当前续作
+
+2026-09-11：**MONTHLY-SYNTHETIC-DATA-1 COMPLETED**；Gate **READY FOR AUTH-ROLE-1**，只是建议，不自动实施。先读[月级数据说明](../MONTHLY-SYNTHETIC-DATA-1.md)与[实施计划](../MONTHLY-SYNTHETIC-DATA-1-plan.md)。新SQL真实16/2/6/46,080、240时次、每组240、重复0；固定seed20260901，保留济南十二值。generator10、frontend157、backend324测试全过，前端build与后端完整package通过，四页真实兼容已验收。
+
+四表和19API不变，Trend仍两要素，Workbench/Comparison六要素。仅因真实大表不可用，预报记录增加100条本地分页，GET仍全量约11.25MB；图层面板增加滚动/换行。开发库3306未修改；新隔离实例已停止，数据与失败现场均保留。运行凭据不入Git，旧ZIP不自动升级，v1.1完整包尚未重制。浏览器清理阶段连接中断，旧压力标签可能需手动关闭；详见验收记录。下面v1.0旧状态/数量仅是历史恢复材料，Git writes = NONE。
+
 > 更新日期：2026-09-09
 
 ## 项目

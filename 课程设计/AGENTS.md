@@ -8,6 +8,8 @@
 
 ## 2. 冻结方案
 
+MONTHLY-SYNTHETIC-DATA-1 用户已批准扩展：当前目标为16城市、2模型、6要素（T2M、PRECIP、TCC、WIND_SPEED_100M、WIND_DIR_100M、RH），2026-09-01～30每日02/05/08/11/14/17/20/23，46,080条合成记录。四表/Schema不变，Workbench与Comparison支持六要素，Trend仍为T2M/PRECIP。下列192条/两要素为v1.0历史基线；当前实际验证状态和新数据口径见 [月级数据说明](docs/MONTHLY-SYNTHETIC-DATA-1.md)，不得把目标数字冒充已验收。
+
 - 技术栈：Vue 3、Vite、JavaScript、Element Plus、ECharts、Axios、Vue Router；Java 17、Spring Boot 2.7.18、MyBatis-Plus、MyBatis XML、Maven 3.9.16；MySQL 8.0.16+。
 - 业务模块：Weather Workbench、Trend Analysis、Model Comparison、Data Management。
 - 核心表：`city`、`forecast_model`、`weather_element`、`forecast_record`。

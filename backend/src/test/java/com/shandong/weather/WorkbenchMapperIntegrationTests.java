@@ -50,8 +50,8 @@ class WorkbenchMapperIntegrationTests {
     void seedCountsRemainUnchanged() {
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM city", Long.class)).isEqualTo(16L);
         assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_model", Long.class)).isEqualTo(2L);
-        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM weather_element", Long.class)).isEqualTo(2L);
-        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_record", Long.class)).isEqualTo(192L);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM weather_element", Long.class)).isEqualTo(6L);
+        assertThat(jdbc.queryForObject("SELECT COUNT(*) FROM forecast_record", Long.class)).isEqualTo(46080L);
     }
 
     private void assertCompleteBatch(List<WorkbenchRecordRow> rows) {
@@ -62,6 +62,29 @@ class WorkbenchMapperIntegrationTests {
         for (var time : List.of(START, START.plusHours(3), END)) {
             assertThat(rows.stream().filter(r -> r.forecastTime().equals(time))
                     .map(WorkbenchRecordRow::cityId).distinct().toList()).hasSize(16);
+        }
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.CsvSource({"T2M,℃", "PRECIP,mm", "TCC,%", "WIND_SPEED_100M,m/s", "WIND_DIR_100M,°", "RH,%"})
+    void monthlyElementsReturnEveryCityAndTimestampForBothModels(String code, String unit) {
+        long element = jdbc.queryForObject("SELECT id FROM weather_element WHERE element_code = ?", Long.class, code);
+        var start = java.time.LocalDateTime.of(2026, 9, 1, 2, 0);
+        var end = java.time.LocalDateTime.of(2026, 9, 30, 23, 0);
+        var expectedTimes = java.util.stream.IntStream.range(0, 240).mapToObj(i -> start.plusHours(i * 3L)).toList();
+        for (long model : List.of(ecmwf, noaa)) {
+            var rows = mapper.selectWorkbenchData(model, element, start, end, cityCodes);
+            assertThat(rows).hasSize(3840);
+            assertThat(rows.stream().map(WorkbenchRecordRow::forecastTime).distinct().sorted().toList()).containsExactlyElementsOf(expectedTimes);
+            var byCity = rows.stream().collect(java.util.stream.Collectors.groupingBy(WorkbenchRecordRow::cityId));
+            assertThat(byCity).hasSize(16);
+            byCity.values().forEach(points -> assertThat(points.stream().map(WorkbenchRecordRow::forecastTime).sorted().toList())
+                    .containsExactlyElementsOf(expectedTimes));
+            var response = service.workbench(model, element, start, end);
+            assertThat(response.element().elementCode()).isEqualTo(code);
+            assertThat(response.element().unit()).isEqualTo(unit);
+            assertThat(response.times()).hasSize(240);
+            assertThat(response.records()).hasSize(3840);
         }
     }
 

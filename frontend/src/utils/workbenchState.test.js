@@ -24,6 +24,15 @@ function setup(fetchWorkbench = async params => payload(params)) {
 }
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no }); return { promise, resolve, reject } }
 
+test('monthly workbench keeps all six elements and queries each new layer', async () => {
+  const extra = [['TCC','%'],['WIND_SPEED_100M','m/s'],['WIND_DIR_100M','°'],['RH','%']].map(([elementCode,unit],i)=>({id:100+i,elementCode,unit,elementName:elementCode}))
+  const app=setup(params=>({...payload(params),element:[...elements,...extra].find(e=>e.id===params.elementId)}))
+  app.api.fetchWeatherElements=async()=>[...elements,...extra]
+  await app.initialize()
+  assert.equal(app.state.elements.length,6)
+  for(const element of extra) { await app.load({elementId:element.id}); assert.equal(app.state.status,'success'); assert.equal(app.state.response.element.unit,element.unit) }
+})
+
 test('initializes dictionaries, resolves defaults by code, sends all four parameters once', async () => {
   const app = setup()
   await app.initialize()

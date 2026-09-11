@@ -50,6 +50,16 @@ class WeatherQueryControllerTest {
                 .param("startTime", "2026-09-07 08:00:00").param("endTime", "2026-09-07 14:00:00");
     }
 
+    @ParameterizedTest
+    @org.junit.jupiter.params.provider.CsvSource({"TCC,%", "WIND_SPEED_100M,m/s", "WIND_DIR_100M,°", "RH,%"})
+    void monthlyElementsUseConfiguredScopeAndDictionaryUnits(String code, String unit) throws Exception {
+        when(mapper.selectWorkbenchElement(71L)).thenReturn(new com.shandong.weather.mapper.WorkbenchElementRow(71L, code, code, unit));
+        mvc.perform(request()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.element.elementCode").value(code))
+                .andExpect(jsonPath("$.data.element.unit").value(unit))
+                .andExpect(jsonPath("$.data.records", hasSize(3)));
+    }
+
     private void error(MockHttpServletRequestBuilder request, int status) throws Exception {
         mvc.perform(request).andExpect(status().is(status))
                 .andExpect(jsonPath("$.code").value(status))
